@@ -73,12 +73,12 @@ def getDimensions(grammar):
 
     dimension_labels = ["tree", "root", "dir", "modif", "lfronts", 
             "rfronts", "ladjnodes", "radjnodes", "substnodes", "predaux",
-            "coanc", "particle", "particleShift", "lcomp", "rcomp", 
+            "coanc", "particle", "particleShift", "comp", 
             "pred", "dsubcat", "dsubcat2", "datshift", "esubj", "rel", 
             "wh", "voice"]
     dimension_values = [tree_list, roots, directions, modifs, lfronts, 
             rfronts, ladjnodes, radjnodes, substnodes, predauxs, coancs, 
-            particles, shifts, comps, comps, preds, dsubcats, dsubcats2, 
+            particles, shifts, comps, preds, dsubcats, dsubcats2, 
             datshifts, esubjs, rels, whs, voices]
 
     #Ensures that labels and values are the same length so that output
@@ -338,11 +338,9 @@ def getParticleShifts(tree_list):
             shifts.append("NA")
     return shifts
 
-#Function that determines if a tree has a complementizer. It returns a 
-#tuple where the first element is YES if there is a complementizer to 
-#the left of the anchor else NO. The second element is YES if there is a 
-#complementizer to the right of the anchor else NO. If there is no 
-#complementizer it returns ("NO", "NO")
+#Function that determines if a tree has a complementizer. It returns three
+#options. Theses are l if there is a left complementizer, r if there is a
+#right complementizer or n if there is no complementizer
 def getComps(tree_list):
     comps = [] 
     for tree in tree_list:
@@ -358,11 +356,11 @@ def getComps(tree_list):
                     else:
                         isComp = (0,1)
         if isComp == (0, 0):
-            comps.append(("NA", "NA"))
+            comps.append("n")
         elif isComp == (1, 0):
-            comps.append(("YES", "NO"))
+            comps.append("l")
         else:
-            comps.append(("NO", "YES"))
+            comps.append("r")
     return comps
 
 #Function to check if a tree is a nominal, adjectival, or prepositional
@@ -1236,12 +1234,6 @@ if __name__ == '__main__':
                         tmp += node[0] + "_"
                     output.write(dimension_labels[x] + ":" 
                             + tmp[:len(tmp)-1] + " ")
-                elif dimension_labels[x] == "lcomp":
-                    output.write(dimension_labels[x] + ":" 
-                            + dimension_values[x][y][0] + " ") 
-                elif dimension_labels[x] == "rcomp":
-                    output.write(dimension_labels[x] + ":" 
-                            + dimension_values[x][y][1] + " ")
                 elif(dimension_labels[x] == "dsubcat" 
                         or dimension_labels[x]=="dsubcat2"):
                     tmp = ""

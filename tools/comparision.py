@@ -2,8 +2,8 @@
 #takes two input files. Theses files must be a list of trees with a desired
 #dimension. To get the dimension use the program finder.py. Prints the
 #trees that are not contained in the other treeproperties.
-old = open("old_rel_0.txt", "r")
-new = open("new_rel_0.txt", "r")
+old = open("old_lcomp.txt", "r")
+new = open("new_lcomp.txt", "r")
 
 old_list = []
 for line in old:

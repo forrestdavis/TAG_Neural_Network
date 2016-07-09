@@ -151,7 +151,6 @@ print "Total trees with a particle: ", true_particle, " percentage: ",(true_part
 print "Total trees with no comp: ", comp_NA, " percentage: ",(comp_NA/total_trees)
 print "Total trees with lcomp: ", (lcomp), " percentage: ",((lcomp)/total_trees)
 print "Total trees with rcomp: ", (rcomp), " percentage: ",((rcomp)/total_trees)
-print "Total trees with both lcomp and rcomp: ", lcomp+rcomp, " percentage: ",(lcomp+rcomp/total_trees)
 print "Total trees with pred false: ", false_pred, " percentage: ",(false_pred/total_trees)
 print "Total trees with pred true: ", true_pred, " percentage: ",(true_pred/total_trees)
 print "Total trees with no dsubcat: ", dsubcat_nil, " percentage: ",(dsubcat_nil/total_trees)
