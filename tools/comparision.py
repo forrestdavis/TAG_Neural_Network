@@ -7,19 +7,20 @@ new = open("new_particles_minus.txt", "r")
 
 old_list = []
 for line in old:
-    line = line.split(" ")
+    line = line.split()
     old_list.append(line[0])
 
 new_list = []
 for line in new:
-    line = line.split(" ")
+    line = line.split()
     new_list.append(line[0])
 
 print "additional trees"
-for element in new_list:
-    if element not in old_list:
-        print element
+for tree in new_list:
+    if tree not in old_list:
+        print tree 
 print "------------------------------------------------"
+print "\n"
 print "missing trees"
 for element in old_list:
     if element not in new_list:
