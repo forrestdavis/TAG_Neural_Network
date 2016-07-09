@@ -5,7 +5,7 @@ results = open("../data/d6.clean2.treepropertiesappo", "r")
 total = 0
 
 for line in results:
-    if " rel:0 " in line: 
+    if " particle:- " in line: 
         print line[:6]
         total += 1
 print total

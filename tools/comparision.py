@@ -2,8 +2,8 @@
 #takes two input files. Theses files must be a list of trees with a desired
 #dimension. To get the dimension use the program finder.py. Prints the
 #trees that are not contained in the other treeproperties.
-old = open("old_rel_0.txt", "r")
-new = open("new_rel_0.txt", "r")
+old = open("old_particles_minus.txt", "r")
+new = open("new_particles_minus.txt", "r")
 
 old_list = []
 for line in old:
@@ -20,7 +20,6 @@ for element in new_list:
     if element not in old_list:
         print element
 print "------------------------------------------------"
-print "\n"
 print "missing trees"
 for element in old_list:
     if element not in new_list:
