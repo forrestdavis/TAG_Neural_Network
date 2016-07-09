@@ -1,0 +1,46 @@
+Total trees:  4725.0
+Total trees with dir right:  2477.0  percentage:  0.524232804233
+Total trees with dir left:  778.0  percentage:  0.164656084656
+Total trees with dir na:  1470.0  percentage:  0.311111111111
+Total trees with no lfronts:  2430.0  percentage:  0.514285714286
+Total trees with lfronts:  2295.0  percentage:  0.485714285714
+Total trees with no rfronts:  2151.0  percentage:  0.455238095238
+Total trees with rfronts:  2574.0  percentage:  0.544761904762
+Total trees with no fronts:  1349.0  percentage:  0.285502645503
+Total trees with both rfronts and lfronts:  1493.0  percentage:  0.315978835979
+Total trees with no substnodes:  3730.0  percentage:  0.789417989418
+Total trees with substnodes:  995.0  percentage:  0.210582010582
+Total trees with predaux false:  4712.0  percentage:  0.997248677249
+Total trees with predaux true:  13.0  percentage:  0.00275132275132
+Total trees with no coanc:  3483.0  percentage:  0.737142857143
+Total trees with a coanc:  1242.0  percentage:  0.262857142857
+Total trees with no particle:  0.0  percentage:  0.0
+Total trees with a particle:  105.0  percentage:  0.0222222222222
+Total trees with no comp:  3929.0  percentage:  0.831534391534
+Total trees with lcomp:  776.0  percentage:  0.164232804233
+Total trees with rcomp:  20.0  percentage:  0.0042328042328
+Total trees with pred false:  4062.0  percentage:  0.859682539683
+Total trees with pred true:  663.0  percentage:  0.140317460317
+Total trees with no dsubcat:  1344.0  percentage:  0.284444444444
+Total trees with dsubcat:  3381.0  percentage:  0.715555555556
+Total trees with yes datshift:  96.0  percentage:  0.0203174603175
+Total trees with no datshift:  4629.0  percentage:  0.979682539683
+Total trees with na datshift:  0.0  percentage:  0.0
+Total trees with yes esubj:  703.0  percentage:  0.148783068783
+Total trees with no esubj:  4022.0  percentage:  0.851216931217
+Total trees with na esubj:  0.0  percentage:  0.0
+Total trees with rel 0:  154.0  percentage:  0.0325925925926
+Total trees with rel 1:  49.0  percentage:  0.0103703703704
+Total trees with rel 2:  21.0  percentage:  0.00444444444444
+Total trees with rel +:  413.0  percentage:  0.0874074074074
+Total trees with no rel:  4088.0  percentage:  0.865185185185
+Total trees with wh 0:  137.0  percentage:  0.0289947089947
+Total trees with wh 1:  61.0  percentage:  0.0129100529101
+Total trees with wh 2:  14.0  percentage:  0.00296296296296
+Total trees with no wh:  4513.0  percentage:  0.955132275132
+Total trees with na wh:  0.0  percentage:  0.0
+Total trees with voice pas:  389.0  percentage:  0.082328042328
+Total trees with voice act:  1825.0  percentage:  0.386243386243
+Total trees with voice pas_by:  156.0  percentage:  0.0330158730159
+Total trees with voice pas_by:  156.0  percentage of all passive:  0.28623853211
+Total trees with voice na:  0.0  percentage:  0.0

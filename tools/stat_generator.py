@@ -1,5 +1,5 @@
 #Simple function that generates some stats about the new trees
-results = open("../data/treeproperties_new.str", "r")
+results = open("../data/d6.treeproperties", "r")
 
 total_trees = 0.0 
 dir_right = 0.0
@@ -18,10 +18,9 @@ true_coanc = 0.0
 false_particle = 0.0
 true_particle = 0.0
 particleShift = 0.0
-lcomp_NA = 0.0
-rcomp_NA = 0.0
-comp_NA = 0.0
-comp = 0.0
+comp_n = 0.0
+comp_l = 0.0
+comp_r = 0.0
 false_pred = 0.0
 true_pred = 0.0
 dsubcat_nil = 0.0
@@ -80,14 +79,12 @@ for line in results:
         true_particle += 1
     if " particleShift:YES " in line:
         particleShift += 1
-    if " lcomp:NA " in line:
-        lcomp_NA += 1
-    if " rcomp:NA " in line:
-        rcomp_NA += 1
-    if " lcomp:NA " in line and " rcomp:NA " in line:
-        comp_NA += 1
-    if " lcomp:NA " not in line and " rcomp:NA " not in line:
-        comp += 1
+    if " comp:n " in line:
+        comp_n += 1
+    if " comp:l " in line:
+        comp_l += 1
+    if " comp:r " in line:
+        comp_r += 1
     if " pred:FALSE " in line:
         false_pred += 1
     if " pred:TRUE " in line:
@@ -157,12 +154,9 @@ print "Total trees with no particle: ", false_particle, " percentage: ",(false_p
 print "Total trees with a particle: ", true_particle, " percentage: ",(true_particle/total_trees)
 print "Total trees with a particle that is shifted: ", particleShift, " percentage: ",(particleShift/total_trees)
 print "Total trees with a particle that is shifted: ", particleShift, " percentage of total particles: ",(particleShift/true_particle)
-print "Total trees with no lcomp: ", lcomp_NA, " percentage: ",(lcomp_NA/total_trees)
-print "Total trees with lcomp: ", (total_trees - lcomp_NA), " percentage: ",((total_trees - lcomp_NA)/total_trees)
-print "Total trees with no rcomp: ", rcomp_NA, " percentage: ",(rcomp_NA/total_trees)
-print "Total trees with rcomp: ", (total_trees - rcomp_NA), " percentage: ",((total_trees - rcomp_NA)/total_trees)
-print "Total trees with no lcomp and no rcomp: ", comp_NA, " percentage: ",(comp_NA/total_trees)
-print "Total trees with both lcomp and rcomp: ", comp, " percentage: ",(comp/total_trees)
+print "Total trees with no comp: ", comp_n, " percentage: ",(comp_n/total_trees)
+print "Total trees with l comp: ", comp_l, " percentage: ",((comp_l)/total_trees)
+print "Total trees with r comp: ", comp_r, " percentage: ",(comp_r/total_trees)
 print "Total trees with pred false: ", false_pred, " percentage: ",(false_pred/total_trees)
 print "Total trees with pred true: ", true_pred, " percentage: ",(true_pred/total_trees)
 print "Total trees with no dsubcat: ", dsubcat_nil, " percentage: ",(dsubcat_nil/total_trees)

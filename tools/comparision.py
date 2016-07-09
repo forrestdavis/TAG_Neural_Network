@@ -2,8 +2,13 @@
 #takes two input files. Theses files must be a list of trees with a desired
 #dimension. To get the dimension use the program finder.py. Prints the
 #trees that are not contained in the other treeproperties.
+<<<<<<< HEAD
 old = open("old_particles_minus.txt", "r")
 new = open("new_particles_minus.txt", "r")
+=======
+old = open("old_lcomp.txt", "r")
+new = open("new_lcomp.txt", "r")
+>>>>>>> fix_features
 
 old_list = []
 for line in old:
