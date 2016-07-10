@@ -1,5 +1,5 @@
 train = d6.train.conll07
-dev = d6.train.conll07
+dev = d6.dev.conll07
 treeproperties = d6.treeproperties
 
 all: d6.treeproperties d6.dev.conll16 d6.train.conll16
