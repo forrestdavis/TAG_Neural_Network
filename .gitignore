@@ -20,3 +20,8 @@
 *.rar
 *.tar
 *.zip
+
+# BIG FILES #
+#############
+*.conll16
+*.fann
