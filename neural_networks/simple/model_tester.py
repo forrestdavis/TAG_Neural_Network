@@ -8,8 +8,8 @@ import numpy
 seed = 4
 numpy.random.seed(seed)
 
-X_test = numpy.load("X_test.npy")
-Y_test = numpy.load("Y_test.npy")
+X_test = numpy.load("X_dev.npy")
+Y_test = numpy.load("Y_dev.npy")
 
 model = model_from_json(open('first_model_architecture.json').read())
 model.load_weights('first_model_weights.h5')

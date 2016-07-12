@@ -17,7 +17,7 @@ def transform_fann(input_train_file, X_train_file, Y_train_file,
 
     diff_i_train_test = train_input_dimensions-test_input_dimensions
     diff_o_train_test = train_output_dimensions-test_output_dimensions
-    print "train", train_input_dimensions, train_input_dimensions
+    print "train", train_input_dimensions, train_output_dimensions
     print "test", test_input_dimensions, test_output_dimensions
 
     train_i_bigger = 1
@@ -96,8 +96,8 @@ if __name__ == "__main__":
     X_train_file = "X_train.npy"
     Y_train_file = "Y_train.npy"
     input_test_file = "../../data/dev.fann"
-    X_test_file = "X_test.npy"
-    Y_test_file = "Y_test.npy"
+    X_test_file = "X_dev.npy"
+    Y_test_file = "Y_dev.npy"
     transform_fann(input_train_file, X_train_file, Y_train_file,
             input_test_file, X_test_file, Y_test_file)
 
