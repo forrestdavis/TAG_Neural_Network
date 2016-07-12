@@ -16,8 +16,6 @@ output_dimensions = int(o[2])
 
 X_train = numpy.load("X_train.npy")
 Y_train = numpy.load("Y_train.npy")
-X_test = numpy.load("X_test.npy")
-Y_test = numpy.load("Y_test.npy")
 
 #Create model
 model = Sequential()
