@@ -27,3 +27,4 @@
 *.fann
 *.npy
 *.treeproperties
+*.alpha

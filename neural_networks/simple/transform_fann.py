@@ -1,4 +1,5 @@
 import numpy
+import sys
 
 def transform_fann(input_train_file, X_train_file, Y_train_file,
         input_test_file, X_test_file, Y_test_file):
@@ -20,18 +21,14 @@ def transform_fann(input_train_file, X_train_file, Y_train_file,
     print "train", train_input_dimensions, train_output_dimensions
     print "test", test_input_dimensions, test_output_dimensions
 
-    train_i_bigger = 1
-    train_o_bigger = 1
-    neither_i = 0
-    neither_o = 0
-    if diff_i_train_test < 0:
-        train_i_bigger = 0
-    if diff_i_train_test == 0:
-        neither_i = 1
-    if diff_o_train_test < 0:
-        train_o_bigger = 0
-    if diff_o_train_test == 0:
-        neither_o = 1
+    if diff_i_train_test != 0:
+        sys.stderr("Error: train.fann and test.fann do not have same " +
+                "input dimensions")
+        sys.exit(1)
+    if diff_o_train_test != 0:
+        sys.stderr("Error: train.fann and test.fann do not have same " +
+                "output dimensions")
+        sys.exit(1)
 
     #Extract train
     x = []
@@ -44,12 +41,6 @@ def transform_fann(input_train_file, X_train_file, Y_train_file,
         if len(line) != train_output_dimensions and len(line) != 0:
             x_tmp += line
         elif len(line) == train_output_dimensions:
-            if train_o_bigger and not neither_o:
-                for i in xrange(diff_o_train_test):
-                    line.pop()
-            if train_i_bigger and not neither_i:
-                for j in xrange(diff_i_train_test):
-                    x_tmp.pop()
             y.append(line)
             x.append(x_tmp)
             x_tmp = []
@@ -68,12 +59,6 @@ def transform_fann(input_train_file, X_train_file, Y_train_file,
         if len(line) != test_output_dimensions and len(line) != 0:
             x_tmp += line
         elif len(line) == test_output_dimensions:
-            if not train_o_bigger and not neither_o:
-                for i in xrange((-1)*diff_o_train_test):
-                    line.pop()
-            if not train_i_bigger and not neither_i:
-                for j in xrange((-1)*diff_i_train_test):
-                    x_tmp.pop()
             y.append(line)
             x.append(x_tmp)
             x_tmp = []
@@ -92,10 +77,10 @@ def transform_fann(input_train_file, X_train_file, Y_train_file,
     test_fann.close()
 
 if __name__ == "__main__":
-    input_train_file = "../../data/train.fann"
+    input_train_file = "../../data/simple_fann/train.fann"
     X_train_file = "X_train.npy"
     Y_train_file = "Y_train.npy"
-    input_test_file = "../../data/dev.fann"
+    input_test_file = "../../data/simple_fann/dev.fann"
     X_test_file = "X_dev.npy"
     Y_test_file = "Y_dev.npy"
     transform_fann(input_train_file, X_train_file, Y_train_file,

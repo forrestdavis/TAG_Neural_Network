@@ -1,6 +1,5 @@
-#Simple program that generates some statistics about the trees
-#using the old dimensions
-results = open("../data/d6.clean2.treepropertiesappo", "r")
+#Simple function that generates some stats about the new trees
+results = open("../d6.treeproperties", "r")
 
 total_trees = 0.0 
 dir_right = 0.0
@@ -18,10 +17,10 @@ false_coanc = 0.0
 true_coanc = 0.0
 false_particle = 0.0
 true_particle = 0.0
-comp_NA = 0.0
-comp = 0.0
-lcomp = 0.0
-rcomp = 0.0
+particleShift = 0.0
+comp_n = 0.0
+comp_l = 0.0
+comp_r = 0.0
 false_pred = 0.0
 true_pred = 0.0
 dsubcat_nil = 0.0
@@ -36,6 +35,7 @@ rel_1 = 0.0
 rel_2 = 0.0
 rel_plus = 0.0
 rel_no = 0.0
+rel_na = 0.0
 wh_0 = 0.0
 wh_1 = 0.0
 wh_2 = 0.0
@@ -51,53 +51,55 @@ for line in results:
         dir_right += 1
     if " dir:LEFT " in line:
         dir_left += 1
-    if " dir:" not in line:
+    if " dir:NA " in line:
         dir_NA += 1
-    if " lfront:nil " in line:
+    if " lfronts:nil " in line:
         lfronts_nil += 1
-    if " rfront:nil " in line:
+    if " rfronts:nil " in line:
         rfronts_nil += 1
-    if " lfront:nil " in line and " rfront:nil " in line:
+    if " lfronts:nil " in line and " rfronts:nil " in line:
         fronts_nil += 1
-    if " lfront:nil " not in line and " rfront:nil " not in line:
+    if " lfronts:nil " not in line and " rfronts:nil " not in line:
         fronts += 1
-    if " substnodes:nil" in line:
+    if " substnodes:nil " in line:
         substnodes_nil += 1
-    if " substnodes:nil" not in line:
+    if " substnodes:nil " not in line:
         substnodes += 1
-    if " predaux:t " not in line:
+    if " predaux:FALSE " in line:
         false_predaux += 1
-    if " predaux:t " in line:
+    if " predaux:TRUE " in line:
         true_predaux += 1
-    if " coanc:" not in line:
+    if " coanc:FALSE " in line:
         false_coanc += 1
-    if " coanc:" in line:
+    if " coanc:FALSE" not in line:
         true_coanc += 1
-    if " particle:NA " in line:
+    if " particle:FALSE " in line:
         false_particle += 1
-    if " particle:+ " in line:
+    if " particle:TRUE " in line:
         true_particle += 1
+    if " particleShift:YES " in line:
+        particleShift += 1
     if " comp:n " in line:
-        comp_NA += 1
+        comp_n += 1
     if " comp:l " in line:
-        lcomp += 1
+        comp_l += 1
     if " comp:r " in line:
-        rcomp += 1
-    if " pred:+ " not in line:
+        comp_r += 1
+    if " pred:FALSE " in line:
         false_pred += 1
-    if " pred:+ " in line:
+    if " pred:TRUE " in line:
         true_pred += 1
     if " dsubcat:nil" in line:
         dsubcat_nil += 1
-    if " datshift:+" in line:
+    if " datshift:YES" in line:
         datshift_yes += 1
-    if " datshift:+" not in line:
+    if " datshift:NO" in line:
         datshift_no += 1
     if " datshift:NA" in line:
         datshift_na += 1
-    if " esubj:+" in line:
+    if " esubj:YES" in line:
         esubj_yes += 1
-    if " esubj:+" not in line:
+    if " esubj:NO" in line:
         esubj_no += 1
     if " esubj:NA" in line:
         esubj_na += 1
@@ -109,15 +111,17 @@ for line in results:
         rel_2 += 1
     if " rel:+" in line:
         rel_plus += 1
-    if " rel:" not in line:
+    if " rel:NO" in line:
         rel_no += 1
+    if " rel:NA" in line:
+        rel_na += 1
     if " wh:0" in line:
         wh_0 += 1
     if " wh:1" in line:
         wh_1 += 1
     if " wh:2" in line:
         wh_2 += 1
-    if " wh:" not in line:
+    if " wh:NO" in line:
         wh_no += 1
     if " wh:NA" in line:
         wh_na += 1
@@ -148,9 +152,11 @@ print "Total trees with no coanc: ", false_coanc, " percentage: ",(false_coanc/t
 print "Total trees with a coanc: ", true_coanc, " percentage: ",(true_coanc/total_trees)
 print "Total trees with no particle: ", false_particle, " percentage: ",(false_particle/total_trees)
 print "Total trees with a particle: ", true_particle, " percentage: ",(true_particle/total_trees)
-print "Total trees with no comp: ", comp_NA, " percentage: ",(comp_NA/total_trees)
-print "Total trees with lcomp: ", (lcomp), " percentage: ",((lcomp)/total_trees)
-print "Total trees with rcomp: ", (rcomp), " percentage: ",((rcomp)/total_trees)
+print "Total trees with a particle that is shifted: ", particleShift, " percentage: ",(particleShift/total_trees)
+print "Total trees with a particle that is shifted: ", particleShift, " percentage of total particles: ",(particleShift/true_particle)
+print "Total trees with no comp: ", comp_n, " percentage: ",(comp_n/total_trees)
+print "Total trees with l comp: ", comp_l, " percentage: ",((comp_l)/total_trees)
+print "Total trees with r comp: ", comp_r, " percentage: ",(comp_r/total_trees)
 print "Total trees with pred false: ", false_pred, " percentage: ",(false_pred/total_trees)
 print "Total trees with pred true: ", true_pred, " percentage: ",(true_pred/total_trees)
 print "Total trees with no dsubcat: ", dsubcat_nil, " percentage: ",(dsubcat_nil/total_trees)
@@ -166,6 +172,7 @@ print "Total trees with rel 1: ", (rel_1), " percentage: ",((rel_1)/total_trees)
 print "Total trees with rel 2: ", (rel_2), " percentage: ",((rel_2)/total_trees)
 print "Total trees with rel +: ", (rel_plus), " percentage: ",((rel_plus)/total_trees)
 print "Total trees with no rel: ", (rel_no), " percentage: ",((rel_no)/total_trees)
+print "Total trees with na rel: ", (rel_na), " percentage: ",((rel_na)/total_trees)
 print "Total trees with wh 0: ", (wh_0), " percentage: ",((wh_0)/total_trees)
 print "Total trees with wh 1: ", (wh_1), " percentage: ",((wh_1)/total_trees)
 print "Total trees with wh 2: ", (wh_2), " percentage: ",((wh_2)/total_trees)

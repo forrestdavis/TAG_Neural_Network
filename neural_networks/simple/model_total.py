@@ -31,5 +31,5 @@ model.add(Dense(output_dimensions, input_dim=input_dimensions, activation='sigmo
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 hist = model.fit(X_train, Y_train, nb_epoch=50, batch_size=1000)
 
-scores = model.evaluate(X_train, Y_train)
+scores = model.evaluate(X_dev, Y_dev)
 print("%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
