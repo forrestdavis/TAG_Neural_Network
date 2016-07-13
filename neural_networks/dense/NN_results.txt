@@ -1,0 +1,22 @@
+seed set to 4 for consistent results
+trained on 300 sentences from d6.train.conll16 
+tested on 100 sentences from d6.dev.conll16
+----------------------------------------------
+
+
+s0p
+b0p
+---------------
+acc: 70.92%
+
+
+seed set to 4 for consistent results
+trained on 1000 sentences from d6.train.conll16 
+tested on 300 sentences from d6.dev.conll16
+----------------------------------------------
+
+
+s0p
+b0p
+---------------
+acc: 71.57%

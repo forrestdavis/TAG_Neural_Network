@@ -1,0 +1,18 @@
+#-----------------------------------------------------------------------------------------------------------------------------
+# this is an mcd file  
+# it describes the way columns of a multi-column file are encoded in the parser
+# comments begin with the # sign
+# each lines are made of four fields separated by a space
+# the fields are :
+# NUMBER which indicates the number of the column that we are talking about (first column number is equal to zero)
+# NAME which associates a name to the column, names must be known by the parser, otherwise an error will be provoked. 
+# The legal values are the following: INDEX FORM LEMMA CPOS POS FEATS GOV LABEL STAG A B C ... Z 
+# REPRESENTATION which indicates how the values are represented. Three possibilities: VOCAB, EMB and INT
+# FILENAME which indicate the path to a file that is either a dictionnary file or an embedding file
+#-----------------------------------------------------------------------------------------------------------------------------
+0 INDEX INT _
+1 FORM EMB ./ptb.form.we
+2 LEMMA VOCAB _
+3 POS VOCAB _
+6 GOV INT _
+7 LABEL VOCAB _

@@ -1,0 +1,53 @@
+seed set at 4 for all experiments
+trained on 300 sentences from d6.train.conll16 
+tested on 100 sentences from d6.dev.conll16
+
+s0p
+b0p 
+70.56
+
+s0p
+b0p
+s1p
+b1p
+85.26
+
+s0p
+b0p
+s1p
+b1p
+s0A
+87.09
+
+s0p
+b0p
+s1p
+b1p
+s1A
+85.34
+
+s0p
+b0p
+s1p
+b1p
+b0A
+87.67
+
+s0p
+b0p
+s1p
+b1p
+s0A
+b0A
+88.87
+
+seed set at 4 for all experiments
+trained on 1000 sentences from d6.train.conll16 
+tested on 300 sentences from d6.dev.conll16
+
+s0p
+s1p
+b0p
+b1p
+train acc: 0.9278
+test acc: 87.13
