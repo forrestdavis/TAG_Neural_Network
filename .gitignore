@@ -21,10 +21,11 @@
 *.tar
 *.zip
 
-# BIG FILES #
+# FILES #
 #############
 *.conll16
 *.fann
 *.npy
 *.treeproperties
 *.alpha
+io_dimensions.txt
