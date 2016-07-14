@@ -7,7 +7,8 @@
 #datshift:NA esubj:NA rel:NA wh:NA voice:NA
 #
 #A more detailed explanation of the differences between the previous 
-#dimensions and the new dimensions can be found in dimension_updates.txt
+#work on dimensions and the new dimensions can be found in 
+#dimension_updates.txt, new_stats.txt and old_stats.txt
 #
 #Forrest Davis
 #June 2016

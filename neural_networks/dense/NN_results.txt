@@ -1,4 +1,9 @@
+Correspondence of letters in features and meaning:
+A - root
+T - wh_movement
 seed set to 4 for consistent results
+
+
 trained on 300 sentences from d6.train.conll16 
 tested on 100 sentences from d6.dev.conll16
 ----------------------------------------------
@@ -10,7 +15,6 @@ b0p
 acc: 70.92%
 
 
-seed set to 4 for consistent results
 trained on 1000 sentences from d6.train.conll16 
 tested on 300 sentences from d6.dev.conll16
 ----------------------------------------------
@@ -51,3 +55,88 @@ b1A
 ---------------
 acc: 91.97%
 
+
+s0p
+b0p
+s1p
+b1p
+s0s
+b0s
+---------------
+acc: 94.98%
+
+
+s0p
+b0p
+s1p
+b1p
+s0T
+b0T
+s1T
+b1T
+---------------
+acc: 89.86%
+
+
+s0p
+b0p
+s1p
+b1p
+s0T
+b0T
+s1T
+b1T
+s0A
+b0A
+s1A
+b1A
+---------------
+acc: 92.20%
+
+
+s0p
+b0p
+s1p
+b1p
+s0s
+b0s
+s0A
+b0A
+b1A
+s1A
+---------------
+acc: 94.98%
+
+
+trained on 5000 sentences from d6.train.conll16
+tested on 1000 sentences from d6.dev.conll16
+-----------------------------------------------
+
+
+s0p
+b0p
+s1p
+b1p
+s0A
+b0A
+s1A
+b1A
+---------------
+acc: 93.26%
+
+
+trained on whole d6.train.conll16
+tested on whole d6.dev.conll16
+--------------------------------------------
+
+
+s0p
+b0p
+s1p
+b1p
+s0A
+b0A
+s1A
+b1A
+---------------
+acc: 94.12%

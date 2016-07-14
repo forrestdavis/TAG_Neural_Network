@@ -22,12 +22,12 @@ def transform_fann(input_train_file, X_train_file, Y_train_file,
     print "test", test_input_dimensions, test_output_dimensions
 
     if diff_i_train_test != 0:
-        sys.stderr("Error: train.fann and test.fann do not have same " +
-                "input dimensions")
+        sys.stderr.write("Error: train.fann and test.fann do not have same " +
+                "input dimensions\n")
         sys.exit(1)
     if diff_o_train_test != 0:
-        sys.stderr("Error: train.fann and test.fann do not have same " +
-                "output dimensions")
+        sys.stderr.write("Error: train.fann and test.fann do not have same " +
+                "output dimensions\n")
         sys.exit(1)
 
     #Extract train

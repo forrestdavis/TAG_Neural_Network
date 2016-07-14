@@ -1,16 +1,17 @@
 train = d6.train.conll07
 dev = d6.dev.conll07
+test = d6.test.conll07
 treeproperties = d6.treeproperties
 
-all: d6.treeproperties d6.dev.conll16 d6.train.conll16 
+all: d6.treeproperties d6.dev.conll16 d6.train.conll16
 
-d6.treeproperties:
+d6.treeproperties: ./tools/feature_extractor.py
 	python ./tools/feature_extractor.py d6.grammar.str d6.treeproperties
 
-d6.dev.conll16:
+d6.dev.conll16: ./tools/create_conll16.py $(treeproperties)
 	python ./tools/create_conll16.py $(treeproperties) $(dev) $@
 
-d6.train.conll16:
+d6.train.conll16: ./tools/create_conll16.py $(treeproperties)
 	python ./tools/create_conll16.py $(treeproperties) $(train) $@
 
 clean:

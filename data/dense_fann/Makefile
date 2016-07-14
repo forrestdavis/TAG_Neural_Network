@@ -1,9 +1,9 @@
-all: test.fann dev.fann
+all: train.fann dev.fann 
 
-test.fann:
-	./test_fann.sh
+train.fann: new.fm new.mcd train_fann.sh
+	./train_fann.sh
 
-dev.fann: test.fann
+dev.fann: train.fann
 	./dev_fann.sh
 
 clean:
