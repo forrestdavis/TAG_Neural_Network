@@ -28,6 +28,8 @@
 *.npy
 *.treeproperties
 *.alpha
+*.json
+*.h5
 io_dimensions.txt
 
 # ENV #

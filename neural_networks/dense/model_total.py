@@ -1,7 +1,6 @@
 from keras.models import Sequential
-from keras.layers import Dense
+from keras.layers import Dense, Activation, Dropout
 import numpy
-#import transform_fann
 
 #Fix random to ensure consistent results during testing
 seed = 4
@@ -16,20 +15,27 @@ output_dimensions = int(o[2])
 
 X_train = numpy.load("X_train.npy")
 Y_train = numpy.load("Y_train.npy")
-X_dev = numpy.load("X_dev.npy")
-Y_dev = numpy.load("Y_dev.npy")
 
 #Create model
 model = Sequential()
-model.add(Dense(400, input_dim=input_dimensions, init='uniform', activation='relu'))
-model.add(Dense(300, input_dim=input_dimensions, activation='relu'))
-model.add(Dense(200, input_dim=input_dimensions, activation='relu'))
-model.add(Dense(100, input_dim=input_dimensions, activation='relu'))
-model.add(Dense(50, input_dim=input_dimensions, activation='relu'))
-model.add(Dense(output_dimensions, input_dim=input_dimensions, activation='sigmoid'))
+model.add(Dense(150, input_dim = input_dimensions, init='uniform'))
+model.add(Activation('relu'))
+model.add(Dense(150))
+model.add(Activation('relu'))
+model.add(Dense(150))
+model.add(Activation('relu'))
+model.add(Dense(output_dimensions))
+model.add(Activation('softmax'))
 
-model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+#Compile model
+model.compile(loss='categorical_crossentropy', 
+        optimizer='adam', metrics=['accuracy'])
+
 hist = model.fit(X_train, Y_train, nb_epoch=50, batch_size=1000)
 
-scores = model.evaluate(X_dev, Y_dev)
+#Evaluate model
+X_test = numpy.load("X_dev.npy")
+Y_test = numpy.load("Y_dev.npy")
+
+scores = model.evaluate(X_test, Y_test)
 print("%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
