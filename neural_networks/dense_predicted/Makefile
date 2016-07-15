@@ -14,5 +14,6 @@ model_total: $(fann2csv_train) $(fann2csv_test)
 
 clean:
 	-rm io_dimensions_*
+	-rm *.csv
 	-rm *.json
 	-rm *.h5
