@@ -126,6 +126,16 @@ b1A
 acc: 53.47%
 
 
+s0p
+b0p
+s1p
+b1p
+s0s
+b0s
+---------------
+acc: 57.16% 
+
+
 trained on 5000 sentences from d6.train.conll16
 tested on 1000 sentences from d6.dev.conll16
 -----------------------------------------------
