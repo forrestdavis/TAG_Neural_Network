@@ -33,8 +33,6 @@ model.add(Dense(150, input_dim = input_dimensions, init='uniform'))
 model.add(Activation('relu'))
 model.add(Dense(150))
 model.add(Activation('relu'))
-model.add(Dense(150))
-model.add(Activation('relu'))
 model.add(Dense(output_dimensions))
 model.add(Activation('softmax'))
 

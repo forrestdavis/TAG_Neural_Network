@@ -126,6 +126,36 @@ b1A
 acc: 53.47%
 
 
+s0p
+b0p
+s1p
+b1p
+s0s
+b0s
+---------------
+acc: 57.16% 
+
+
+s0A
+b0A
+s1A
+b1A
+---------------
+acc: 63.35%
+
+
+s0A
+b0A
+s1A
+b1A
+s0p
+b0p
+s1p
+b1p
+---------------
+acc: 53.47%
+
+
 trained on 5000 sentences from d6.train.conll16
 tested on 1000 sentences from d6.dev.conll16
 -----------------------------------------------
@@ -158,3 +188,16 @@ s1A
 b1A
 ---------------
 acc: 94.12%
+
+
+tested on 1000 sentences from d6.predicted_train.conll16 
+tested on 300 sentences from d6.predicted_dev.conll16
+Using only three layers instead of four
+----------------------------------------------
+
+s0A
+b0A
+s1A
+b1A
+---------------
+acc: 66.17%
