@@ -1,5 +1,5 @@
 from keras.models import Sequential
-from keras.layers import Dense, Activation, Dropout
+from keras.layers import Dense, Activation, Dropout, LSTM
 import numpy
 
 #Fix random to ensure consistent results during testing
@@ -10,24 +10,20 @@ io_info = open("io_dimensions.txt", "r")
 i = io_info.readline().split()
 o = io_info.readline().split()
 
-input_dimensions = int(o[1])
-output_dimensions = int(o[2])
+nb_examples = int(o[1])
+input_dimensions = int(o[2])
+output_dimensions = int(o[3])
 
 X_train = numpy.load("X_train.npy")
 Y_train = numpy.load("Y_train.npy")
 
 #Create model
 model = Sequential()
-model.add(Dense(150, input_dim = input_dimensions, init='uniform'))
-model.add(Activation('relu'))
-model.add(Dense(150))
-model.add(Activation('relu'))
-model.add(Dense(output_dimensions))
-model.add(Activation('softmax'))
+model.add(LSTM(100, input_shape = (nb_examples, None, input_dimensions)))
 
 #Compile model
 model.compile(loss='categorical_crossentropy', 
-        optimizer='adam', metrics=['accuracy'])
+        optimizer = 'adam')
 
 hist = model.fit(X_train, Y_train, nb_epoch=50, batch_size=1000)
 

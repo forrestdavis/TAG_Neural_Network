@@ -22,6 +22,8 @@ model.add(Dense(150, input_dim = input_dimensions, init='uniform'))
 model.add(Activation('relu'))
 model.add(Dense(150))
 model.add(Activation('relu'))
+model.add(Dense(150))
+model.add(Activation('relu'))
 model.add(Dense(output_dimensions))
 model.add(Activation('softmax'))
 
@@ -31,9 +33,8 @@ model.compile(loss='categorical_crossentropy',
 
 hist = model.fit(X_train, Y_train, nb_epoch=50, batch_size=1000)
 
-#Evaluate model
-X_test = numpy.load("X_dev.npy")
-Y_test = numpy.load("Y_dev.npy")
+#Save model and weights
+json_string = model.to_json()
+open('150_model_architecture.json', 'w').write(json_string)
+model.save_weights('150_model_weights.h5', overwrite=True)
 
-scores = model.evaluate(X_test, Y_test)
-print("%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
