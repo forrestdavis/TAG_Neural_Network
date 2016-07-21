@@ -1,0 +1,19 @@
+#!/bin/bash
+
+echo "50 relu"
+python allFeatures_model.py 3 50 relu
+
+echo "100 relu"
+python allFeatures_model.py 3 100 relu
+
+echo "150 relu"
+python allFeatures_model.py 3 150 relu
+
+echo "200 relu"
+python allFeatures_model.py 3 200 relu
+
+echo "300 relu"
+python allFeatures_model.py 3 300 relu
+
+echo "400 relu"
+python allFeatures_model.py 3 400 relu
