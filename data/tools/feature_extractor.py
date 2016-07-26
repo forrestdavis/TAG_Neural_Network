@@ -3,7 +3,7 @@
 #Sample output:
 #t30 root:G dir:LEFT modif:NP lfronts:nil rfronts:nil ladjnodes:NP_G 
 #radjnodes:G_NP substnodes:nil predaux:FALSE coanc:FALSE particle:NA 
-#particleShift:NA lcomp:NA rcomp:NA pred:FALSE dsubcat:nil dsubcat2:nil 
+#particleShift:NA comp:n pred:FALSE dsubcat:nil dsubcat2:nil 
 #datshift:NA esubj:NA rel:NA wh:NA voice:NA
 #
 #A more detailed explanation of the differences between the previous 
