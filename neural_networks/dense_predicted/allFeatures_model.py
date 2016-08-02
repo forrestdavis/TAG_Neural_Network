@@ -1,5 +1,5 @@
 from keras.models import Sequential
-from keras.layers import Dense, Activation, Dropout
+from keras.layers import Dense, Activation, Dropout, Embedding
 from keras.callbacks import EarlyStopping
 import numpy
 import sys
@@ -72,7 +72,7 @@ model.compile(loss='categorical_crossentropy',
 early_stopping = EarlyStopping(monitor='val_loss', verbose = 1, patience=2)
 
 print "fitting model..."
-model.fit(X_train, Y_train, callbacks=[early_stopping], nb_epoch=25, verbose=1, batch_size=1000, 
+model.fit(X_train, Y_train, callbacks=[early_stopping], nb_epoch=1000, verbose=1, batch_size=1000, 
          validation_split=0.1)
 
 #Get test data

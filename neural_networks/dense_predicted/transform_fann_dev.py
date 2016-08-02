@@ -12,7 +12,7 @@ def transform_fann(input_train_file, X_train_file, Y_train_file):
     y = [] 
     x_tmp = [] 
     isInput = 1
-    print "Getting lines..."
+    sys.stderr.write("Getting lines...\n")
     for line in train_fann:
         line = line.split()
         line = map(float, line)
@@ -27,7 +27,7 @@ def transform_fann(input_train_file, X_train_file, Y_train_file):
     Y_train = numpy.array(y)
 
     #Save output
-    print "Saving information..."
+    sys.stderr.write("Saving information...\n")
     numpy.save(X_train_file, X_train)
     numpy.save(Y_train_file, Y_train)
 
@@ -35,8 +35,8 @@ def transform_fann(input_train_file, X_train_file, Y_train_file):
     train_fann.close()
 
 if __name__ == "__main__":
-    input_train_file = "../../data/dense_predicted_fann/dev_new1.fann"
-    X_train_file = "X_dev.npy"
-    Y_train_file = "Y_dev.npy"
+    input_train_file = "../../data/dense_predicted_fann/dev_form.fann"
+    X_train_file = "X_dev_form.npy"
+    Y_train_file = "Y_dev_form.npy"
     transform_fann(input_train_file, X_train_file, Y_train_file)
 

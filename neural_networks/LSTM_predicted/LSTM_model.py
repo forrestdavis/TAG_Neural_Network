@@ -11,41 +11,38 @@ import sys
 #Get arguments from command line
 #Arguments represnt model parameters
 
-io_info_train = open("io_dimensions_train_1000.txt", "r")
-io_info_test = open("io_dimensions_test.txt", "r")
+io_info_train = open("io_dimensions_train.txt", "r")
+io_info_test = open("io_dimensions_dev.txt", "r")
 one = io_info_train.readline().split()
 two = io_info_test.readline().split()
 
-input_examples = int(one[0])
-input_dimensions = int(one[1])
-output_dimensions = int(one[2])
-i_dimensions = int(two[1])
-o_dimensions = int(two[2])
+train_nb_samples = int(one[0])
+train_sentence_size = int(one[1])
+train_input_dim = int(one[2])
+
+test_nb_samples = int(two[0])
+test_sentence_size = int(two[1])
+test_input_dim = int(two[2])
 
 #Ensure test and train data have same form
-if input_dimensions!= i_dimensions:
+if train_input_dim!= test_input_dim:
     sys.stderr.write("There is a mismatch in input dimensions\n")
     sys.exit(1)
-if output_dimensions!= o_dimensions:
-    sys.stderr.write("There is a mismatch in output dimensions\n")
-    sys.exit(1)
-io_info_test = open("io_dimensions_test.txt", "r")
-two = io_info_test.readline().split()
 
 #Get train data
-print "Getting data ..."
-X_train = numpy.load("X_train_1000.npy")
-Y_train = numpy.load("Y_train_1000.npy")
+print "Getting train data ..."
+X_train = numpy.load("X_train_lstm.npy")
+Y_train = numpy.load("Y_train_lstm.npy")
+print X_train[0]
 
 #Create model
 print "creating model ..."
 
 model = Sequential()
-model.add(LSTM(32, input_shape = (input_examples, input_dimensions)))
-model.add(Dense(output_dimensions, activation='softmax'))
+model.add(LSTM(32, input_shape = (test_nb_samples, train_sentence_size, train_input_dim), return_sequences = True))
 
 #Compile model
-model.compile(optimizer='rmsprop',loss='categorical_crossentropy') 
+model.compile(optimizer='adam',loss='binary_crossentropy') 
 
 #Define early stopping 
 early_stopping = EarlyStopping(monitor='val_loss', verbose = 1, patience=2)
@@ -56,8 +53,8 @@ model.fit(X_train, Y_train, callbacks=[early_stopping], nb_epoch=25, verbose=1, 
 
 #Get test data
 print "getting test data..."
-X_test = numpy.load("X_dev_allFeatures.npy")
-Y_test = numpy.load("Y_dev_allFeatures.npy")
+X_test = numpy.load("X_dev_lstm.npy")
+Y_test = numpy.load("Y_dev_lstm.npy")
 
 
 #Get accurracy on test data

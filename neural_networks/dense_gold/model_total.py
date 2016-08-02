@@ -4,8 +4,8 @@ import numpy
 import sys
 
 #Fix random to ensure consistent results during testing
-seed = 4
-numpy.random.seed(seed)
+#seed = 4
+#numpy.random.seed(seed)
 
 io_info_train = open("io_dimensions_train.txt", "r")
 io_info_test = open("io_dimensions_test.txt", "r")
@@ -23,11 +23,16 @@ if input_dimensions!= i_dimensions:
 if output_dimensions!= o_dimensions:
     sys.stderr.write("There is a mismatch in output dimensions\n")
     sys.exit(1)
+print "Getting training data...."
+X_train = numpy.load("X_train.npy")
+Y_train = numpy.load("Y_train.npy")
 
-X_train = numpy.loadtxt("X_train.csv", delimiter=",")
-Y_train = numpy.loadtxt("Y_train.csv", delimiter=",")
+print "Getting testing data..."
+X_test = numpy.load("X_dev.npy")
+Y_test = numpy.load("Y_dev.npy")
 
 #Create model
+print "Creating model..."
 model = Sequential()
 model.add(Dense(150, input_dim = input_dimensions, init='uniform'))
 model.add(Activation('relu'))
@@ -40,11 +45,10 @@ model.add(Activation('softmax'))
 model.compile(loss='categorical_crossentropy', 
         optimizer='adam', metrics=['accuracy'])
 
+print "Fitting model...."
 hist = model.fit(X_train, Y_train, nb_epoch=50, batch_size=1000)
 
 #Evaluate model
-X_test = numpy.loadtxt("X_test.csv", delimiter=",")
-Y_test = numpy.loadtxt("Y_test.csv", delimiter=",")
 
 scores = model.evaluate(X_test, Y_test)
 print("%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))

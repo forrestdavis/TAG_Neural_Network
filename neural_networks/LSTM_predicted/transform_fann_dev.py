@@ -21,12 +21,14 @@ def transform_fann(input_train_file, X_train_file, Y_train_file):
     x_tmp = []
     isInput = 1
     inSentence = 0
+    sentence_x = deque()
     nb_mvts = 0
     nb_samples = 0
     sys.stderr.write("Getting lines...\n")
     for line in train_fann:
         if "start sentence" in line:
             inSentence = 1
+	    sentence_x = deque()
         elif "end sentence" in line:
             nb_samples +=1
             if nb_mvts <= MAX_LENGTH:
@@ -34,8 +36,9 @@ def transform_fann(input_train_file, X_train_file, Y_train_file):
                 pad_x = [0]*input_length
                 pad_y = [0]*output_length
                 for z in xrange(pad_number):
-                    x.appendleft(pad_x)
+                    sentence_x.appendleft(pad_x)
                     y.appendleft(pad_y)
+                x.append(sentence_x)
             nb_mvts = 0
             inSentence = 0
         elif inSentence:
@@ -44,10 +47,10 @@ def transform_fann(input_train_file, X_train_file, Y_train_file):
             if len(line) != train_output_dimensions and len(line) != 0:
                 x_tmp += line
             elif len(line) == train_output_dimensions:
-                nb_mvts += 1
-                y.append(line)
-                x.append(x_tmp)
-                x_tmp = [] 
+		nb_mvts += 1
+		y.append(line)
+		sentence_x.append(x_tmp)
+		x_tmp = [] 
             
     X_train = numpy.array(x)
     Y_train = numpy.array(y)
@@ -64,7 +67,7 @@ def transform_fann(input_train_file, X_train_file, Y_train_file):
 
 if __name__ == "__main__":
     input_train_file = "../../data/LSTM_predicted_fann/lstm_dev.fann"
-    X_train_file = "X_test_lstm.npy"
-    Y_train_file = "Y_test_lstm.npy"
+    X_train_file = "X_train_dev.npy"
+    Y_train_file = "Y_train_dev.npy"
     transform_fann(input_train_file, X_train_file, Y_train_file)
 
