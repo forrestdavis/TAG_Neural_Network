@@ -199,7 +199,6 @@ def getRFronts(tree_list):
 #they are not a substitution node or a foot node. Both the left and right
 #crossing of a node are considered and the left travarsel of the head is 
 #considered as well
-#currently changed to only mark nodes one time
 def getLAdjNodes(tree_list):
     ladjnodes = []
     directions = getDirections(tree_list)
@@ -207,24 +206,16 @@ def getLAdjNodes(tree_list):
     for x in xrange(len(tree_list)):
         temporary_list = [] 
         for y in xrange(1, len(tree_list[x])):
-            '''
             if y == 1:
                 temporary_list.append(tree_list[x][y])
-            '''
-            if (tree_list[x][y][4] != "s" 
+            elif (y > 1 and tree_list[x][y][4] != "s" 
             and tree_list[x][y][4] != "f" 
             and tree_list[x][y][4] != "c"
-            and tree_list[x][y][0] != "-NONE-"
-            and tree_list[x][y][3] == "l"
-            and tree_list[x][y][4] != "h"):
+            and tree_list[x][y][0] != "-NONE-"):
                 temporary_list.append(tree_list[x][y])
             if tree_list[x][y][4] == 'h':
                 break
-        if temporary_list:
-            ladjnodes.append(temporary_list)
-        else:
-            ladjnodes.append(["nil"])
-
+        ladjnodes.append(temporary_list)
     return ladjnodes
 
 
@@ -240,18 +231,14 @@ def getRAdjNodes(tree_list):
             if tree_list[x][y][4] == 'h' and tree_list[x][y][3] == 'r':
                 break
         #move through nodes from the head till the end grabbing all nodes 
-        for z in xrange(y+1, len(tree_list[x])):
+        for z in xrange(y, len(tree_list[x])):
             if z == (len(tree_list[x])-1):
                 temporary_list.append(tree_list[x][z])
             elif (z < (len(tree_list[x])-1) and tree_list[x][z][4] != "s" 
             and tree_list[x][z][4] != "f" and tree_list[x][z][4] != "c"
-            and tree_list[x][z][0] != "-NONE-" and tree_list[x][3] == "l"):
+            and tree_list[x][z][0] != "-NONE-"):
                 temporary_list.append(tree_list[x][z])
-        if temporary_list:
-            radjnodes.append(temporary_list)
-        else:
-            radjnodes.append(["nil"])
-
+        radjnodes.append(temporary_list)
     return radjnodes
 
 #Function that returns TRUE if a tree is a predicative auxiliary tree else
