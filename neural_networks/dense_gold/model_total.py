@@ -31,6 +31,7 @@ print "Getting testing data..."
 X_test = numpy.load("X_dev.npy")
 Y_test = numpy.load("Y_dev.npy")
 
+print Y_test[0]
 #Create model
 print "Creating model..."
 model = Sequential()
