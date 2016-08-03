@@ -4,7 +4,7 @@ from keras.callbacks import EarlyStopping
 import numpy
 import sys
 
-io_info = open("io_dimensions.txt", "r")
+io_info = open("io_dimensions_1000.txt", "r")
 A_train_input_dim = 0
 A_train_output_dim = 0
 B_train_input_dim = 0 
@@ -391,132 +391,132 @@ if U_train_output_dim != U_test_output_dim:
 
 #Get train data
 print "Getting A data ..."
-X_train_A = numpy.load("X_train_A.npy")
-Y_train_A = numpy.load("Y_train_A.npy")
-X_test_A = numpy.load("X_test_A.npy")
-Y_test_A = numpy.load("Y_test_A.npy")
+X_train_A = numpy.load("X_train_A_1000.npy")
+Y_train_A = numpy.load("Y_train_A_1000.npy")
+X_test_A = numpy.load("X_test_A_1000.npy")
+Y_test_A = numpy.load("Y_test_A_1000.npy")
 
 print "Getting B data ..."
-X_train_B = numpy.load("X_train_B.npy")
-Y_train_B = numpy.load("Y_train_B.npy")
-X_test_B = numpy.load("X_test_B.npy")
-Y_test_B = numpy.load("Y_test_B.npy")
+X_train_B = numpy.load("X_train_B_1000.npy")
+Y_train_B = numpy.load("Y_train_B_1000.npy")
+X_test_B = numpy.load("X_test_B_1000.npy")
+Y_test_B = numpy.load("Y_test_B_1000.npy")
 
 print "Getting C data ..."
-X_train_C = numpy.load("X_train_C.npy")
-Y_train_C = numpy.load("Y_train_C.npy")
-X_test_C = numpy.load("X_test_C.npy")
-Y_test_C = numpy.load("Y_test_C.npy")
+X_train_C = numpy.load("X_train_C_1000.npy")
+Y_train_C = numpy.load("Y_train_C_1000.npy")
+X_test_C = numpy.load("X_test_C_1000.npy")
+Y_test_C = numpy.load("Y_test_C_1000.npy")
 
 print "Getting D data ..."
-X_train_D = numpy.load("X_train_D.npy")
-Y_train_D = numpy.load("Y_train_D.npy")
-X_test_D = numpy.load("X_test_D.npy")
-Y_test_D = numpy.load("Y_test_D.npy")
+X_train_D = numpy.load("X_train_D_1000.npy")
+Y_train_D = numpy.load("Y_train_D_1000.npy")
+X_test_D = numpy.load("X_test_D_1000.npy")
+Y_test_D = numpy.load("Y_test_D_1000.npy")
 
 print "Getting E data ..."
-X_train_E = numpy.load("X_train_E.npy")
-Y_train_E = numpy.load("Y_train_E.npy")
-X_test_E = numpy.load("X_test_E.npy")
-Y_test_E = numpy.load("Y_test_E.npy")
+X_train_E = numpy.load("X_train_E_1000.npy")
+Y_train_E = numpy.load("Y_train_E_1000.npy")
+X_test_E = numpy.load("X_test_E_1000.npy")
+Y_test_E = numpy.load("Y_test_E_1000.npy")
 
 '''
 print "Getting F data ..."
-X_train_F = numpy.load("X_train_F.npy")
-Y_train_F = numpy.load("Y_train_F.npy")
-X_test_F = numpy.load("X_test_F.npy")
-Y_test_F = numpy.load("Y_test_F.npy")
+X_train_F = numpy.load("X_train_F_1000.npy")
+Y_train_F = numpy.load("Y_train_F_1000.npy")
+X_test_F = numpy.load("X_test_F_1000.npy")
+Y_test_F = numpy.load("Y_test_F_1000.npy")
 
 print "Getting G data ..."
-X_train_G = numpy.load("X_train_G.npy")
-Y_train_G = numpy.load("Y_train_G.npy")
-X_test_G = numpy.load("X_test_G.npy")
-Y_test_G = numpy.load("Y_test_G.npy")
+X_train_G = numpy.load("X_train_G_1000.npy")
+Y_train_G = numpy.load("Y_train_G_1000.npy")
+X_test_G = numpy.load("X_test_G_1000.npy")
+Y_test_G = numpy.load("Y_test_G_1000.npy")
 '''
 
 print "Getting H data ..."
-X_train_H = numpy.load("X_train_H.npy")
-Y_train_H = numpy.load("Y_train_H.npy")
-X_test_H = numpy.load("X_test_H.npy")
-Y_test_H = numpy.load("Y_test_H.npy")
+X_train_H = numpy.load("X_train_H_1000.npy")
+Y_train_H = numpy.load("Y_train_H_1000.npy")
+X_test_H = numpy.load("X_test_H_1000.npy")
+Y_test_H = numpy.load("Y_test_H_1000.npy")
 
 print "Getting I data ..."
-X_train_I = numpy.load("X_train_I.npy")
-Y_train_I = numpy.load("Y_train_I.npy")
-X_test_I = numpy.load("X_test_I.npy")
-Y_test_I = numpy.load("Y_test_I.npy")
+X_train_I = numpy.load("X_train_I_1000.npy")
+Y_train_I = numpy.load("Y_train_I_1000.npy")
+X_test_I = numpy.load("X_test_I_1000.npy")
+Y_test_I = numpy.load("Y_test_I_1000.npy")
 
 print "Getting J data ..."
-X_train_J = numpy.load("X_train_J.npy")
-Y_train_J = numpy.load("Y_train_J.npy")
-X_test_J = numpy.load("X_test_J.npy")
-Y_test_J = numpy.load("Y_test_J.npy")
+X_train_J = numpy.load("X_train_J_1000.npy")
+Y_train_J = numpy.load("Y_train_J_1000.npy")
+X_test_J = numpy.load("X_test_J_1000.npy")
+Y_test_J = numpy.load("Y_test_J_1000.npy")
 
 print "Getting K data ..."
-X_train_K = numpy.load("X_train_K.npy")
-Y_train_K = numpy.load("Y_train_K.npy")
-X_test_K = numpy.load("X_test_K.npy")
-Y_test_K = numpy.load("Y_test_K.npy")
+X_train_K = numpy.load("X_train_K_1000.npy")
+Y_train_K = numpy.load("Y_train_K_1000.npy")
+X_test_K = numpy.load("X_test_K_1000.npy")
+Y_test_K = numpy.load("Y_test_K_1000.npy")
 
 print "Getting L data ..."
-X_train_L = numpy.load("X_train_L.npy")
-Y_train_L = numpy.load("Y_train_L.npy")
-X_test_L = numpy.load("X_test_L.npy")
-Y_test_L = numpy.load("Y_test_L.npy")
+X_train_L = numpy.load("X_train_L_1000.npy")
+Y_train_L = numpy.load("Y_train_L_1000.npy")
+X_test_L = numpy.load("X_test_L_1000.npy")
+Y_test_L = numpy.load("Y_test_L_1000.npy")
 
 print "Getting M data ..."
-X_train_M = numpy.load("X_train_M.npy")
-Y_train_M = numpy.load("Y_train_M.npy")
-X_test_M = numpy.load("X_test_M.npy")
-Y_test_M = numpy.load("Y_test_M.npy")
+X_train_M = numpy.load("X_train_M_1000.npy")
+Y_train_M = numpy.load("Y_train_M_1000.npy")
+X_test_M = numpy.load("X_test_M_1000.npy")
+Y_test_M = numpy.load("Y_test_M_1000.npy")
 
 print "Getting N data ..."
-X_train_N = numpy.load("X_train_N.npy")
-Y_train_N = numpy.load("Y_train_N.npy")
-X_test_N = numpy.load("X_test_N.npy")
-Y_test_N = numpy.load("Y_test_N.npy")
+X_train_N = numpy.load("X_train_N_1000.npy")
+Y_train_N = numpy.load("Y_train_N_1000.npy")
+X_test_N = numpy.load("X_test_N_1000.npy")
+Y_test_N = numpy.load("Y_test_N_1000.npy")
 
 print "Getting O data ..."
-X_train_O = numpy.load("X_train_O.npy")
-Y_train_O = numpy.load("Y_train_O.npy")
-X_test_O = numpy.load("X_test_O.npy")
-Y_test_O = numpy.load("Y_test_O.npy")
+X_train_O = numpy.load("X_train_O_1000.npy")
+Y_train_O = numpy.load("Y_train_O_1000.npy")
+X_test_O = numpy.load("X_test_O_1000.npy")
+Y_test_O = numpy.load("Y_test_O_1000.npy")
 
 print "Getting P data ..."
-X_train_P = numpy.load("X_train_P.npy")
-Y_train_P = numpy.load("Y_train_P.npy")
-X_test_P = numpy.load("X_test_P.npy")
-Y_test_P = numpy.load("Y_test_P.npy")
+X_train_P = numpy.load("X_train_P_1000.npy")
+Y_train_P = numpy.load("Y_train_P_1000.npy")
+X_test_P = numpy.load("X_test_P_1000.npy")
+Y_test_P = numpy.load("Y_test_P_1000.npy")
 
 print "Getting Q data ..."
-X_train_Q = numpy.load("X_train_Q.npy")
-Y_train_Q = numpy.load("Y_train_Q.npy")
-X_test_Q = numpy.load("X_test_Q.npy")
-Y_test_Q = numpy.load("Y_test_Q.npy")
+X_train_Q = numpy.load("X_train_Q_1000.npy")
+Y_train_Q = numpy.load("Y_train_Q_1000.npy")
+X_test_Q = numpy.load("X_test_Q_1000.npy")
+Y_test_Q = numpy.load("Y_test_Q_1000.npy")
 
 print "Getting R data ..."
-X_train_R = numpy.load("X_train_R.npy")
-Y_train_R = numpy.load("Y_train_R.npy")
-X_test_R = numpy.load("X_test_R.npy")
-Y_test_R = numpy.load("Y_test_R.npy")
+X_train_R = numpy.load("X_train_R_1000.npy")
+Y_train_R = numpy.load("Y_train_R_1000.npy")
+X_test_R = numpy.load("X_test_R_1000.npy")
+Y_test_R = numpy.load("Y_test_R_1000.npy")
 
 print "Getting S data ..."
-X_train_S = numpy.load("X_train_S.npy")
-Y_train_S = numpy.load("Y_train_S.npy")
-X_test_S = numpy.load("X_test_S.npy")
-Y_test_S = numpy.load("Y_test_S.npy")
+X_train_S = numpy.load("X_train_S_1000.npy")
+Y_train_S = numpy.load("Y_train_S_1000.npy")
+X_test_S = numpy.load("X_test_S_1000.npy")
+Y_test_S = numpy.load("Y_test_S_1000.npy")
 
 print "Getting T data ..."
-X_train_T = numpy.load("X_train_T.npy")
-Y_train_T = numpy.load("Y_train_T.npy")
-X_test_T = numpy.load("X_test_T.npy")
-Y_test_T = numpy.load("Y_test_T.npy")
+X_train_T = numpy.load("X_train_T_1000.npy")
+Y_train_T = numpy.load("Y_train_T_1000.npy")
+X_test_T = numpy.load("X_test_T_1000.npy")
+Y_test_T = numpy.load("Y_test_T_1000.npy")
 
 print "Getting U data ..."
-X_train_U = numpy.load("X_train_U.npy")
-Y_train_U = numpy.load("Y_train_U.npy")
-X_test_U = numpy.load("X_test_U.npy")
-Y_test_U = numpy.load("Y_test_U.npy")
+X_train_U = numpy.load("X_train_U_1000.npy")
+Y_train_U = numpy.load("Y_train_U_1000.npy")
+X_test_U = numpy.load("X_test_U_1000.npy")
+Y_test_U = numpy.load("Y_test_U_1000.npy")
 
 #Create model
 print "creating model ..."
@@ -549,6 +549,8 @@ model_A.add(Dropout(0.50))
 model_A.add(Dense(50))
 model_A.add(Activation('relu'))
 model_A.add(Dropout(0.50))
+model_A.add(Dense(A_train_output_dim))
+model_A.add(Activation('softmax'))
 
 model_B.add(Dense(50, input_dim = B_train_input_dim, init='uniform'))
 model_B.add(Activation('relu'))
