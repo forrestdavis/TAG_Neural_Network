@@ -1,5 +1,7 @@
 all: A.fann B.fann C.fann D.fann E.fann H.fann I.fann J.fann K.fann L.fann M.fann N.fann O.fann P.fann Q.fann R.fann S.fann T.fann U.fann form.fann pos.fann stag.fann
 
+1000: A_1000.fann B_1000.fann C_1000.fann D_1000.fann E_1000.fann H_1000.fann I_1000.fann J_1000.fann K_1000.fann L_1000.fann M_1000.fann N_1000.fann O_1000.fann P_1000.fann Q_1000.fann R_1000.fann S_1000.fann T_1000.fann U_1000.fann form_1000.fann pos_1000.fann stag_1000.fann
+
 A.fann: 
 	./scripts/A_train_fann.sh
 	./scripts/A_dev_fann.sh
@@ -96,6 +98,103 @@ stag.fann:
 	./scripts/stag_train_fann.sh
 	./scripts/stag_dev_fann.sh
 
+A_1000.fann: 
+	./scripts_1000/A_train_fann.sh
+	./scripts_1000/A_dev_fann.sh
+
+B_1000.fann: 
+	./scripts_1000/B_train_fann.sh
+	./scripts_1000/B_dev_fann.sh
+
+C_1000.fann:
+	./scripts_1000/C_train_fann.sh
+	./scripts_1000/C_dev_fann.sh
+
+D_1000.fann:
+	./scripts_1000/D_train_fann.sh
+	./scripts_1000/D_dev_fann.sh
+
+E_1000.fann:
+	./scripts_1000/E_train_fann.sh
+	./scripts_1000/E_dev_fann.sh
+
+#F_1000.fann:
+	#./scripts_1000/F_train_fann.sh
+	#./scripts_1000/F_dev_fann.sh
+
+#G_1000.fann: 
+	#./scripts_1000/G_train_fann.sh
+	#./scripts_1000/G_dev_fann.sh
+
+H_1000.fann:
+	./scripts_1000/H_train_fann.sh
+	./scripts_1000/H_dev_fann.sh
+
+I_1000.fann:
+	./scripts_1000/I_train_fann.sh
+	./scripts_1000/I_dev_fann.sh
+
+J_1000.fann: 
+	./scripts_1000/J_train_fann.sh
+	./scripts_1000/J_dev_fann.sh
+
+K_1000.fann:
+	./scripts_1000/K_train_fann.sh
+	./scripts_1000/K_dev_fann.sh
+
+L_1000.fann: 
+	./scripts_1000/L_train_fann.sh
+	./scripts_1000/L_dev_fann.sh
+
+M_1000.fann:
+	./scripts_1000/M_train_fann.sh
+	./scripts_1000/M_dev_fann.sh
+
+N_1000.fann: 
+	./scripts_1000/N_train_fann.sh
+	./scripts_1000/N_dev_fann.sh
+
+O_1000.fann:
+	./scripts_1000/O_train_fann.sh
+	./scripts_1000/O_dev_fann.sh
+
+P_1000.fann:
+	./scripts_1000/P_train_fann.sh
+	./scripts_1000/P_dev_fann.sh
+
+Q_1000.fann:
+	./scripts_1000/Q_train_fann.sh
+	./scripts_1000/Q_dev_fann.sh
+
+R_1000.fann: 
+	./scripts_1000/R_train_fann.sh
+	./scripts_1000/R_dev_fann.sh
+
+S_1000.fann:
+	./scripts_1000/S_train_fann.sh
+	./scripts_1000/S_dev_fann.sh
+
+T_1000.fann:
+	./scripts_1000/T_train_fann.sh
+	./scripts_1000/T_dev_fann.sh
+
+U_1000.fann: 
+	./scripts_1000/U_train_fann.sh
+	./scripts_1000/U_dev_fann.sh
+
+form_1000.fann:
+	./scripts_1000/form_train_fann.sh
+	./scripts_1000/form_dev_fann.sh
+
+pos_1000.fann: 
+	./scripts_1000/pos_train_fann.sh
+	./scripts_1000/pos_dev_fann.sh
+
+stag_1000.fann: 
+	./scripts_1000/stag_train_fann.sh
+	./scripts_1000/stag_dev_fann.sh
+
 clean:
 	rm ./fanns/*.fann
 	rm ./alphas/*.alpha
+	rm ./fanns_1000/*.fann
