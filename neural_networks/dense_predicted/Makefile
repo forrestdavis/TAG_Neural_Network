@@ -1,6 +1,6 @@
-all: A-F G-N O-U model
+all: A-F G-N O-U pos form model
 
-1000: A-F_1000 G-N_1000 model_1000
+1000: A-F_1000 G-N_1000 O_U_1000 pos_1000 form_1000 model_1000
 
 data: A-F G-N O-U
 
@@ -13,6 +13,12 @@ G-N:
 O-U: 
 	python transform_fann_O-U.py >> io_dimensions.txt
 	
+pos: 
+	python transform_fann_pos.py >> io_dimensions.txt
+
+form: 
+	python transform_fann_form.py >> io_dimensions.txt
+
 A-F_1000: 
 	python 1000_transform_fann_A-F.py > io_dimensions_1000.txt
 
@@ -21,6 +27,12 @@ G-N_1000:
 
 O-U_1000: 
 	python 1000_transform_fann_O-U.py >> io_dimensions_1000.txt
+
+pos_1000: 
+	python 1000_transform_fann_pos.py >> io_dimensions_1000.txt
+
+form_1000: 
+	python 1000_transform_fann_form.py >> io_dimensions_1000.txt
 
 model:
 	python model_total.py

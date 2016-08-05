@@ -47,6 +47,10 @@ T_train_input_dim = 0
 T_train_output_dim = 0
 U_train_input_dim = 0 
 U_train_output_dim = 0 
+pos_train_input_dim = 0
+pos_train_output_dim = 0
+form_train_input_dim = 0
+form_train_output_dim = 0
 A_test_input_dim = 0 
 A_test_output_dim = 0 
 B_test_input_dim = 0
@@ -89,6 +93,10 @@ T_test_input_dim = 0
 T_test_output_dim = 0
 U_test_input_dim = 0
 U_test_output_dim = 0
+pos_test_input_dim = 0
+pos_test_output_dim = 0
+form_test_input_dim = 0
+form_test_output_dim = 0
 
 for line in io_info:
     line = line.split()
@@ -239,6 +247,20 @@ for line in io_info:
         if line[1] == "test":
 	    U_test_input_dim = int(line[2])
 	    U_test_output_dim = int(line[3])
+    if line[0] == "pos":
+        if line[1] == "train":
+	    pos_train_input_dim = int(line[2])
+	    pos_train_output_dim = int(line[3])
+        if line[1] == "test":
+	    pos_test_input_dim = int(line[2])
+	    pos_test_output_dim = int(line[3])
+    if line[0] == "form":
+        if line[1] == "train":
+	    form_train_input_dim = int(line[2])
+	    form_train_output_dim = int(line[3])
+        if line[1] == "test":
+	    form_test_input_dim = int(line[2])
+	    form_test_output_dim = int(line[3])
 
 #Ensure test and train data have same form
 if A_train_input_dim != A_test_input_dim:
@@ -389,6 +411,20 @@ if U_train_output_dim != U_test_output_dim:
     sys.stderr.write("There is a mismatch in U output dimensions\n")
     sys.exit(1)
 
+if pos_train_input_dim != pos_test_input_dim:
+    sys.stderr.write("There is a mismatch in pos input dimensions\n")
+    sys.exit(1)
+if pos_train_output_dim != pos_test_output_dim:
+    sys.stderr.write("There is a mismatch in pos output dimensions\n")
+    sys.exit(1)
+
+if form_train_input_dim != form_test_input_dim:
+    sys.stderr.write("There is a mismatch in form input dimensions\n")
+    sys.exit(1)
+if form_train_output_dim != form_test_output_dim:
+    sys.stderr.write("There is a mismatch in form output dimensions\n")
+    sys.exit(1)
+
 #Get train data
 print "Getting A data ..."
 X_train_A = numpy.load("X_train_A_1000.npy")
@@ -518,6 +554,18 @@ Y_train_U = numpy.load("Y_train_U_1000.npy")
 X_test_U = numpy.load("X_test_U_1000.npy")
 Y_test_U = numpy.load("Y_test_U_1000.npy")
 
+print "Getting pos data ..."
+X_train_pos = numpy.load("X_train_pos_1000.npy")
+Y_train_pos = numpy.load("Y_train_pos_1000.npy")
+X_test_pos = numpy.load("X_test_pos_1000.npy")
+Y_test_pos = numpy.load("Y_test_pos_1000.npy")
+
+print "Getting form data ..."
+X_train_form = numpy.load("X_train_form_1000.npy")
+Y_train_form = numpy.load("Y_train_form_1000.npy")
+X_test_form = numpy.load("X_test_form_1000.npy")
+Y_test_form = numpy.load("Y_test_form_1000.npy")
+
 #Create model
 print "creating model ..."
 model_A = Sequential()
@@ -541,6 +589,8 @@ model_R = Sequential()
 model_S = Sequential()
 model_T = Sequential()
 model_U = Sequential()
+model_pos = Sequential()
+model_form = Sequential()
 model = Sequential() 
 
 model_A.add(Dense(50, input_dim = A_train_input_dim, init='uniform'))
@@ -549,8 +599,6 @@ model_A.add(Dropout(0.50))
 model_A.add(Dense(50))
 model_A.add(Activation('relu'))
 model_A.add(Dropout(0.50))
-model_A.add(Dense(A_train_output_dim))
-model_A.add(Activation('softmax'))
 
 model_B.add(Dense(50, input_dim = B_train_input_dim, init='uniform'))
 model_B.add(Activation('relu'))
@@ -694,8 +742,22 @@ model_U.add(Dense(50))
 model_U.add(Activation('relu'))
 model_U.add(Dropout(0.50))
 
+model_pos.add(Dense(50, input_dim = pos_train_input_dim, init='uniform'))
+model_pos.add(Activation('relu'))
+model_pos.add(Dropout(0.50))
+model_pos.add(Dense(50))
+model_pos.add(Activation('relu'))
+model_pos.add(Dropout(0.50))
+
+model_form.add(Dense(50, input_dim = form_train_input_dim, init='uniform'))
+model_form.add(Activation('relu'))
+model_form.add(Dropout(0.50))
+model_form.add(Dense(50))
+model_form.add(Activation('relu'))
+model_form.add(Dropout(0.50))
+
 model.add(Merge([model_A, model_B, model_C, model_D, model_E, model_H, model_I, model_J, model_K, model_L, 
-model_M, model_N, model_O, model_P, model_Q, model_R, model_S, model_T, model_U], mode ='concat'))
+model_M, model_N, model_O, model_P, model_Q, model_R, model_S, model_T, model_U, model_pos, model_form], mode ='concat'))
 model.add(Dense(A_train_output_dim))
 model.add(Activation('softmax'))
 
@@ -708,7 +770,8 @@ early_stopping = EarlyStopping(monitor='val_loss', verbose = 1, patience=2)
 
 print "fitting model..."
 model.fit([X_train_A, X_train_B, X_train_C, X_train_D, X_train_E, X_train_H, X_train_I, X_train_J, 
-X_train_K, X_train_L, X_train_M, X_train_N, X_train_O, X_train_P, X_train_Q, X_train_R, X_train_S, X_train_T, X_train_U], 
+X_train_K, X_train_L, X_train_M, X_train_N, X_train_O, X_train_P, X_train_Q, X_train_R, X_train_S, X_train_T, X_train_U, 
+X_train_pos, X_train_form], 
 Y_train_A, callbacks=[early_stopping], nb_epoch=50, verbose=1, batch_size=1000, 
          validation_split=0.1)
 
@@ -716,5 +779,5 @@ Y_train_A, callbacks=[early_stopping], nb_epoch=50, verbose=1, batch_size=1000,
 print "getting score on test..."
 scores = model.evaluate([X_test_A, X_test_B, X_test_C, X_test_D, X_test_E, X_test_H,
 X_test_I, X_test_J, X_test_K, X_test_L, X_test_M, X_test_N, X_test_O, X_test_P, X_test_Q, X_test_R, 
-X_test_S, X_test_T, X_test_U], Y_test_A)
+X_test_S, X_test_T, X_test_U, X_test_pos, X_test_form], Y_test_A)
 print("%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
