@@ -1,1 +1,1 @@
-maca_trans_parser_conll2fann -o TEST -i ../d6.predicted_dev.conll16 -y ./fanns/D_dev.fann -V ./alphas/D.alpha -F ./fms/D.fm -C ./mcds/dimensions.mcd
+maca_trans_parser_conll2fann -M TEST -i ../d6.predicted_dev.conll16 -f ./fanns/D_dev.fann -V ./alphas/D.alpha -F ./fms/D.fm -C ./mcds/dimensions.mcd

@@ -37,13 +37,13 @@ def transform_fann(input_train_file, X_train_file, Y_train_file):
 if __name__ == "__main__":
     sys.stderr.write("starting form train data...\n")
     input_train_file = "../../data/dense_predicted_fann/fanns_1000/form_train.fann"
-    X_train_file = "X_train_form_1000.npy"
-    Y_train_file = "Y_train_form_1000.npy"
+    X_train_file = "./data_1000/X_train_form_1000.npy"
+    Y_train_file = "./data_1000/Y_train_form_1000.npy"
     input_dim, output_dim = transform_fann(input_train_file, X_train_file, Y_train_file)
     print "form train", input_dim, output_dim
     sys.stderr.write("starting form test data...\n")
     input_train_file = "../../data/dense_predicted_fann/fanns_1000/form_dev.fann"
-    X_train_file = "X_test_form_1000.npy"
-    Y_train_file = "Y_test_form_1000.npy"
+    X_train_file = "./data_1000/X_test_form_1000.npy"
+    Y_train_file = "./data_1000/Y_test_form_1000.npy"
     input_dim, output_dim = transform_fann(input_train_file, X_train_file, Y_train_file)
     print "form test", input_dim, output_dim

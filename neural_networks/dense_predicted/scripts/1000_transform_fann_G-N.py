@@ -38,107 +38,107 @@ if __name__ == "__main__":
 
     '''
     sys.stderr.write("starting G train data...\n")
-    input_train_file = "../../data/dense_predicted_fann/fanns/G_train.fann"
-    X_train_file = "X_train_G.npy"
-    Y_train_file = "Y_train_G.npy"
+    input_train_file = "../../data/dense_predicted_fann/fanns_1000/G_train.fann"
+    X_train_file = "X_train_G_1000.npy"
+    Y_train_file = "Y_train_G_1000.npy"
     input_dim, output_dim = transform_fann(input_train_file, X_train_file, Y_train_file)
     print "G train", input_dim, output_dim
     sys.stderr.write("starting G test data...\n")
-    input_train_file = "../../data/dense_predicted_fann/fanns/G_dev.fann"
-    X_train_file = "X_test_G.npy"
-    Y_train_file = "Y_test_G.npy"
+    input_train_file = "../../data/dense_predicted_fann/fanns_1000/G_dev.fann"
+    X_train_file = "X_test_G_1000.npy"
+    Y_train_file = "Y_test_G_1000.npy"
     input_dim, output_dim = transform_fann(input_train_file, X_train_file, Y_train_file)
     print "G test", input_dim, output_dim
 
     '''
     sys.stderr.write("starting H train data...\n")
-    input_train_file = "../../data/dense_predicted_fann/fanns/H_train.fann"
-    X_train_file = "X_train_H.npy"
-    Y_train_file = "Y_train_H.npy"
+    input_train_file = "../../data/dense_predicted_fann/fanns_1000/H_train.fann"
+    X_train_file = "./data_1000/X_train_H_1000.npy"
+    Y_train_file = "./data_1000/Y_train_H_1000.npy"
     input_dim, output_dim = transform_fann(input_train_file, X_train_file, Y_train_file)
     print "H train", input_dim, output_dim
     sys.stderr.write("starting H test data...\n")
-    input_train_file = "../../data/dense_predicted_fann/fanns/H_dev.fann"
-    X_train_file = "X_test_H.npy"
-    Y_train_file = "Y_test_H.npy"
+    input_train_file = "../../data/dense_predicted_fann/fanns_1000/H_dev.fann"
+    X_train_file = "./data_1000/X_test_H_1000.npy"
+    Y_train_file = "./data_1000/Y_test_H_1000.npy"
     input_dim, output_dim = transform_fann(input_train_file, X_train_file, Y_train_file)
     print "H test", input_dim, output_dim
 
     sys.stderr.write("starting I train data...\n")
-    input_train_file = "../../data/dense_predicted_fann/fanns/I_train.fann"
-    X_train_file = "X_train_I.npy"
-    Y_train_file = "Y_train_I.npy"
+    input_train_file = "../../data/dense_predicted_fann/fanns_1000/I_train.fann"
+    X_train_file = "./data_1000/X_train_I_1000.npy"
+    Y_train_file = "./data_1000/Y_train_I_1000.npy"
     input_dim, output_dim = transform_fann(input_train_file, X_train_file, Y_train_file)
     print "I train", input_dim, output_dim
     sys.stderr.write("starting I test data...\n")
-    input_train_file = "../../data/dense_predicted_fann/fanns/I_dev.fann"
-    X_train_file = "X_test_I.npy"
-    Y_train_file = "Y_test_I.npy"
+    input_train_file = "../../data/dense_predicted_fann/fanns_1000/I_dev.fann"
+    X_train_file = "./data_1000/X_test_I_1000.npy"
+    Y_train_file = "./data_1000/Y_test_I_1000.npy"
     input_dim, output_dim = transform_fann(input_train_file, X_train_file, Y_train_file)
     print "I test", input_dim, output_dim
 
     sys.stderr.write("starting J train data...\n")
-    input_train_file = "../../data/dense_predicted_fann/fanns/J_train.fann"
-    X_train_file = "X_train_J.npy"
-    Y_train_file = "Y_train_J.npy"
+    input_train_file = "../../data/dense_predicted_fann/fanns_1000/J_train.fann"
+    X_train_file = "./data_1000/X_train_J_1000.npy"
+    Y_train_file = "./data_1000/Y_train_J_1000.npy"
     input_dim, output_dim = transform_fann(input_train_file, X_train_file, Y_train_file)
     print "J train", input_dim, output_dim
     sys.stderr.write("starting J test data...\n")
-    input_train_file = "../../data/dense_predicted_fann/fanns/J_dev.fann"
-    X_train_file = "X_test_J.npy"
-    Y_train_file = "Y_test_J.npy"
+    input_train_file = "../../data/dense_predicted_fann/fanns_1000/J_dev.fann"
+    X_train_file = "./data_1000/X_test_J_1000.npy"
+    Y_train_file = "./data_1000/Y_test_J_1000.npy"
     input_dim, output_dim = transform_fann(input_train_file, X_train_file, Y_train_file)
     print "J test", input_dim, output_dim
 
     sys.stderr.write("starting K train data...\n")
-    input_train_file = "../../data/dense_predicted_fann/fanns/K_train.fann"
-    X_train_file = "X_train_K.npy"
-    Y_train_file = "Y_train_K.npy"
+    input_train_file = "../../data/dense_predicted_fann/fanns_1000/K_train.fann"
+    X_train_file = "./data_1000/X_train_K_1000.npy"
+    Y_train_file = "./data_1000/Y_train_K_1000.npy"
     input_dim, output_dim = transform_fann(input_train_file, X_train_file, Y_train_file)
     print "K train", input_dim, output_dim
     sys.stderr.write("starting K test data...\n")
-    input_train_file = "../../data/dense_predicted_fann/fanns/K_dev.fann"
-    X_train_file = "X_test_K.npy"
-    Y_train_file = "Y_test_K.npy"
+    input_train_file = "../../data/dense_predicted_fann/fanns_1000/K_dev.fann"
+    X_train_file = "./data_1000/X_test_K_1000.npy"
+    Y_train_file = "./data_1000/Y_test_K_1000.npy"
     input_dim, output_dim = transform_fann(input_train_file, X_train_file, Y_train_file)
     print "K test", input_dim, output_dim
 
     sys.stderr.write("starting L train data...\n")
-    input_train_file = "../../data/dense_predicted_fann/fanns/L_train.fann"
-    X_train_file = "X_train_L.npy"
-    Y_train_file = "Y_train_L.npy"
+    input_train_file = "../../data/dense_predicted_fann/fanns_1000/L_train.fann"
+    X_train_file = "./data_1000/X_train_L_1000.npy"
+    Y_train_file = "./data_1000/Y_train_L_1000.npy"
     input_dim, output_dim = transform_fann(input_train_file, X_train_file, Y_train_file)
     print "L train", input_dim, output_dim
     sys.stderr.write("starting L test data...\n")
-    input_train_file = "../../data/dense_predicted_fann/fanns/L_dev.fann"
-    X_train_file = "X_test_L.npy"
-    Y_train_file = "Y_test_L.npy"
+    input_train_file = "../../data/dense_predicted_fann/fanns_1000/L_dev.fann"
+    X_train_file = "./data_1000/X_test_L_1000.npy"
+    Y_train_file = "./data_1000/Y_test_L_1000.npy"
     input_dim, output_dim = transform_fann(input_train_file, X_train_file, Y_train_file)
     print "L test", input_dim, output_dim
 
     sys.stderr.write("starting M train data...\n")
-    input_train_file = "../../data/dense_predicted_fann/fanns/M_train.fann"
-    X_train_file = "X_train_M.npy"
-    Y_train_file = "Y_train_M.npy"
+    input_train_file = "../../data/dense_predicted_fann/fanns_1000/M_train.fann"
+    X_train_file = "./data_1000/X_train_M_1000.npy"
+    Y_train_file = "./data_1000/Y_train_M_1000.npy"
     input_dim, output_dim = transform_fann(input_train_file, X_train_file, Y_train_file)
     print "M train", input_dim, output_dim
     sys.stderr.write("starting M test data...\n")
-    input_train_file = "../../data/dense_predicted_fann/fanns/M_dev.fann"
-    X_train_file = "X_test_M.npy"
-    Y_train_file = "Y_test_M.npy"
+    input_train_file = "../../data/dense_predicted_fann/fanns_1000/M_dev.fann"
+    X_train_file = "./data_1000/X_test_M_1000.npy"
+    Y_train_file = "./data_1000/Y_test_M_1000.npy"
     input_dim, output_dim = transform_fann(input_train_file, X_train_file, Y_train_file)
     print "M test", input_dim, output_dim
 
     sys.stderr.write("starting N train data...\n")
-    input_train_file = "../../data/dense_predicted_fann/fanns/N_train.fann"
-    X_train_file = "X_train_N.npy"
-    Y_train_file = "Y_train_N.npy"
+    input_train_file = "../../data/dense_predicted_fann/fanns_1000/N_train.fann"
+    X_train_file = "./data_1000/X_train_N_1000.npy"
+    Y_train_file = "./data_1000/Y_train_N_1000.npy"
     input_dim, output_dim = transform_fann(input_train_file, X_train_file, Y_train_file)
     print "N train", input_dim, output_dim
     sys.stderr.write("starting N test data...\n")
-    input_train_file = "../../data/dense_predicted_fann/fanns/N_dev.fann"
-    X_train_file = "X_test_N.npy"
-    Y_train_file = "Y_test_N.npy"
+    input_train_file = "../../data/dense_predicted_fann/fanns_1000/N_dev.fann"
+    X_train_file = "./data_1000/X_test_N_1000.npy"
+    Y_train_file = "./data_1000/Y_test_N_1000.npy"
     input_dim, output_dim = transform_fann(input_train_file, X_train_file, Y_train_file)
     print "N test", input_dim, output_dim
 

@@ -38,9 +38,5 @@ U train 32 17
 U test 32 17
 pos train 360 17
 pos test 360 17
-form train 2400 17
-form test 2400 17
-form train 2400 17
-form test 2400 17
 form train 400 17
 form test 400 17

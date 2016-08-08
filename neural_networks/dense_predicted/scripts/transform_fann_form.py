@@ -14,7 +14,7 @@ def transform_fann(input_train_file, X_train_file, Y_train_file):
     sys.stderr.write("Getting lines...\n")
     for line in train_fann:
         line = line.split()
-        line = map(int, line)
+        line = map(float, line)
         if len(line) != train_output_dimensions and len(line) != 0:
             x_tmp += line
         elif len(line) == train_output_dimensions:
@@ -22,8 +22,8 @@ def transform_fann(input_train_file, X_train_file, Y_train_file):
             x.append(x_tmp)
             x_tmp = []
             
-    X_train = numpy.array(x, dtype=numpy.uint8)
-    Y_train = numpy.array(y, dtype=numpy.uint8)
+    X_train = numpy.array(x, dtype=numpy.float)
+    Y_train = numpy.array(y, dtype=numpy.float)
 
     #Save output
     sys.stderr.write("Saving information...\n")
@@ -35,15 +35,15 @@ def transform_fann(input_train_file, X_train_file, Y_train_file):
     return info[1], info[2]
 
 if __name__ == "__main__":
-    sys.stderr.write("starting pos train data...\n")
-    input_train_file = "../../data/dense_predicted_fann/fanns/pos_train.fann"
-    X_train_file = "X_train_pos.npy"
-    Y_train_file = "Y_train_pos.npy"
+    sys.stderr.write("starting form train data...\n")
+    input_train_file = "../../data/dense_predicted_fann/fanns/form_train.fann"
+    X_train_file = "./data/X_train_form.npy"
+    Y_train_file = "./data/Y_train_form.npy"
     input_dim, output_dim = transform_fann(input_train_file, X_train_file, Y_train_file)
-    print "pos train", input_dim, output_dim
-    sys.stderr.write("starting pos test data...\n")
-    input_train_file = "../../data/dense_predicted_fann/fanns/pos_dev.fann"
-    X_train_file = "X_test_pos.npy"
-    Y_train_file = "Y_test_pos.npy"
+    print "form train", input_dim, output_dim
+    sys.stderr.write("starting form test data...\n")
+    input_train_file = "../../data/dense_predicted_fann/fanns/form_dev.fann"
+    X_train_file = "./data/X_test_form.npy"
+    Y_train_file = "./data/Y_test_form.npy"
     input_dim, output_dim = transform_fann(input_train_file, X_train_file, Y_train_file)
-    print "pos test", input_dim, output_dim
+    print "form test", input_dim, output_dim
