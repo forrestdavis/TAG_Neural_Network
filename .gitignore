@@ -23,6 +23,8 @@ io_dimensions_test.txt
 *.csv
 *.bin
 glove.6B.*
+output.txt
+mvt.txt
 
 # ENV #
 #############

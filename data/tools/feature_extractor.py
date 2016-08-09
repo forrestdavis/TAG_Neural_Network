@@ -195,10 +195,12 @@ def getRFronts(tree_list):
 #is an adjunction node if the true is not a modifier auxiliary tree. I 
 #check this by seeing if there is a direction associated with the tree. If
 #it is NA than the tree is not a modifier auxiliary tree and the root is
-#a adjunction node. Then all other nodes are adjunction nodes as long as 
+#an adjunction node. Then all other nodes are adjunction nodes as long as 
 #they are not a substitution node or a foot node. Both the left and right
 #crossing of a node are considered and the left travarsel of the head is 
-#considered as well
+#considered as well.
+#The function returns a list of unique node types for each tree i.e. S, NP
+#where S and NP can only appear once
 def getLAdjNodes(tree_list):
     ladjnodes = []
     directions = getDirections(tree_list)
@@ -207,12 +209,13 @@ def getLAdjNodes(tree_list):
         temporary_list = [] 
         for y in xrange(1, len(tree_list[x])):
             if y == 1:
-                temporary_list.append(tree_list[x][y])
+                temporary_list.append(tree_list[x][y][0])
             elif (y > 1 and tree_list[x][y][4] != "s" 
             and tree_list[x][y][4] != "f" 
             and tree_list[x][y][4] != "c"
             and tree_list[x][y][0] != "-NONE-"):
-                temporary_list.append(tree_list[x][y])
+                if tree_list[x][y][0] not in temporary_list:
+                    temporary_list.append(tree_list[x][y][0])
             if tree_list[x][y][4] == 'h':
                 break
         ladjnodes.append(temporary_list)
@@ -221,6 +224,8 @@ def getLAdjNodes(tree_list):
 
 #Same as getRAdjNodes but looks for adjunction nodes to the right of the 
 #head including the right traversal of the head node.
+#The function returns a list of unique node types for each tree i.e. S, NP
+#where S and NP can only appear once
 def getRAdjNodes(tree_list):
     radjnodes = []
     directions = getDirections(tree_list)
@@ -233,11 +238,12 @@ def getRAdjNodes(tree_list):
         #move through nodes from the head till the end grabbing all nodes 
         for z in xrange(y, len(tree_list[x])):
             if z == (len(tree_list[x])-1):
-                temporary_list.append(tree_list[x][z])
+                temporary_list.append(tree_list[x][z][0])
             elif (z < (len(tree_list[x])-1) and tree_list[x][z][4] != "s" 
             and tree_list[x][z][4] != "f" and tree_list[x][z][4] != "c"
             and tree_list[x][z][0] != "-NONE-"):
-                temporary_list.append(tree_list[x][z])
+                if tree_list[x][z][0] not in temporary_list:
+                    temporary_list.append(tree_list[x][z][0])
         radjnodes.append(temporary_list)
     return radjnodes
 
@@ -266,8 +272,7 @@ def getPredAuxs(tree_list):
 def getCoAncs(tree_list):
     coancs = [] 
     for tree in tree_list:
-        isCoanc = 0
-        for x in xrange(1, len(tree)):
+        isCoanc = 0 for x in xrange(1, len(tree)):
             if tree[x][4] == "c":
                 isCoanc = 1
                 Coanc = tree[x][0]
@@ -1232,7 +1237,7 @@ if __name__ == '__main__':
                         or dimension_labels[x]=="radjnodes"):
                     tmp = ""
                     for node in dimension_values[x][y]:
-                        tmp += node[0] + "_"
+                        tmp += node + "_"
                     output.write(dimension_labels[x] + ":" 
                             + tmp[:len(tmp)-1] + " ")
                 elif(dimension_labels[x] == "dsubcat" 

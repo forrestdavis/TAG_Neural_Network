@@ -118,13 +118,13 @@ E_1000.fann:
 	./scripts_1000/E_train_fann.sh
 	./scripts_1000/E_dev_fann.sh
 
-#F_1000.fann:
-	#./scripts_1000/F_train_fann.sh
-	#./scripts_1000/F_dev_fann.sh
+F_1000.fann:
+	./scripts_1000/F_train_fann.sh
+	./scripts_1000/F_dev_fann.sh
 
-#G_1000.fann: 
-	#./scripts_1000/G_train_fann.sh
-	#./scripts_1000/G_dev_fann.sh
+G_1000.fann: 
+	./scripts_1000/G_train_fann.sh
+	./scripts_1000/G_dev_fann.sh
 
 H_1000.fann:
 	./scripts_1000/H_train_fann.sh

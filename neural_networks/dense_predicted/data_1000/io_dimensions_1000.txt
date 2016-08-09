@@ -40,3 +40,7 @@ pos train 360 17
 pos test 360 17
 form train 400 17
 form test 400 17
+F train 5472 17
+F test 5472 17
+G train 6744 17
+G test 6744 17

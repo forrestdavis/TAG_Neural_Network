@@ -66,6 +66,9 @@ def predict(fann_file, model_arch, model_weights):
     H_test, I_test, J_test, K_test, L_test, M_test, N_test, O_test, P_test, 
     Q_test, R_test, S_test, T_test, U_test, pos_test, form_test])
     
+    prediction = model.predict_on_batch([A_test, B_test, C_test, D_test, E_test, 
+    H_test, I_test, J_test, K_test, L_test, M_test, N_test, O_test, P_test, 
+    Q_test, R_test, S_test, T_test, U_test, pos_test, form_test])
     #Transform prediction from one-hot to int
     mvt = 0
     for x in xrange(len(prediction[0])):
