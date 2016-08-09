@@ -6,7 +6,7 @@ transition for the parser to take, using supertag information as well as
 particualar lingusitic properties of the trees. 
 
 The Neural Networks used are created using Keras, a python library for 
-easy implementation of Neural Networks, run with a Theano, another python
+easy implementation of Neural Networks, run with Theano, another python
 library for Neural Networks, backend.
 
 Work in progress...
