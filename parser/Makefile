@@ -1,5 +1,5 @@
-#data = d6.predicted_dev.conll16
-data = reduced_dev.conll16
+data = d6.predicted_dev.conll16
+#data = reduced_dev.conll16
 
 mcd = dimensions.mcd
 

@@ -100,7 +100,6 @@ if __name__ == "__main__":
     input_dim, output_dim = transform_fann(input_train_file, X_train_file, Y_train_file)
     print "E test", input_dim, output_dim
 
-    '''
     sys.stderr.write("starting F train data...\n")
     input_train_file = "../../data/dense_predicted_fann/fanns/F_train.fann"
     X_train_file = "X_train_F.npy"
@@ -113,4 +112,3 @@ if __name__ == "__main__":
     Y_train_file = "Y_test_F.npy"
     input_dim, output_dim = transform_fann(input_train_file, X_train_file, Y_train_file)
     print "F test", input_dim, output_dim
-    '''

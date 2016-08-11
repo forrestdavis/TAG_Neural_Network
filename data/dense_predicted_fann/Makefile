@@ -22,13 +22,13 @@ E.fann:
 	./scripts/E_train_fann.sh
 	./scripts/E_dev_fann.sh
 
-#F.fann:
-	#./scripts/F_train_fann.sh
-	#./scripts/F_dev_fann.sh
+F.fann:
+	./scripts/F_train_fann.sh
+	./scripts/F_dev_fann.sh
 
-#G.fann: 
-	#./scripts/G_train_fann.sh
-	#./scripts/G_dev_fann.sh
+G.fann: 
+	./scripts/G_train_fann.sh
+	./scripts/G_dev_fann.sh
 
 H.fann:
 	./scripts/H_train_fann.sh

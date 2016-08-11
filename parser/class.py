@@ -51,37 +51,50 @@ def fann2numpy(fann_file):
             K_test, L_test, M_test, N_test, O_test, P_test, Q_test, R_test, S_test,
             T_test, U_test, form_test, pos_test)
 
-def predict(fann_file, model_arch, model_weights):
-    (A_test, B_test, C_test, D_test, E_test, H_test, I_test, J_test, 
-            K_test, L_test, M_test, N_test, O_test, P_test, Q_test, 
-            R_test, S_test, T_test, U_test, 
-            form_test, pos_test) = fann2numpy(fann_file) 
-    model = model_from_json(open(model_arch).read())
-    model.load_weights(model_weights)
-    
-    model.compile(loss='categorical_crossentropy', 
-            optimizer='adam', metrics=['accuracy'])
+class KerasModel:
+    def __init__(self, model_arch, model_weights):
+        self.model_arch = model_arch
+        self.model_weights = model_weights
 
-    prediction = model.predict_on_batch([A_test, B_test, C_test, D_test, E_test, 
-    H_test, I_test, J_test, K_test, L_test, M_test, N_test, O_test, P_test, 
-    Q_test, R_test, S_test, T_test, U_test, pos_test, form_test])
-    
-    prediction = model.predict_on_batch([A_test, B_test, C_test, D_test, E_test, 
-    H_test, I_test, J_test, K_test, L_test, M_test, N_test, O_test, P_test, 
-    Q_test, R_test, S_test, T_test, U_test, pos_test, form_test])
-    #Transform prediction from one-hot to int
-    mvt = 0
-    for x in xrange(len(prediction[0])):
-        if int(round(prediction[0][x])) == 1:
-            mvt = x
+    def createModel(self):
+        model = model_from_json(open(self.model_arch).read())
+        model.load_weights(model_weights)
+        model.compile(loss='categorical_crossentropy', 
+                optimizer='adam', metrics=['accuracy'])
+        self.model = model
+
+    def predict(self, fann_file):
+        (A_test, B_test, C_test, D_test, E_test, H_test, I_test, J_test, 
+                K_test, L_test, M_test, N_test, O_test, P_test, Q_test, 
+                R_test, S_test, T_test, U_test, 
+                form_test, pos_test) = fann2numpy(fann_file) 
+
+        print A_test[0]
+        prediction = self.model.predict_on_batch([A_test, B_test, C_test, D_test, E_test, 
+        H_test, I_test, J_test, K_test, L_test, M_test, N_test, O_test, P_test, 
+        Q_test, R_test, S_test, T_test, U_test, pos_test, form_test])
+
+        #Transform prediction from one-hot to int
+        max_pos = -1
+        max_value = 0.0
+        for i in xrange(len(prediction[0])):
+            if max_value < float(prediction[0][i]):
+                max_value = float(prediction[0][i])
+                max_pos = i
+        mvt = max_pos
+        if mvt >= 0:
             return mvt
-    return mvt
+        else:
+            return "ERROR"
 
+'''
 if __name__ == "__main__":
     model_arch = sys.argv[3]
     model_weights = sys.argv[4]
     fann_file = sys.argv[1]
-    mvt = predict(fann_file, model_arch, model_weights)
-    output = open(sys.argv[2], "w")
-    output.write(str(mvt))
-    output.close()
+    fann_file_2 = sys.argv[5]
+    output_file = sys.argv[2]
+    #mvt = predict(fann_file, model_arch, model_weights)
+    model = KerasModel(model_arch, model_weights)
+    model.createModel()
+'''

@@ -36,7 +36,6 @@ def transform_fann(input_train_file, X_train_file, Y_train_file):
 
 if __name__ == "__main__":
 
-    '''
     sys.stderr.write("starting G train data...\n")
     input_train_file = "../../data/dense_predicted_fann/fanns/G_train.fann"
     X_train_file = "X_train_G.npy"
@@ -50,7 +49,6 @@ if __name__ == "__main__":
     input_dim, output_dim = transform_fann(input_train_file, X_train_file, Y_train_file)
     print "G test", input_dim, output_dim
 
-    '''
     sys.stderr.write("starting H train data...\n")
     input_train_file = "../../data/dense_predicted_fann/fanns/H_train.fann"
     X_train_file = "./data/X_train_H.npy"
