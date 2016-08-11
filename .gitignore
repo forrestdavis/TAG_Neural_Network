@@ -15,9 +15,6 @@
 *.npy
 *.treeproperties
 *.alpha
-io_dimensions.txt
-io_dimensions_train.txt
-io_dimensions_test.txt
 *.csv
 *.bin
 glove.6B.*
