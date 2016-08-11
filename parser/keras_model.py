@@ -3,7 +3,17 @@ from keras.layers import Dense, Activation, Dropout, Merge
 from keras.callbacks import EarlyStopping
 import numpy
 import sys
+##########################################################################
+# Class for getting a prediction for depedency parser movement given input
+# data and a trained model
+#
+# Forrest Davis
+# August 11, 2016
+##########################################################################
 
+#Function for transfom fann file into output that 
+#must be of the form:
+#s0X s1X s2X s3X b0X b1X b2X b3X where X is a feature from the fm file
 def fann2numpy(fm_file, fann_file):
     fann = open(fann_file, "r")
     fm = open(fm_file, "r")
@@ -50,17 +60,6 @@ def fann2numpy(fm_file, fann_file):
                 b2=dictionary[key][subkey]
             if "b3" in subkey:
                 b3=dictionary[key][subkey]
-
-        #Ensure test data has same parameters as model
-        assert len(s0) != 0, "s0% was not found" % key
-        assert len(s1) != 0, "s1% was not found" % key
-        assert len(s2) != 0, "s2% was not found" % key
-        assert len(s3) != 0, "s3% was not found" % key
-        assert len(b0) != 0, "b0% was not found" % key
-        assert len(b1) != 0, "b1% was not found" % key
-        assert len(b2) != 0, "b2% was not found" % key
-        assert len(b3) != 0, "b3% was not found" % key
-
         s0 += s1+s2+s3+b0+b1+b2+b3
         if key == "A":
             A_test = numpy.array([s0], dtype=numpy.uint8)
@@ -110,6 +109,7 @@ def fann2numpy(fm_file, fann_file):
             K_test, L_test, M_test, N_test, O_test, P_test, Q_test, R_test, S_test,
             T_test, U_test, form_test, pos_test)
 
+#Function to create keras model given a saved trained model
 def createModel(model_arch, model_weights):
     model = model_from_json(open(model_arch).read())
     model.load_weights(model_weights)
@@ -117,6 +117,8 @@ def createModel(model_arch, model_weights):
             optimizer='adam', metrics=['accuracy'])
     return model
 
+#Class that uses a trained keras neural network to make predictions
+#on test data
 class KerasModel:
     def __init__(self, model_arch, model_weights):
         self.model = createModel(model_arch, model_weights)
