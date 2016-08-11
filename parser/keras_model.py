@@ -11,8 +11,8 @@ import sys
 # August 11, 2016
 ##########################################################################
 
-#Function for transfom fann file into output that 
-#must be of the form:
+#Function for transfom fann file into output
+#fm and fann file must contain (in any order):
 #s0X s1X s2X s3X b0X b1X b2X b3X where X is a feature from the fm file
 def fann2numpy(fm_file, fann_file):
     fann = open(fann_file, "r")
@@ -21,12 +21,17 @@ def fann2numpy(fm_file, fann_file):
 
     for feature in fm:
         feature = feature.strip('\n')
+        #If # at beginning of line skip
         if feature[0] == "#":
             pass
         else:
             fv = fann.readline().strip('\n')
             dim = feature[2:]
+            #if feature type (A, f, ...) not in dictionary add it
+            #dictionary is in form {X: {s0X: one hot encoding}} for any
+            #X in feature file
             if dim not in dictionary:
+                #word_embeddings are float objects
                 if dim == "f":
                     dictionary[dim] = {}
                     dictionary[dim][feature] = map(float, fv.split())
@@ -41,6 +46,8 @@ def fann2numpy(fm_file, fann_file):
                     fv = map(int, fv.split())
                     dictionary[dim][feature] = fv
 
+    #Creating combined list from dictionary
+    #Array is in form s0, s1, s2, s3, b0, b1, b2, b3
     for key in dictionary:
         s0=s1=s2=s3=b0=b1=b2=b3 = []
         for subkey in dictionary[key]:
@@ -60,7 +67,19 @@ def fann2numpy(fm_file, fann_file):
                 b2=dictionary[key][subkey]
             if "b3" in subkey:
                 b3=dictionary[key][subkey]
+                
+        #Ensure that there is necessary input for testing on current model
+        assert len(s0) != 0, "s0%s is necessary for model" %key
+        assert len(s1) != 0, "s1%s is necessary for model" %key
+        assert len(s2) != 0, "s2%s is necessary for model" %key
+        assert len(s3) != 0, "s3%s is necessary for model" %key
+        assert len(b0) != 0, "b0%s is necessary for model" %key
+        assert len(b1) != 0, "b1%s is necessary for model" %key
+        assert len(b2) != 0, "b2%s is necessary for model" %key
+        assert len(b3) != 0, "b3%s is necessary for model" %key
+        
         s0 += s1+s2+s3+b0+b1+b2+b3
+        #Create numpy arrays of list
         if key == "A":
             A_test = numpy.array([s0], dtype=numpy.uint8)
         if key == "B":
@@ -136,6 +155,7 @@ class KerasModel:
         #Transform prediction from one-hot to int
         max_pos = -1
         max_value = 0.0
+        #Location with largest probability is 1 in one-hot encoding
         for i in xrange(len(prediction[0])):
             if max_value < float(prediction[0][i]):
                 max_value = float(prediction[0][i])
