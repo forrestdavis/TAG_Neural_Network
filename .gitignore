@@ -23,7 +23,9 @@ io_dimensions_test.txt
 glove.6B.*
 output.txt
 fv.txt
+a.out
 
 # ENV #
 #############
 env
+
