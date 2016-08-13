@@ -1,0 +1,36 @@
+- MAKEFILE DEPENDENCY ISSUE NOT SURE WHATS HAPPENING
+    : target was a generated file
+    : need to add rule 
+         $(FILES): out/%.npy: %.dependency
+             action
+         FILES = list of files
+- getting data in separate python program
+- make modified_model a class
+- add variable layers options
+- add activation function options
+- add node size options
+- create flag system for keras model
+    : add flag for train, test, or both
+    : train must save
+    : test must specify saved models
+    : both has option of save
+    : add predict option
+    : help screen 
+    : options for activation functions
+    : variable layers 
+    : path to data folder
+    : somehow handle model with different features inputs
+         - add generic fm and fann to numpy code from parser
+         - use that and null properties of lists to create model
+    : default values are best from experiments 
+    : gold versus predicted
+    : variable sentence size
+- generic transform fann 2 numpy arrays
+- maybe have model create data if not there 
+- general idea right now is to remove seperate data makefile needs
+     : want same structure so data can be accessed from different model
+     types
+- create CMake 
+- generic fann generation for any sentence length
+- mkdir and rmdir if not 1000, 2000, 5000, 10000, or all in data formation
+     : can do in python using os.mkdir()
