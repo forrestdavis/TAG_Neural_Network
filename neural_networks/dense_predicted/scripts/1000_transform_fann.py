@@ -52,29 +52,33 @@ def transform_fann(feature_type,
 
 if __name__ == "__main__":
     
-    if len(sys.argv) != 2:
-        sys.stderr.write("Usage: python transform_fann.py <feature_type>\n")
+    if len(sys.argv) != 3:
+        sys.stderr.write("Usage: python transform_fann.py <feature_type> "+
+                "<TRAIN or TEST data>\n")
         sys.exit(2)
 
-    fann_file_location = "../../data/dense_predicted_fann/fanns_1000/"
+    fann_file_location = "./fanns/"
     
     feature_type = sys.argv[1]
 
     train_fann_file = fann_file_location + feature_type + "_train.fann"
     test_fann_file = fann_file_location + feature_type + "_dev.fann"
 
-    X_train_file = "./data_1000/X_train_" + feature_type + "_1000.npy"
-    Y_train_file = "./data_1000/Y_train_" + feature_type + "_1000.npy"
-    X_test_file = "./data_1000/X_test_" + feature_type + "_1000.npy"
-    Y_test_file = "./data_1000/Y_test_" + feature_type + "_1000.npy"
+    X_train_file = "./numpy_arrays/X_train_" + feature_type + ".npy"
+    Y_train_file = "./numpy_arrays/Y_train_" + feature_type + ".npy"
 
-    sys.stderr.write("starting " + feature_type + " train data...\n")
-    input_dim, output_dim = transform_fann(feature_type, 
-            train_fann_file, X_train_file, Y_train_file)
-    print "%s train" % feature_type, input_dim, output_dim
+    X_test_file = "./numpy_arrays/X_test_" + feature_type + ".npy"
+    Y_test_file = "./numpy_arrays/Y_test_" + feature_type + ".npy"
 
-    sys.stderr.write("starting " + feature_type + " test data...\n")
-    input_dim, output_dim = transform_fann(feature_type, 
-            test_fann_file, X_test_file, Y_test_file)
-    print "%s test" % feature_type, input_dim, output_dim
+    if sys.argv[2] == "TRAIN":
+        sys.stderr.write("starting " + feature_type + " train data...\n")
+        input_dim, output_dim = transform_fann(feature_type, 
+                train_fann_file, X_train_file, Y_train_file)
+        print "%s train" % feature_type, input_dim, output_dim
+
+    if sys.argv[2] == "TEST":
+        sys.stderr.write("starting " + feature_type + " test data...\n")
+        input_dim, output_dim = transform_fann(feature_type, 
+                test_fann_file, X_test_file, Y_test_file)
+        print "%s test" % feature_type, input_dim, output_dim
 
