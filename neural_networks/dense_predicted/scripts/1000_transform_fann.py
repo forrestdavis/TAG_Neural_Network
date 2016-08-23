@@ -48,16 +48,43 @@ def transform_fann(feature_type,
 
     #Close files
     train_fann.close()
-    return info[1], info[2]
+    return info
+
+def set_io_file(io_info, io_file_name, feature_type, data_type):
+    io_file = open(io_file_name, "r")
+    data_type = data_type.lower()
+    lines = [] 
+    hasFeature = 0
+    #Iterate through file looking for any updates to dimensions
+    for line in io_file:
+        line = line.split()
+        if feature_type == line[0] and data_type == line[1]:
+            if io_info[1] != line[2]:
+                line[2] = io_info[1]
+            if io_info[2] != line[3]:
+                line[3] = io_info[2]
+        output_line = ""
+        for element in line:
+            output_line += element + " "
+        output_line += "\n"
+        lines.append(output_line)
+    io_file.close()
+    output = open(io_file_name, "w")
+    #Write any updates back to file
+    for line in lines:
+        output.write(line)
+    output.close()
 
 if __name__ == "__main__":
     
-    if len(sys.argv) != 3:
+    if len(sys.argv) != 4:
         sys.stderr.write("Usage: python transform_fann.py <feature_type> "+
-                "<TRAIN or TEST data>\n")
+                "<TRAIN or TEST data> <io_dimensions_file>\n")
         sys.exit(2)
 
     fann_file_location = "./fanns/"
+
+    io_file = sys.argv[3]
     
     feature_type = sys.argv[1]
 
@@ -72,13 +99,17 @@ if __name__ == "__main__":
 
     if sys.argv[2] == "TRAIN":
         sys.stderr.write("starting " + feature_type + " train data...\n")
-        input_dim, output_dim = transform_fann(feature_type, 
+        io_info = transform_fann(feature_type, 
                 train_fann_file, X_train_file, Y_train_file)
-        print "%s train" % feature_type, input_dim, output_dim
+        set_io_file(io_info, sys.argv[3], feature_type, sys.argv[2])
 
-    if sys.argv[2] == "TEST":
+    elif sys.argv[2] == "TEST":
         sys.stderr.write("starting " + feature_type + " test data...\n")
-        input_dim, output_dim = transform_fann(feature_type, 
+        io_info = transform_fann(feature_type, 
                 test_fann_file, X_test_file, Y_test_file)
-        print "%s test" % feature_type, input_dim, output_dim
+        set_io_file(io_info, sys.argv[3], feature_type, sys.argv[2])
+
+    else:
+        sys.stderr.write("Must specify if data is TEST or TRAIN\n")
+        sys.exit(1)
 
