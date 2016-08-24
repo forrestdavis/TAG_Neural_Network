@@ -1,1 +1,1 @@
-maca_trans_parser_conll2fann -M TRAIN -i ../d6.predicted_train.conll16 -f ./fanns_1000/D_train.fann -V ./alphas/D.alpha -F ./fms/D.fm -C ./mcds/dimensions.mcd -s 1000
+maca_trans_parser_conll2fann -M TRAIN -i ../../../data/d6.predicted_train.conll16 -f ./fanns/D_train.fann -V ./alphas/D.alpha -F ./fms/D.fm -C ./dimensions.mcd -s 1000

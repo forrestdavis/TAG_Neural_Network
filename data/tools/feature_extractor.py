@@ -272,7 +272,8 @@ def getPredAuxs(tree_list):
 def getCoAncs(tree_list):
     coancs = [] 
     for tree in tree_list:
-        isCoanc = 0 for x in xrange(1, len(tree)):
+        isCoanc = 0 
+        for x in xrange(1, len(tree)):
             if tree[x][4] == "c":
                 isCoanc = 1
                 Coanc = tree[x][0]
