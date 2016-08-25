@@ -64,7 +64,8 @@ def fann2numpy(fm_file, fann_file):
             if "b3" in subkey:
                 b3=dictionary[key][subkey]
                 
-        #Ensure that there is necessary input for testing on current model assert len(s0) != 0, "s0%s is necessary for model" %key
+        #Ensure that there is necessary input for testing on current model 
+        assert len(s0) != 0, "s0%s is necessary for model" %key
         assert len(s1) != 0, "s1%s is necessary for model" %key
         assert len(s2) != 0, "s2%s is necessary for model" %key
         assert len(s3) != 0, "s3%s is necessary for model" %key
@@ -132,8 +133,10 @@ if __name__ == "__main__":
     dictionary = {}
     feats = []
     output = []
+    #Get input/output info for model
     info = fann.readline().strip('\n').split()
 
+    #Create a list of features from the fm file
     for feat in fm:
         feat = feat.strip('\n')
         dim = feat[2:]
@@ -148,24 +151,8 @@ if __name__ == "__main__":
             else:
                 dictionary[dim][feat] = []
 
-    print feats
-    print len(feats)
-    print dictionary
-
-    '''
-    feat_num = 0
-    feat = feats[feat_num]
-    dim = feat[2:]
-    fv = fann.readline().strip('\n')
-    if dim == "f":
-        fv = map(float, fv.split())
-    else:
-        fv = map(int, fv.split())
-    dictionary[dim][feat] = fv
-
-    print dictionary
-    '''
-
+    #Iterate through fann file and return a dictionary of the form
+    #{X: {exact feature(i.e s0A): one hot encodings}} where X is a feature
     feat_num = 0
     num_feats = len(feats)
     for line in fann:
@@ -178,25 +165,138 @@ if __name__ == "__main__":
             else:
                 feat = feats[feat_num]
                 dim = feat[2:]
+                #If word embedding need to map to float not int
                 if dim == "f":
                     line = map(float, line.split())
                 else:
                     line = map(int, line.split())
-                    '''
-                    fv = dictionary[dim][feat]
-                    print "fv", fv
-                    if fv:
-                        dictionary[dim][feat]= fv.append(line)
-                    else:
-                        dictionary[dim][feat] = line
-                    '''
                 fv = dictionary[dim][feat]
-                print type(fv)
-                print "line", line
-                print "fv", fv.append(line)
+                if not fv:
+                    dictionary[dim][feat] = [line]
+                else:
+                    fv.append(line)
+                    dictionary[dim][feat] = fv
                 feat_num += 1
-    print output
-    print dictionary
+
+    for key in dictionary:
+        s0=s1=s2=s3=b0=b1=b2=b3 = []
+        for subkey in dictionary[key]:
+            print subkey, dictionary[key][subkey]
+            if "s0" in subkey:
+                s0=dictionary[key][subkey]
+            if "s1" in subkey:
+                s1=dictionary[key][subkey]
+            if "s2" in subkey:
+                s2=dictionary[key][subkey]
+            if "s3" in subkey:
+                s3=dictionary[key][subkey]
+            if "b0" in subkey:
+                b0=dictionary[key][subkey]
+            if "b1" in subkey:
+                b1=dictionary[key][subkey]
+            if "b2" in subkey:
+                b2=dictionary[key][subkey]
+            if "b3" in subkey:
+                b3=dictionary[key][subkey]
+        print "s0", s0
+        print "s1", s1
+        print "s2", s2
+        print "s3", s3
+        print "b0", b0
+        print "b1", b1
+        print "b2", b2
+        print "b3", b3
+        assert len(s0) != 0, "s0%s is necessary for model" %key
+        assert len(s1) != 0, "s1%s is necessary for model" %key
+        assert len(s2) != 0, "s2%s is necessary for model" %key
+        assert len(s3) != 0, "s3%s is necessary for model" %key
+        assert len(b0) != 0, "b0%s is necessary for model" %key
+        assert len(b1) != 0, "b1%s is necessary for model" %key
+        assert len(b2) != 0, "b2%s is necessary for model" %key
+        assert len(b3) != 0, "b3%s is necessary for model" %key
+
+        total = [[] for i in xrange(len(s0))]
+        print total
+        for x in xrange(len(s0)):
+            total[x] = s0[x]+s1[x]+s2[x]+s3[x]+b0[x]+b1[x]+b2[x]+b3[x]
+        print total[0]
+
+        #Create numpy arrays from dictionary
+        data = []
+        if key == "A":
+            A_test = numpy.array(total, dtype=numpy.uint8)
+            data.append(A_test)
+        if key == "B":
+            B_test = numpy.array(total, dtype=numpy.uint8)
+            data.append(B_test)
+        if key == "C":
+            C_test = numpy.array(total, dtype=numpy.uint8)
+            data.append(C_test)
+        if key == "D":
+            D_test = numpy.array(total, dtype=numpy.uint8)
+            data.append(D_test)
+        if key == "E":
+            E_test = numpy.array(total, dtype=numpy.uint8)
+            data.append(E_test)
+        if key == "F":
+            F_test = numpy.array(total, dtype=numpy.uint8)
+            data.append(F_test)
+        if key == "G":
+            G_test = numpy.array(total, dtype=numpy.uint8)
+            data.append(G_test)
+        if key == "H":
+            H_test = numpy.array(total, dtype=numpy.uint8)
+            data.append(H_test)
+        if key == "I":
+            I_test = numpy.array(total, dtype=numpy.uint8)
+            data.append(I_test)
+        if key == "J":
+            J_test = numpy.array(total, dtype=numpy.uint8)
+            data.append(J_test)
+        if key == "K":
+            K_test = numpy.array(total, dtype=numpy.uint8)
+            data.append(K_test)
+        if key == "L":
+            L_test = numpy.array(total, dtype=numpy.uint8)
+            data.append(L_test)
+        if key == "M":
+            M_test = numpy.array(total, dtype=numpy.uint8)
+            data.append(M_test)
+        if key == "N":
+            N_test = numpy.array(total, dtype=numpy.uint8)
+            data.append(N_test)
+        if key == "O":
+            O_test = numpy.array(total, dtype=numpy.uint8)
+            data.append(O_test)
+        if key == "P":
+            P_test = numpy.array(total, dtype=numpy.uint8)
+            data.append(P_test)
+        if key == "Q":
+            Q_test = numpy.array(total, dtype=numpy.uint8)
+            data.append(Q_test)
+        if key == "R":
+            R_test = numpy.array(total, dtype=numpy.uint8)
+            data.append(R_test)
+        if key == "S":
+            S_test = numpy.array(total, dtype=numpy.uint8)
+            data.append(S_test)
+        if key == "T":
+            T_test = numpy.array(total, dtype=numpy.uint8)
+            data.append(T_test)
+        if key == "U":
+            U_test = numpy.array(total, dtype=numpy.uint8)
+            data.append(U_test)
+        if key == "f":
+            form_test = numpy.array(total, dtype=numpy.float)
+            data.append(form_test)
+        if key == "p":
+            pos_test = numpy.array(total, dtype=numpy.uint8)
+            data.append(pos_test)
+
+    Y_test = numpy.array(output, dtype=numpy.uint8)
+    data.append(Y_test)
+    print data
+
     
     fann.close()
     fm.close()
