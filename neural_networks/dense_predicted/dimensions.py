@@ -124,12 +124,12 @@ def getTrainData(data_directory):
     X_train_form = numpy.load(data_directory + "/X_train_form.npy")
     '''
 
-    return (X_train_A, X_train_B, X_train_C, X_train_D, X_train_E, X_train_F, 
+    return [X_train_A, X_train_B, X_train_C, X_train_D, X_train_E, X_train_F, 
             X_train_G, X_train_H, X_train_I, X_train_J, X_train_K, X_train_L, 
             X_train_M, X_train_N, X_train_O, X_train_P, X_train_Q, X_train_R,
             X_train_S, X_train_T, X_train_U, 
             #X_train_form, X_train_pos
-            Y_train)
+            Y_train]
 
 def getTestData(data_directory):
     #Get test data
@@ -208,12 +208,12 @@ def getTestData(data_directory):
     X_test_form = numpy.load(data_directory + "/X_test_form.npy")
     '''
 
-    return (X_test_A, X_test_B, X_test_C, X_test_D, X_test_E, X_test_F, 
+    return [X_test_A, X_test_B, X_test_C, X_test_D, X_test_E, X_test_F, 
             X_test_G, X_test_H, X_test_I, X_test_J, X_test_K, X_test_L, 
             X_test_M, X_test_N, X_test_O, X_test_P, X_test_Q, X_test_R,
             X_test_S, X_test_T, X_test_U, 
             #X_test_form, X_test_pos
-            Y_test)
+            Y_test]
 
 def createModel(dimensions_dictionary):
 

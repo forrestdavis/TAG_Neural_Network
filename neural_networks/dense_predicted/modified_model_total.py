@@ -18,12 +18,22 @@ X_train_S, X_train_T, X_train_U,
 Y_train) = d.getTrainData("data_1000/numpy_arrays")
 
 #Get test data
+'''
 (X_test_A, X_test_B, X_test_C, X_test_D, X_test_E, X_test_F, 
 X_test_G, X_test_H, X_test_I, X_test_J, X_test_K, X_test_L, 
 X_test_M, X_test_N, X_test_O, X_test_P, X_test_Q, X_test_R,
 X_test_S, X_test_T, X_test_U, 
             #X_test_form, X_test_pos
 Y_test) = d.getTestData("data_1000/numpy_arrays")
+'''
+test_data = d.getTestData("data_1000/numpy_arrays")
+print len(test_data)
+print type(test_data)
+print test_data[0]
+print test_data[:1][0]
+X_test_data = test_data[:len(test_data)-1]
+Y_test = test_data[len(test_data)-1]
+print len(X_test_data)
 
 model = d.createModel(dimensions_dictionary)
 
@@ -38,7 +48,11 @@ Y_train, callbacks=[early_stopping], nb_epoch=2, verbose=1, batch_size=1000,
 
 #Get accurracy on test data
 print "getting score on test..."
+'''
 scores = model.evaluate([X_test_A, X_test_B, X_test_C, X_test_D, X_test_E, X_test_F, X_test_G, X_test_H,
 X_test_I, X_test_J, X_test_K, X_test_L, X_test_M, X_test_N, X_test_O, X_test_P, X_test_Q, X_test_R, 
 X_test_S, X_test_T, X_test_U], Y_test)
+print("%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
+'''
+scores = model.evaluate(X_test_data, Y_test)
 print("%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))

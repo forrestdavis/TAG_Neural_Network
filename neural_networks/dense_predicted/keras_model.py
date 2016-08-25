@@ -11,37 +11,31 @@ class KerasModel:
         self.dim_file = data_directory + "/" + "io_dimensions_1000.txt"
         
     def train(self):
+        #Train model on data
         #Get dimensions of data and check for errors
         dimensions_dictionary = d.get_dimensions(self.dim_file)
         d.error_check_dimensions(dimensions_dictionary)
 
         #Get train data
-        (X_train_A, X_train_B, X_train_C, X_train_D, X_train_E, X_train_F, 
-        X_train_G, X_train_H, X_train_I, X_train_J, X_train_K, X_train_L, 
-        X_train_M, X_train_N, X_train_O, X_train_P, X_train_Q, X_train_R,
-        X_train_S, X_train_T, X_train_U, 
-                    #X_train_form, X_train_pos
-        Y_train) = d.getTrainData("data_1000/numpy_arrays")
+        train_data = d.getTrainData("data_1000/numpy_arrays")
+        X_train_data = train_data[:len(train_data)-1]
+        Y_train = train_data[len(train_data)-1]
+
         self.model = d.createModel(dimensions_dictionary)
     
-        early_stopping = EarlyStopping(monitor='val_loss', verbose = 1, patience=2)
+        early_stopping = EarlyStopping(monitor='val_loss', 
+                verbose = 1, patience=2)
 
         sys.stderr.write("fitting model...\n")
-        self.model.fit([X_train_A, X_train_B, X_train_C, X_train_D, X_train_E,
-            X_train_F, X_train_G, X_train_H, X_train_I, X_train_J, X_train_K, 
-            X_train_L, X_train_M, X_train_N, X_train_O, X_train_P, X_train_Q, 
-            X_train_R, X_train_S, X_train_T, X_train_U],
-            Y_train, callbacks=[early_stopping], 
+        self.model.fit(X_train_data, Y_train, callbacks=[early_stopping], 
             nb_epoch=2, verbose=1, batch_size=1000, validation_split=0.1)
         
     def predict(self):
         sys.stderr.write("getting prediction from data...\n")
-        (X_test_A, X_test_B, X_test_C, X_test_D, X_test_E, X_test_F, 
-        X_test_G, X_test_H, X_test_I, X_test_J, X_test_K, X_test_L, 
-        X_test_M, X_test_N, X_test_O, X_test_P, X_test_Q, X_test_R,
-        X_test_S, X_test_T, X_test_U, 
-                    #X_test_form, X_test_pos
-        Y_test) = d.getTestData("data_1000/numpy_arrays")
+
+        test_data = d.getTestData("data_1000/numpy_arrays")
+        X_test_data = test_data[:len(test_data)-1]
+        Y_test = test_data[len(test_data)-1]
 
         A_test = [X_test_A[0]]
         B_test = [X_test_B[0]]
@@ -91,6 +85,7 @@ class KerasModel:
         self.model.save_weights("trained_model_weights.h5")
 
     def load(self):
+        #Load model from saved arch and weights
         sys.stderr.write("loading model...\n")
         model_arch = "trained_model.json"
         model_weights = "trained_model_weights.h5"
@@ -100,25 +95,19 @@ class KerasModel:
                 optimizer='adam', metrics=['accuracy'])
 
     def evaluate(self):
+        #Evaluate test data on model
         sys.stderr.write("evaluating model on test data...\n")
         #Get test data
-        (X_test_A, X_test_B, X_test_C, X_test_D, X_test_E, X_test_F, 
-        X_test_G, X_test_H, X_test_I, X_test_J, X_test_K, X_test_L, 
-        X_test_M, X_test_N, X_test_O, X_test_P, X_test_Q, X_test_R,
-        X_test_S, X_test_T, X_test_U, 
-                    #X_test_form, X_test_pos
-        Y_test) = d.getTestData("data_1000/numpy_arrays")
+        test_data = d.getTestData("data_1000/numpy_arrays")
+        X_test_data = test_data[:len(test_data)-1]
+        Y_test = test_data[len(test_data)-1]
 
-        scores = self.model.evaluate([X_test_A, X_test_B, X_test_C, X_test_D,
-            X_test_E, X_test_F, X_test_G, X_test_H, X_test_I, X_test_J,
-            X_test_K, X_test_L, X_test_M, X_test_N, X_test_O, X_test_P, 
-            X_test_Q, X_test_R, X_test_S, X_test_T, X_test_U], Y_test)
+        scores = self.model.evaluate(X_test_data, Y_test)
         print("%s: %.2f%%" % (self.model.metrics_names[1], scores[1]*100))
 
 if __name__ == "__main__":
     model = KerasModel("data_1000")
-    #model.train()
-    #model.save()
-    model.load()
-    #model.evaluate()
-    print model.predict()
+    model.train()
+    model.save()
+    #model.load()
+    model.evaluate()
