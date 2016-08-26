@@ -1,46 +1,22 @@
-A train 376 17 
-A test 376 17 
-B train 24 17 
-B test 24 17 
-C train 280 17 
-C test 280 17 
-D train 600 17 
-D test 600 17 
-E train 1576 17 
-E test 1576 17 
-F train 5472 17 
-F test 5472 17 
-G train 6744 17 
-G test 6744 17 
-H train 344 17 
-H test 344 17 
-I train 24 17 
-I test 24 17 
-J train 56 17 
-J test 56 17 
-K train 24 17 
-K test 24 17 
-L train 24 17 
-L test 24 17 
-M train 32 17 
-M test 32 17 
-N train 24 17 
-N test 24 17 
-O train 624 17 
-O test 624 17 
-P train 960 17 
-P test 960 17 
-Q train 24 17 
-Q test 24 17 
-R train 24 17 
-R test 24 17 
-S train 48 17 
-S test 48 17 
-T train 40 17 
-T test 40 17 
-U train 32 17 
-U test 32 17 
-pos train 360 17 
-pos test 360 17 
-form train 400 17 
-form test 400 17 
+A 376 
+output 17 
+B 24 
+C 280 
+D 600 
+E 1576 
+F 5472 
+G 6744 
+H 344 
+I 24 
+J 56 
+K 24 
+L 24 
+M 32 
+N 24 
+O 624 
+P 960 
+Q 24 
+R 24 
+S 48 
+T 40 
+U 32 

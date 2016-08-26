@@ -12,9 +12,8 @@ class KerasModel:
         
     def train(self):
         #Train model on data
-        #Get dimensions of data and check for errors
+        #Get dimensions of data
         dimensions_dictionary = d.get_dimensions(self.dim_file)
-        d.error_check_dimensions(dimensions_dictionary)
 
         #Get train data
         train_data = d.getTrainData("data_1000/numpy_arrays")
@@ -108,6 +107,6 @@ class KerasModel:
 if __name__ == "__main__":
     model = KerasModel("data_1000")
     model.train()
-    model.save()
+    #model.save()
     #model.load()
     model.evaluate()

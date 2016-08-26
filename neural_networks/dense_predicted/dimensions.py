@@ -34,20 +34,6 @@ def get_dimensions(dimensions_filename):
     dimensions_file.close()
     return d
 
-#Ensures that data dimensions is same for test and train
-def error_check_dimensions(dimensions_dictionary):
-    d = dimensions_dictionary
-    for key in d:
-        input_values = [] 
-        output_values = []
-        for subkey in d[key]:
-            input_values.append(d[key][subkey][0])
-            output_values.append(d[key][subkey][1])
-        assert input_values[0] == input_values[1], ( 
-        "There is a mismatch in %s train and test data input dimensions" % key)
-        assert output_values[0] == output_values[1], ( 
-        "There is a mismatch in %s train and test data output dimensions" % key)
-
 def getTrainData(data_directory):
     #Get train data
     sys.stderr.write("Getting A train data ...\n")
@@ -218,207 +204,30 @@ def getTestData(data_directory):
 def createModel(dimensions_dictionary):
 
     sys.stderr.write("creating model...\n")
-    model_A = Sequential()
-    model_B = Sequential()
-    model_C = Sequential()
-    model_D = Sequential()
-    model_E = Sequential()
-    model_F = Sequential()
-    model_G = Sequential()
-    model_H = Sequential()
-    model_I = Sequential()
-    model_J = Sequential()
-    model_K = Sequential()
-    model_L = Sequential()
-    model_M = Sequential()
-    model_N = Sequential()
-    model_O = Sequential()
-    model_P = Sequential()
-    model_Q = Sequential()
-    model_R = Sequential()
-    model_S = Sequential()
-    model_T = Sequential()
-    model_U = Sequential()
-    #model_pos = Sequential()
-    #model_form = Sequential()
-    model = Sequential()
+    model_total = Sequential()
+
+    feats = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+            'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
+            'U']
+    models = []
+
+    for feat in feats:
+        model = Sequential()
+        model.add(Dense(50, input_dim=dimensions_dictionary[feat]['train'][0], init='uniform'))
+        model.add(Activation('relu'))
+        model.add(Dropout(0.50))
+        model.add(Dense(50))
+        model.add(Activation('relu'))
+        model.add(Dropout(0.50))
+        models.append(model)
 
     feat = 'A'
-    model_A.add(Dense(50, input_dim = dimensions_dictionary[feat]['train'][0], init='uniform'))
-    model_A.add(Activation('relu'))
-    model_A.add(Dropout(0.50))
-    model_A.add(Dense(50))
-    model_A.add(Activation('relu'))
-    model_A.add(Dropout(0.50))
-
-    feat = 'B'
-    model_B.add(Dense(50, input_dim = dimensions_dictionary[feat]['train'][0], init='uniform'))
-    model_B.add(Activation('relu'))
-    model_B.add(Dropout(0.50))
-    model_B.add(Dense(50))
-    model_B.add(Activation('relu'))
-    model_B.add(Dropout(0.50))
-
-    feat = 'C'
-    model_C.add(Dense(50, input_dim = dimensions_dictionary[feat]['train'][0], init='uniform'))
-    model_C.add(Activation('relu'))
-    model_C.add(Dropout(0.50))
-    model_C.add(Dense(50))
-    model_C.add(Activation('relu'))
-    model_C.add(Dropout(0.50))
-
-    feat = 'D'
-    model_D.add(Dense(50, input_dim = dimensions_dictionary[feat]['train'][0], init='uniform'))
-    model_D.add(Activation('relu'))
-    model_D.add(Dropout(0.50))
-    model_D.add(Dense(50))
-    model_D.add(Activation('relu'))
-    model_D.add(Dropout(0.50))
-
-    feat = 'E'
-    model_E.add(Dense(50, input_dim = dimensions_dictionary[feat]['train'][0], init='uniform'))
-    model_E.add(Activation('relu'))
-    model_E.add(Dropout(0.50))
-    model_E.add(Dense(50))
-    model_E.add(Activation('relu'))
-    model_E.add(Dropout(0.50))
-
-    feat = 'F'
-    model_F.add(Dense(50, input_dim = dimensions_dictionary[feat]['train'][0], init='uniform'))
-    model_F.add(Activation('relu'))
-    model_F.add(Dropout(0.50))
-    model_F.add(Dense(50))
-    model_F.add(Activation('relu'))
-    model_F.add(Dropout(0.50))
-
-    feat = 'G'
-    model_G.add(Dense(50, input_dim = dimensions_dictionary[feat]['train'][0], init='uniform'))
-    model_G.add(Activation('relu'))
-    model_G.add(Dropout(0.50))
-    model_G.add(Dense(50))
-    model_G.add(Activation('relu'))
-    model_G.add(Dropout(0.50))
-
-    feat = 'H'
-    model_H.add(Dense(50, input_dim = dimensions_dictionary[feat]['train'][0], init='uniform'))
-    model_H.add(Activation('relu'))
-    model_H.add(Dropout(0.50))
-    model_H.add(Dense(50))
-    model_H.add(Activation('relu'))
-    model_H.add(Dropout(0.50))
-
-    feat = 'I'
-    model_I.add(Dense(50, input_dim = dimensions_dictionary[feat]['train'][0], init='uniform'))
-    model_I.add(Activation('relu'))
-    model_I.add(Dropout(0.50))
-    model_I.add(Dense(50))
-    model_I.add(Activation('relu'))
-    model_I.add(Dropout(0.50))
-
-    feat = 'J'
-    model_J.add(Dense(50, input_dim = dimensions_dictionary[feat]['train'][0], init='uniform'))
-    model_J.add(Activation('relu'))
-    model_J.add(Dropout(0.50))
-    model_J.add(Dense(50))
-    model_J.add(Activation('relu'))
-    model_J.add(Dropout(0.50))
-
-    feat = 'K'
-    model_K.add(Dense(50, input_dim = dimensions_dictionary[feat]['train'][0], init='uniform'))
-    model_K.add(Activation('relu'))
-    model_K.add(Dropout(0.50))
-    model_K.add(Dense(50))
-    model_K.add(Activation('relu'))
-    model_K.add(Dropout(0.50))
-
-    feat = 'L'
-    model_L.add(Dense(50, input_dim = dimensions_dictionary[feat]['train'][0], init='uniform'))
-    model_L.add(Activation('relu'))
-    model_L.add(Dropout(0.50))
-    model_L.add(Dense(50))
-    model_L.add(Activation('relu'))
-    model_L.add(Dropout(0.50))
-
-    feat = 'M'
-    model_M.add(Dense(50, input_dim = dimensions_dictionary[feat]['train'][0], init='uniform'))
-    model_M.add(Activation('relu'))
-    model_M.add(Dropout(0.50))
-    model_M.add(Dense(50))
-    model_M.add(Activation('relu'))
-    model_M.add(Dropout(0.50))
-
-    feat = 'N'
-    model_N.add(Dense(50, input_dim = dimensions_dictionary[feat]['train'][0], init='uniform'))
-    model_N.add(Activation('relu'))
-    model_N.add(Dropout(0.50))
-    model_N.add(Dense(50))
-    model_N.add(Activation('relu'))
-    model_N.add(Dropout(0.50))
-
-    feat = 'O'
-    model_O.add(Dense(50, input_dim = dimensions_dictionary[feat]['train'][0], init='uniform'))
-    model_O.add(Activation('relu'))
-    model_O.add(Dropout(0.50))
-    model_O.add(Dense(50))
-    model_O.add(Activation('relu'))
-    model_O.add(Dropout(0.50))
-
-    feat = 'P'
-    model_P.add(Dense(50, input_dim = dimensions_dictionary[feat]['train'][0], init='uniform'))
-    model_P.add(Activation('relu'))
-    model_P.add(Dropout(0.50))
-    model_P.add(Dense(50))
-    model_P.add(Activation('relu'))
-    model_P.add(Dropout(0.50))
-
-    feat = 'Q'
-    model_Q.add(Dense(50, input_dim = dimensions_dictionary[feat]['train'][0], init='uniform'))
-    model_Q.add(Activation('relu'))
-    model_Q.add(Dropout(0.50))
-    model_Q.add(Dense(50))
-    model_Q.add(Activation('relu'))
-    model_Q.add(Dropout(0.50))
-
-    feat = 'R'
-    model_R.add(Dense(50, input_dim = dimensions_dictionary[feat]['train'][0], init='uniform'))
-    model_R.add(Activation('relu'))
-    model_R.add(Dropout(0.50))
-    model_R.add(Dense(50))
-    model_R.add(Activation('relu'))
-    model_R.add(Dropout(0.50))
-
-    feat = 'S'
-    model_S.add(Dense(50, input_dim = dimensions_dictionary[feat]['train'][0], init='uniform'))
-    model_S.add(Activation('relu'))
-    model_S.add(Dropout(0.50))
-    model_S.add(Dense(50))
-    model_S.add(Activation('relu'))
-    model_S.add(Dropout(0.50))
-
-    feat = 'T'
-    model_T.add(Dense(50, input_dim = dimensions_dictionary[feat]['train'][0], init='uniform'))
-    model_T.add(Activation('relu'))
-    model_T.add(Dropout(0.50))
-    model_T.add(Dense(50))
-    model_T.add(Activation('relu'))
-    model_T.add(Dropout(0.50))
-
-    feat = 'U'
-    model_U.add(Dense(50, input_dim = dimensions_dictionary[feat]['train'][0], init='uniform'))
-    model_U.add(Activation('relu'))
-    model_U.add(Dropout(0.50))
-    model_U.add(Dense(50))
-    model_U.add(Activation('relu'))
-    model_U.add(Dropout(0.50))
-
-    feat = 'A'
-    model.add(Merge([model_A, model_B, model_C, model_D, model_E, model_F, model_G, model_H, model_I, model_J, model_K, model_L, 
-    model_M, model_N, model_O, model_P, model_Q, model_R, model_S, model_T, model_U], mode ='concat'))
-    model.add(Dense(dimensions_dictionary[feat]['train'][1]))
-    model.add(Activation('softmax'))
+    model_total.add(Merge(models, mode='concat'))
+    model_total.add(Dense(dimensions_dictionary[feat]['train'][1]))
+    model_total.add(Activation('softmax'))
     
     #Compile model
-    model.compile(loss='categorical_crossentropy', 
+    model_total.compile(loss='categorical_crossentropy', 
             optimizer='adam', metrics=['accuracy'])
 
-    return model
+    return model_total
