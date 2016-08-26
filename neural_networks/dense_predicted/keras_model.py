@@ -16,17 +16,18 @@ class KerasModel:
         dimensions_dictionary = d.get_dimensions(self.dim_file)
 
         #Get train data
-        train_data = d.getTrainData("data_1000/numpy_arrays")
-        X_train_data = train_data[:len(train_data)-1]
-        Y_train = train_data[len(train_data)-1]
+        train_data, Y_train, feats = d.getTrainData("data_1000/numpy_arrays")
+        print Y_train
+        
+        self.feats = feats
 
-        self.model = d.createModel(dimensions_dictionary)
+        self.model = d.createModel(dimensions_dictionary, feats)
     
         early_stopping = EarlyStopping(monitor='val_loss', 
                 verbose = 1, patience=2)
 
         sys.stderr.write("fitting model...\n")
-        self.model.fit(X_train_data, Y_train, callbacks=[early_stopping], 
+        self.model.fit(train_data, Y_train, callbacks=[early_stopping], 
             nb_epoch=2, verbose=1, batch_size=1000, validation_split=0.1)
         
     def predict(self):
@@ -97,11 +98,11 @@ class KerasModel:
         #Evaluate test data on model
         sys.stderr.write("evaluating model on test data...\n")
         #Get test data
-        test_data = d.getTestData("data_1000/numpy_arrays")
-        X_test_data = test_data[:len(test_data)-1]
-        Y_test = test_data[len(test_data)-1]
+        test_data, Y_test, feats = d.getTestData("data_1000/numpy_arrays")
+        print self.feats
+        print feats
 
-        scores = self.model.evaluate(X_test_data, Y_test)
+        scores = self.model.evaluate(test_data, Y_test)
         print("%s: %.2f%%" % (self.model.metrics_names[1], scores[1]*100))
 
 if __name__ == "__main__":
