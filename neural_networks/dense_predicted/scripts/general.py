@@ -11,17 +11,18 @@ import os
 
 #Set io file so that the file is in the form:
 #feature dimensions_of_input
-def set_io_file(io_file_name, feat, dim):
-    hasFeature = 0
+def set_io_file(io_filename, feat, dim):
     dim = str(dim)
-    lines = []
     #If file exists check for feature and dimension
-    if os.path.isfile(io_file_name):
-        io_file = open(io_file_name, "r")
+    if os.path.isfile(io_filename):
+        hasFeature = 0
+        lines = []
+        io_file = open(io_filename, "r")
         #Iterate through file, either finding the feature and 
         #changing the dimension if there is a difference or adding 
         #it if the feature is not in the file
         for line in io_file:
+            line = line.strip('\n')
             line = line.split()
             if feat == line[0]:
                 hasFeature = 1
@@ -31,23 +32,20 @@ def set_io_file(io_file_name, feat, dim):
             for element in line:
                 output_line += element + " "
             output_line += "\n"
-        lines.append(output_line)
-        if not hasFeature:
-            output_line = feat + " " + dim + "\n"
             lines.append(output_line)
-        output = open(io_file_name, "w")
-        #Write any updates back to file
+        if not hasFeature:
+            output_line = feat + " " + dim +"\n"
+            lines.append(output_line)
+        io_file.close()
+        output = open(io_filename, "w")
         for line in lines:
             output.write(line)
         output.close()
+    #If io_file does not exisit create file and write feature to file
     else:
-        if not hasFeature:
-            output_line = feat + " " + dim + "\n"
-            lines.append(output_line)
-        output = open(io_file_name, "w")
-        #Write any updates back to file
-        for line in lines:
-            output.write(line)
+        output_line = feat + " " + dim + "\n"
+        output = open(io_filename, "w")
+        output.write(output_line)
         output.close()
 
 #Check that feature and dimension are the same as the one
