@@ -29,31 +29,31 @@ def get_dimensions(dimensions_filename):
     return d
 
 def getTrainData(data_directory):
-
     #Get the file names for all train files in the data directory
     #Assumes that the files are in the format X_train_? where
     #? is a feature. Also assumes that the output data is Y_train
     data_files = []
     feats = []
+    output_filename = ""
     for filename in os.listdir(data_directory):
         if "train" in filename:
-            data_files.append(filename)
-            filename = filename.split(".")[0].split("_")
             if filename[0] == "Y":
-                feats.append("output")
+                output_filename = filename
             else:
+                data_files.append(filename)
+                filename = filename.split(".")[0].split("_")
                 feats.append(filename[2])
     #Get train data
     data = []
     Y_train = []
     for x in xrange(len(data_files)):
-        if feats[x] == "output":
-            sys.stderr.write("Getting "+feats[x]+" train data ...\n")
-            Y_train = numpy.load(data_directory+"/"+data_files[x])
-        else:
-            sys.stderr.write("Getting "+feats[x]+" train data ...\n")
-            array = numpy.load(data_directory+"/"+data_files[x])
-            data.append(array)
+        sys.stderr.write("Getting "+feats[x]+" train data ...\n")
+        array = numpy.load(data_directory+"/"+data_files[x])
+        data.append(array)
+    if len(output_filename)>0:
+        sys.stderr.write("Getting output train data ...\n")
+        Y_train = numpy.load(data_directory+"/"+ output_filename)
+
     #There must be output information
     assert len(Y_train)!=0, "There must be output information to train the model"
     
@@ -65,32 +65,65 @@ def getTestData(data_directory):
     #? is a feature. Also assumes that the output data is Y_test
     data_files = []
     feats = []
+    output_filename = ""
     for filename in os.listdir(data_directory):
         if "test" in filename:
-            data_files.append(filename)
-            filename = filename.split(".")[0].split("_")
             if filename[0] == "Y":
-                feats.append("output")
+                output_filename = filename
             else:
+                data_files.append(filename)
+                filename = filename.split(".")[0].split("_")
                 feats.append(filename[2])
     #Get test data
     data = []
     Y_test = []
     for x in xrange(len(data_files)):
-        if feats[x] == "output":
-            sys.stderr.write("Getting "+feats[x]+" test data ...\n")
-            Y_test = numpy.load(data_directory+"/"+data_files[x])
-        else:
-            sys.stderr.write("Getting "+feats[x]+" test data ...\n")
-            array = numpy.load(data_directory+"/"+data_files[x])
-            data.append(array)
+        sys.stderr.write("Getting "+feats[x]+" test data ...\n")
+        array = numpy.load(data_directory+"/"+data_files[x])
+        data.append(array)
+    if len(output_filename)>0:
+        sys.stderr.write("Getting output test data ...\n")
+        Y_test = numpy.load(data_directory+"/"+ output_filename)
+
     #There must be output information
     assert len(Y_test)!=0, "There must be output information to test the model"
     
     return data, Y_test, feats
 
-def createModel(dimensions_dictionary, feats):
+def arrangeData(test_data, train_feats, test_feats):
+    modified_test_data = []
+    missing_test_feats = []
+    for x in xrange(len(train_feats)):
+        train_feat = train_feats[x]
+        hasFeat = 0
+        for y in xrange(len(test_feats)):
+            test_feat = test_feats[y]
+            if test_feat == train_feat:
+                modified_test_data.append(test_data[y])
+                hasFeat = 1
+        if not hasFeat:
+            missing_test_feats.append(train_feat)
 
+    error_message = "You are missing the following test features"
+    assert not missing_test_feats, error_message+"%r" %missing_test_feats
+
+    return modified_test_data
+
+def saveFeats(train_feats, filename):
+    output = open(filename, "w")
+    for feat in train_feats:
+        output.write(feat+"\n")
+    output.close()
+
+def loadFeats(filename):
+    feat_file = open(filename, "r")
+    train_feats=[]
+    for line in feat_file:
+        line = line.strip("\n")
+        train_feats.append(line)
+    return train_feats
+
+def createModel(dimensions_dictionary, feats):
     sys.stderr.write("creating model...\n")
     model_total = Sequential()
 

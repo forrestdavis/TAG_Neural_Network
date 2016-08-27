@@ -17,7 +17,6 @@ class KerasModel:
 
         #Get train data
         train_data, Y_train, feats = d.getTrainData("data_1000/numpy_arrays")
-        print Y_train
         
         self.feats = feats
 
@@ -83,12 +82,14 @@ class KerasModel:
         with open("trained_model.json", "w") as json_file:
             json_file.write(model_json)
         self.model.save_weights("trained_model_weights.h5")
+        d.saveFeats(self.feats, "trained_model_feats.txt")
 
     def load(self):
-        #Load model from saved arch and weights
+        #Load model from saved arch, weights, and features used
         sys.stderr.write("loading model...\n")
         model_arch = "trained_model.json"
         model_weights = "trained_model_weights.h5"
+        self.feats = d.loadFeats("trained_model_feats.txt")
         self.model = model_from_json(open(model_arch).read())
         self.model.load_weights(model_weights)
         self.model.compile(loss='categorical_crossentropy', 
@@ -99,15 +100,16 @@ class KerasModel:
         sys.stderr.write("evaluating model on test data...\n")
         #Get test data
         test_data, Y_test, feats = d.getTestData("data_1000/numpy_arrays")
-        print self.feats
-        print feats
+
+        #need to arrange test_data to fit train data form
+        test_data = d.arrangeData(test_data, self.feats, feats)
 
         scores = self.model.evaluate(test_data, Y_test)
         print("%s: %.2f%%" % (self.model.metrics_names[1], scores[1]*100))
 
 if __name__ == "__main__":
     model = KerasModel("data_1000")
-    model.train()
+    #model.train()
     #model.save()
-    #model.load()
+    model.load()
     model.evaluate()

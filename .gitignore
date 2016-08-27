@@ -13,8 +13,8 @@
 *.conll16
 *.fann
 *.npy
-*.treeproperties
 *.alpha
+*.treeproperties
 *.csv
 *.bin
 glove.6B.*

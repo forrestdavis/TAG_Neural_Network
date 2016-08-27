@@ -1,9 +1,3 @@
-- MAKEFILE DEPENDENCY ISSUE NOT SURE WHATS HAPPENING
-    : target was a generated file
-    : need to add rule 
-         $(FILES): out/%.npy: %.dependency
-             action
-         FILES = list of files
 - add variable layers options
 - add activation function options
 - add node size options
@@ -32,7 +26,3 @@
 - generic fann generation for any sentence length
 - mkdir and rmdir if not 1000, 2000, 5000, 10000, or all in data formation
      : can do in python using os.mkdir()
-- look at OrderDict in python so that you don't have to limit the types of
-  data you can have i.e. want the data to always be the same order for
-  getting train and predicted and test data so that you can run model on
-  generic data folder
