@@ -17,7 +17,6 @@
     : default values are best from experiments 
     : gold versus predicted
     : variable sentence size
-- generic transform fann 2 numpy arrays
 - maybe have model create data if not there 
 - general idea right now is to remove seperate data makefile needs
      : want same structure so data can be accessed from different model
@@ -26,3 +25,6 @@
 - generic fann generation for any sentence length
 - mkdir and rmdir if not 1000, 2000, 5000, 10000, or all in data formation
      : can do in python using os.mkdir()
+
+- add all to sentence number in generic script for fann generation
+

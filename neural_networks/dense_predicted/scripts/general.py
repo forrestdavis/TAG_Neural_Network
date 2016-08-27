@@ -32,14 +32,23 @@ def set_io_file(io_file_name, feat, dim):
                 output_line += element + " "
             output_line += "\n"
         lines.append(output_line)
-    if not hasFeature:
-        output_line = feat + " " + dim + "\n"
-        lines.append(output_line)
-    output = open(io_file_name, "w")
-    #Write any updates back to file
-    for line in lines:
-        output.write(line)
-    output.close()
+        if not hasFeature:
+            output_line = feat + " " + dim + "\n"
+            lines.append(output_line)
+        output = open(io_file_name, "w")
+        #Write any updates back to file
+        for line in lines:
+            output.write(line)
+        output.close()
+    else:
+        if not hasFeature:
+            output_line = feat + " " + dim + "\n"
+            lines.append(output_line)
+        output = open(io_file_name, "w")
+        #Write any updates back to file
+        for line in lines:
+            output.write(line)
+        output.close()
 
 #Check that feature and dimension are the same as the one
 #in the io_file
@@ -184,7 +193,7 @@ def fann2numpy(fann_file, fm_file, io_file_name, dataType):
         key = "output"
         if dataType == "TRAIN":
             set_io_file(io_file_name, key, len(output[0]))
-        else:
+        if dataType == "TEST":
             check_io_file(io_file_name, key, len(output[0]))
         data_types.append(key)
         array = numpy.array(output, dtype=numpy.uint8)
@@ -202,14 +211,14 @@ def fann2numpy(fann_file, fm_file, io_file_name, dataType):
 
 if __name__ == "__main__":
     if len(sys.argv) != 5:
-        sys.stderr.write("Usage: python general.py <fann_file_name> " +
-                "<fm_file_name> <io_file_name> <TRAIN or TEST or PREDICTION "+
-                "data>\n")
+        sys.stderr.write("Usage: python general.py "+
+                "<TRAIN, TEST, or PREDCITION data> <fann_file_name> " +
+                "<fm_file_name> <io_file_name>\n")
         sys.exit(1)
-    fann_file = sys.argv[1]
-    fm_file = sys.argv[2]
-    io_file = sys.argv[3]
-    dataType = sys.argv[4]
+    dataType = sys.argv[1]
+    fann_file = sys.argv[2]
+    fm_file = sys.argv[3]
+    io_file = sys.argv[4]
     if dataType == "PREDICTION":
         data, data_types = fann2numpy(fann_file, fm_file, io_file, dataType)
     else:
