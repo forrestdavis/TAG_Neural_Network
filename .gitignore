@@ -21,6 +21,7 @@ glove.6B.*
 output.txt
 fv.txt
 a.out
+io_dimensions*
 
 # ENV #
 #############

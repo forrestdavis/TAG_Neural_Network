@@ -1,5 +1,6 @@
 import numpy
 import sys
+import os
 ##########################################################################
 # Class for getting a prediction for depedency parser movement given input
 # data and a trained model
@@ -11,23 +12,25 @@ import sys
 #Set io file so that the file is in the form:
 #feature dimensions_of_input
 def set_io_file(io_file_name, feat, dim):
-    dim = str(dim)
-    io_file = open(io_file_name, "r")
-    lines = []
     hasFeature = 0
-    #Iterate through file, either finding the feature and 
-    #changing the dimension if there is a difference or adding 
-    #it if the feature is not in the file
-    for line in io_file:
-        line = line.split()
-        if feat == line[0]:
-            hasFeature = 1
-            if dim != line[1]:
-                line[1] = dim
-        output_line = ""
-        for element in line:
-            output_line += element + " "
-        output_line += "\n"
+    dim = str(dim)
+    lines = []
+    #If file exists check for feature and dimension
+    if os.path.isfile(io_file_name):
+        io_file = open(io_file_name, "r")
+        #Iterate through file, either finding the feature and 
+        #changing the dimension if there is a difference or adding 
+        #it if the feature is not in the file
+        for line in io_file:
+            line = line.split()
+            if feat == line[0]:
+                hasFeature = 1
+                if dim != line[1]:
+                    line[1] = dim
+            output_line = ""
+            for element in line:
+                output_line += element + " "
+            output_line += "\n"
         lines.append(output_line)
     if not hasFeature:
         output_line = feat + " " + dim + "\n"
@@ -41,16 +44,21 @@ def set_io_file(io_file_name, feat, dim):
 #Check that feature and dimension are the same as the one
 #in the io_file
 def check_io_file(io_file_name, feat, dim):
-    dim = str(dim)
-    io_file = open(io_file_name, "r")
-    sameDim = 0
-    for line in io_file:
-        line = line.split()
-        if feat == line[0]:
-            if dim == line[1]:
-                sameDim = 1
-    io_file.close()
-    assert sameDim, "There is a dimension mismatch with %s" %feat
+    if os.path.isfile(io_file_name):
+        dim = str(dim)
+        io_file = open(io_file_name, "r")
+        sameDim = 0
+        for line in io_file:
+            line = line.split()
+            if feat == line[0]:
+                if dim == line[1]:
+                    sameDim = 1
+        io_file.close()
+        assert sameDim, "There is a dimension mismatch with %s" %feat
+    else:
+        sys.stderr.write("io dimension file not found. Needed for checking " +
+                "evaluation or prediction data dimensions\n")
+        sys.exit(1)
 
 #Function for transfom fann file into output
 #fm and fann file must contain (in any order):
@@ -150,7 +158,7 @@ def fann2numpy(fann_file, fm_file, io_file_name, dataType):
             total[x] = s0[x]+s1[x]+s2[x]+s3[x]+b0[x]+b1[x]+b2[x]+b3[x]
         dictionary[key]['total'] = total
 
-        if dataType != "PREDICTION":
+        if dataType == "TRAIN":
             set_io_file(io_file_name, feat, len(total[0]))
         else:
             check_io_file(io_file_name, feat, len(total[0]))
@@ -174,7 +182,10 @@ def fann2numpy(fann_file, fm_file, io_file_name, dataType):
 
     if output:
         key = "output"
-        set_io_file(io_file_name, key, len(output[0]))
+        if dataType == "TRAIN":
+            set_io_file(io_file_name, key, len(output[0]))
+        else:
+            check_io_file(io_file_name, key, len(output[0]))
         data_types.append(key)
         array = numpy.array(output, dtype=numpy.uint8)
         if dataType == "TRAIN":
