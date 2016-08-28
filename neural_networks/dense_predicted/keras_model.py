@@ -29,34 +29,9 @@ class KerasModel:
         self.model.fit(train_data, Y_train, callbacks=[early_stopping], 
             nb_epoch=2, verbose=1, batch_size=1000, validation_split=0.1)
         
-    def predict(self):
+    #Need to update predict
+    def predict(self, fann_file, fm_file):
         sys.stderr.write("getting prediction from data...\n")
-
-        test_data = d.getTestData("data_1000/numpy_arrays")
-        X_test_data = test_data[:len(test_data)-1]
-        Y_test = test_data[len(test_data)-1]
-
-        A_test = [X_test_A[0]]
-        B_test = [X_test_B[0]]
-        C_test = [X_test_C[0]]
-        D_test = [X_test_D[0]]
-        E_test = [X_test_E[0]]
-        F_test = [X_test_F[0]]
-        G_test = [X_test_G[0]]
-        H_test = [X_test_H[0]]
-        I_test = [X_test_I[0]]
-        J_test = [X_test_J[0]]
-        K_test = [X_test_K[0]]
-        L_test = [X_test_L[0]]
-        M_test = [X_test_M[0]]
-        N_test = [X_test_N[0]]
-        O_test = [X_test_O[0]]
-        P_test = [X_test_P[0]]
-        Q_test = [X_test_Q[0]]
-        R_test = [X_test_R[0]]
-        S_test = [X_test_S[0]]
-        T_test = [X_test_T[0]]
-        U_test = [X_test_U[0]]
 
         prediction = self.model.predict_on_batch([A_test, B_test, C_test, D_test, E_test, 
         F_test, G_test, H_test, I_test, J_test, K_test, L_test, M_test, N_test, O_test, P_test, 

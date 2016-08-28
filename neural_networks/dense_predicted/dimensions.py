@@ -121,6 +121,7 @@ def loadFeats(filename):
     for line in feat_file:
         line = line.strip("\n")
         train_feats.append(line)
+    feat_file.close()
     return train_feats
 
 def createModel(dimensions_dictionary, feats):

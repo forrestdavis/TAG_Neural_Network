@@ -22,9 +22,9 @@
      : want same structure so data can be accessed from different model
      types
 - create CMake 
-- generic fann generation for any sentence length
 - mkdir and rmdir if not 1000, 2000, 5000, 10000, or all in data formation
      : can do in python using os.mkdir()
 
-- add all to sentence number in generic script for fann generation
-
+- have a general fann 2 numpy in python that takes way to long need to
+  explore c implementation of it or at figure out what is bottlenecking the
+  python code
