@@ -6,7 +6,8 @@ test: all_fann_dev all_numpy_test
 
 all_numpy_train: numpy_arrays/X_train_A.npy numpy_arrays/X_train_B.npy numpy_arrays/X_train_C.npy numpy_arrays/X_train_D.npy numpy_arrays/X_train_E.npy numpy_arrays/X_train_F.npy numpy_arrays/X_train_G.npy numpy_arrays/X_train_H.npy numpy_arrays/X_train_I.npy numpy_arrays/X_train_J.npy numpy_arrays/X_train_K.npy numpy_arrays/X_train_L.npy numpy_arrays/X_train_M.npy numpy_arrays/X_train_N.npy numpy_arrays/X_train_O.npy numpy_arrays/X_train_P.npy numpy_arrays/X_train_Q.npy numpy_arrays/X_train_R.npy numpy_arrays/X_train_S.npy numpy_arrays/X_train_T.npy numpy_arrays/X_train_U.npy
 
-all_numpy_test: numpy_arrays/X_test_A.npy numpy_arrays/X_test_B.npy numpy_arrays/X_test_C.npy numpy_arrays/X_test_D.npy numpy_arrays/X_test_E.npy numpy_arrays/X_test_F.npy numpy_arrays/X_test_G.npy numpy_arrays/X_test_H.npy numpy_arrays/X_test_I.npy numpy_arrays/X_test_J.npy numpy_arrays/X_test_K.npy numpy_arrays/X_test_L.npy numpy_arrays/X_test_M.npy numpy_arrays/X_test_N.npy numpy_arrays/X_test_O.npy numpy_arrays/X_test_P.npy numpy_arrays/X_test_Q.npy numpy_arrays/X_test_R.npy numpy_arrays/X_test_S.npy numpy_arrays/X_test_T.npy numpy_arrays/X_test_U.npy
+#Deleted F and G need to readd
+all_numpy_test: numpy_arrays/X_test_A.npy numpy_arrays/X_test_B.npy numpy_arrays/X_test_C.npy numpy_arrays/X_test_D.npy numpy_arrays/X_test_E.npy numpy_arrays/X_test_H.npy numpy_arrays/X_test_I.npy numpy_arrays/X_test_J.npy numpy_arrays/X_test_K.npy numpy_arrays/X_test_L.npy numpy_arrays/X_test_M.npy numpy_arrays/X_test_N.npy numpy_arrays/X_test_O.npy numpy_arrays/X_test_P.npy numpy_arrays/X_test_Q.npy numpy_arrays/X_test_R.npy numpy_arrays/X_test_S.npy numpy_arrays/X_test_T.npy numpy_arrays/X_test_U.npy
 
 all_fann_train: fanns/A_train.fann fanns/B_train.fann fanns/C_train.fann fanns/D_train.fann fanns/E_train.fann fanns/F_train.fann fanns/G_train.fann fanns/H_train.fann fanns/I_train.fann fanns/J_train.fann fanns/K_train.fann fanns/L_train.fann fanns/M_train.fann fanns/N_train.fann fanns/O_train.fann fanns/P_train.fann fanns/Q_train.fann fanns/R_train.fann fanns/S_train.fann fanns/T_train.fann fanns/U_train.fann
 
@@ -82,7 +83,7 @@ numpy_arrays/X_train_U.npy: fanns/U_train.fann
 
 #Makefile commands for generating fann files from dev fann files
 numpy_arrays/X_test_A.npy: fanns/A_dev.fann
-	python ../scripts/general.py TEST fanns/A_dev.fann fms/A.fm io_dimensions_1000.tx
+	python ../scripts/general.py TEST fanns/A_dev.fann fms/A.fm io_dimensions_1000.txt
 
 numpy_arrays/X_test_B.npy: fanns/B_dev.fann
 	python ../scripts/general.py TEST fanns/B_dev.fann fms/B.fm io_dimensions_1000.txt

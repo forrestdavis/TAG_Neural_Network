@@ -16,7 +16,9 @@ class KerasModel:
         dimensions_dictionary = d.get_dimensions(self.dim_file)
 
         #Get train data
-        train_data, Y_train, feats = d.getTrainData("data_1000/numpy_arrays")
+        find_feats = ['A', 'B', 'C', 'D', 'E', 'H', 'I', 'J', 'K', 'L', 'M',
+                'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'output']
+        train_data, Y_train, feats = d.getTrainData("data_1000/numpy_arrays", find_feats)
         
         self.feats = feats
 
@@ -84,7 +86,7 @@ class KerasModel:
 
 if __name__ == "__main__":
     model = KerasModel("data_1000")
-    #model.train()
+    model.train()
     #model.save()
-    model.load()
+    #model.load()
     model.evaluate()

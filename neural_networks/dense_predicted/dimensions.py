@@ -28,7 +28,7 @@ def get_dimensions(dimensions_filename):
     dimensions_file.close()
     return d
 
-def getTrainData(data_directory):
+def getTrainData(data_directory, find_feats=None):
     #Get the file names for all train files in the data directory
     #Assumes that the files are in the format X_train_? where
     #? is a feature. Also assumes that the output data is Y_train
@@ -40,9 +40,15 @@ def getTrainData(data_directory):
             if filename[0] == "Y":
                 output_filename = filename
             else:
-                data_files.append(filename)
-                filename = filename.split(".")[0].split("_")
-                feats.append(filename[2])
+                if find_feats:
+                    mod_filename = filename.split(".")[0].split("_")
+                    if mod_filename[2] in find_feats:
+                        data_files.append(filename)
+                        feats.append(mod_filename[2])
+                else:
+                    data_files.append(filename)
+                    filename = filename.split(".")[0].split("_")
+                    feats.append(filename[2])
     #Get train data
     data = []
     Y_train = []

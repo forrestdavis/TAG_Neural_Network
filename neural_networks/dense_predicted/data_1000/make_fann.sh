@@ -15,6 +15,7 @@ alpha=$4
 fm=$5
 mcd=$6
 numSent=$7
+echo numSent
 
 if [ $numSent = 'all' ]; then 
 
