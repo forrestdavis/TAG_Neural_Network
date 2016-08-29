@@ -1,3 +1,7 @@
+CC = gcc
+
+CFLAGS = -g -Wall
+
 all: train test
 
 train: all_fann_train all_numpy_train
@@ -16,6 +20,24 @@ all_fann_dev: fanns/A_dev.fann fanns/B_dev.fann fanns/C_dev.fann fanns/D_dev.fan
 train_data = ../../../data/d6.predicted_train.conll16
 
 dev_data = ../../../data/d6.predicted_dev.conll16
+
+#Makefile commands for generating fann2binary exe
+fann2binary: fann2binary.o
+
+fann2binary.o: fann2binary.c
+
+#Need to fix io file to a set io file thing
+binary_fanns/U_train_input.bin: fann2binary fanns/U_train.fann
+	./fann2binary fanns/U_train.fann fms/U.fm binary_fanns/U_train_input.bin binary_fanns/U_train_output.bin io.txt
+
+numpy_arrays/X_train_U.npy: load_fann_bin.py binary_fanns/U_train_input.bin binary_fanns/U_train_output.bin
+	python load_fann_bin.py U TRAIN io.txt binary_fanns/U_train_input.bin binary_fanns/U_train_output.bin
+
+binary_fanns/U_test_input.bin: fann2binary fanns/U_dev.fann
+	./fann2binary fanns/U_dev.fann fms/U.fm binary_fanns/U_test_input.bin binary_fanns/U_test_output.bin io.txt
+
+numpy_arrays/X_test_U.npy: load_fann_bin.py binary_fanns/U_test_input.bin binary_fanns/U_test_output.bin
+	python load_fann_bin.py U TEST io.txt binary_fanns/U_test_input.bin binary_fanns/U_test_output.bin
 
 #Makefile commands for generating fann files from train fann files
 numpy_arrays/X_train_A.npy: fanns/A_train.fann
@@ -78,8 +100,8 @@ numpy_arrays/X_train_S.npy: fanns/S_train.fann
 numpy_arrays/X_train_T.npy: fanns/T_train.fann
 	python ../scripts/general.py TRAIN fanns/T_train.fann fms/T.fm io_dimensions_1000.txt 
 
-numpy_arrays/X_train_U.npy: fanns/U_train.fann
-	python ../scripts/general.py TRAIN fanns/U_train.fann fms/U.fm io_dimensions_1000.txt 
+#numpy_arrays/X_train_U.npy: fanns/U_train.fann fann2binary
+	#python ../scripts/general.py TRAIN fanns/U_train.fann fms/U.fm io_dimensions_1000.txt 
 
 #Makefile commands for generating fann files from dev fann files
 numpy_arrays/X_test_A.npy: fanns/A_dev.fann
@@ -142,8 +164,8 @@ numpy_arrays/X_test_S.npy: fanns/S_dev.fann
 numpy_arrays/X_test_T.npy: fanns/T_dev.fann
 	python ../scripts/general.py TEST fanns/T_dev.fann fms/T.fm io_dimensions_1000.txt
 
-numpy_arrays/X_test_U.npy: fanns/U_dev.fann
-	python ../scripts/general.py TEST fanns/U_dev.fann fms/U.fm io_dimensions_1000.txt
+#numpy_arrays/X_test_U.npy: fanns/U_dev.fann
+	#python ../scripts/general.py TEST fanns/U_dev.fann fms/U.fm io_dimensions_1000.txt
 
 #Makefile for generating fann train files
 fanns/A_train.fann: fms/A.fm dimensions.mcd
@@ -272,3 +294,10 @@ fanns/T_dev.fann: fms/T.fm dimensions.mcd
 
 fanns/U_dev.fann: fms/U.fm dimensions.mcd
 	./make_fann.sh TEST $(dev_data) ./fanns/U_dev.fann ./alphas/U.alpha ./fms/U.fm dimensions.mcd all
+
+.PHONY: clean
+clean:
+	- rm ./fanns/*.fann
+	- rm ./numpy_arrays/*.npy
+	- rm io_dimensions*
+	- rm -f *.o a.out core fann2binary 

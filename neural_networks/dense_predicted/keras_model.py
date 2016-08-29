@@ -1,6 +1,7 @@
 from keras.models import Sequential, model_from_json
 from keras.layers import Dense, Activation, Dropout, Merge
 from keras.callbacks import EarlyStopping
+from keras.utils.visualize_util import plot
 import numpy
 import sys
 import dimensions as d
@@ -55,18 +56,20 @@ class KerasModel:
 
     def save(self):
         sys.stderr.write("saving model...\n")
+        saved_directory = "saved_models"
         model_json = self.model.to_json()
-        with open("trained_model.json", "w") as json_file:
+        with open(saved_directory+"/trained_model.json", "w") as json_file:
             json_file.write(model_json)
-        self.model.save_weights("trained_model_weights.h5")
-        d.saveFeats(self.feats, "trained_model_feats.txt")
+        self.model.save_weights(saved_directory+"/trained_model_weights.h5")
+        d.saveFeats(self.feats, saved_directory+"/trained_model_feats.txt")
 
     def load(self):
         #Load model from saved arch, weights, and features used
         sys.stderr.write("loading model...\n")
-        model_arch = "trained_model.json"
-        model_weights = "trained_model_weights.h5"
-        self.feats = d.loadFeats("trained_model_feats.txt")
+        saved_directory = "saved_models"
+        model_arch = saved_directory+"/trained_model.json"
+        model_weights = saved_directory+"/trained_model_weights.h5"
+        self.feats = d.loadFeats(saved_directory+"/trained_model_feats.txt")
         self.model = model_from_json(open(model_arch).read())
         self.model.load_weights(model_weights)
         self.model.compile(loss='categorical_crossentropy', 
@@ -84,9 +87,16 @@ class KerasModel:
         scores = self.model.evaluate(test_data, Y_test)
         print("%s: %.2f%%" % (self.model.metrics_names[1], scores[1]*100))
 
+    def graph(self):
+        sys.stderr.write("graphing model...\n")
+        graph_filename = 'model.png'
+        plot(self.model, graph_filename, show_shapes=True)
+
+
 if __name__ == "__main__":
     model = KerasModel("data_1000")
-    model.train()
+    #model.train()
     #model.save()
-    #model.load()
-    model.evaluate()
+    model.load()
+    #model.evaluate()
+    model.graph()
