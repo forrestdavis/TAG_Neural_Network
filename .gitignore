@@ -25,6 +25,9 @@ io_dimensions*
 fann2binary
 *_train.txt
 *_test.txt
+*.json
+*.h5
+*feats.txt
 
 # ENV #
 #############

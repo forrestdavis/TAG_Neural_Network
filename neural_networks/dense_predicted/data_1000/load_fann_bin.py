@@ -22,6 +22,8 @@ def loadBin(dataType, input_filename,
     io = info.readline().strip("\n").split()
     info.close()
     feat = io[0]
+    if feat == "p":
+        feat = "pos"
     nb_examples = int(io[1])
     input_dim = io[2]
     output = "output"

@@ -17,9 +17,12 @@ class KerasModel:
         dimensions_dictionary = d.get_dimensions(self.dim_file)
 
         #Get train data
+        '''
         find_feats = ['A', 'B', 'C', 'D', 'E', 'H', 'I', 'J', 'K', 'L', 'M',
                 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'output']
         train_data, Y_train, feats = d.getTrainData("data_1000/numpy_arrays", find_feats)
+        '''
+        train_data, Y_train, feats = d.getTrainData("data_1000/numpy_arrays")
         
         self.feats = feats
 
@@ -30,7 +33,7 @@ class KerasModel:
 
         sys.stderr.write("fitting model...\n")
         self.model.fit(train_data, Y_train, callbacks=[early_stopping], 
-            nb_epoch=2, verbose=1, batch_size=1000, validation_split=0.1)
+            nb_epoch=50, verbose=1, batch_size=1000, validation_split=0.1)
         
     #Need to update predict
     def predict(self, fann_file, fm_file):
@@ -60,7 +63,7 @@ class KerasModel:
         model_json = self.model.to_json()
         with open(saved_directory+"/trained_model.json", "w") as json_file:
             json_file.write(model_json)
-        self.model.save_weights(saved_directory+"/trained_model_weights.h5")
+        self.model.save_weights(saved_directory+"/trained_model_weights.h5", overwrite=True)
         d.saveFeats(self.feats, saved_directory+"/trained_model_feats.txt")
 
     def load(self):
@@ -95,8 +98,8 @@ class KerasModel:
 
 if __name__ == "__main__":
     model = KerasModel("data_1000")
-    #model.train()
-    #model.save()
-    model.load()
-    #model.evaluate()
+    model.train()
+    model.save()
+    #model.load()
+    model.evaluate()
     model.graph()

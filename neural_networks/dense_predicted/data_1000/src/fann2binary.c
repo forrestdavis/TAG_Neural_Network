@@ -18,6 +18,8 @@
  * with one feature with the exact order s0 s1 s2 s3 b0 b1 b2 b3.
  * Need to write a general fann to binary for multiple features
  * and for a different order of stack and buffer.
+ *
+ * Also need to deal with form not being one hot
  */
 
 void transformFANN_Optimized(char *feat, const char *fann_name, 

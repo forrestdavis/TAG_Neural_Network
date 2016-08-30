@@ -1,24 +1,12 @@
-CC = gcc
-
-CFLAGS = -g -Wall
-
 all: train test
 
 train: all_fann_train all_numpy_train
 
 test: all_fann_dev all_numpy_test
 
-all_numpy_train: $(np)/X_train_A.npy $(np)/X_train_B.npy $(np)/X_train_C.npy $(np)/X_train_D.npy $(np)/X_train_E.npy $(np)/X_train_F.npy $(np)/X_train_G.npy $(np)/X_train_H.npy $(np)/X_train_I.npy $(np)/X_train_J.npy $(np)/X_train_K.npy $(np)/X_train_L.npy $(np)/X_train_M.npy $(np)/X_train_N.npy $(np)/X_train_O.npy $(np)/X_train_P.npy $(np)/X_train_Q.npy $(np)/X_train_R.npy $(np)/X_train_S.npy $(np)/X_train_T.npy $(np)/X_train_U.npy
+CC = gcc
 
-all_numpy_test: $(np)/X_test_A.npy $(np)/X_test_B.npy $(np)/X_test_C.npy $(np)/X_test_D.npy $(np)/X_test_E.npy $(np)/X_test_F.npy $(np)/X_test_G.npy $(np)/X_test_H.npy $(np)/X_test_I.npy $(np)/X_test_J.npy $(np)/X_test_K.npy $(np)/X_test_L.npy $(np)/X_test_M.npy $(np)/X_test_N.npy $(np)/X_test_O.npy $(np)/X_test_P.npy $(np)/X_test_Q.npy $(np)/X_test_R.npy $(np)/X_test_S.npy $(np)/X_test_T.npy $(np)/X_test_U.npy
-
-all_binary_train: $(bin)/A_train_input.bin $(bin)/B_train_input.bin $(bin)/C_train_input.bin $(bin)/D_train_input.bin $(bin)/E_train_input.bin $(bin)/F_train_input.bin $(bin)/G_train_input.bin $(bin)/H_train_input.bin $(bin)/I_train_input.bin $(bin)/J_train_input.bin $(bin)/K_train_input.bin $(bin)/L_train_input.bin $(bin)/M_train_input.bin $(bin)/N_train_input.bin $(bin)/O_train_input.bin $(bin)/P_train_input.bin $(bin)/Q_train_input.bin $(bin)/R_train_input.bin $(bin)/S_train_input.bin $(bin)/T_train_input.bin $(bin)/U_train_input.bin
-
-all_binary_test: $(bin)/A_test_input.bin $(bin)/B_test_input.bin $(bin)/C_test_input.bin $(bin)/D_test_input.bin $(bin)/E_test_input.bin $(bin)/F_test_input.bin $(bin)/G_test_input.bin $(bin)/H_test_input.bin $(bin)/I_test_input.bin $(bin)/J_test_input.bin $(bin)/K_test_input.bin $(bin)/L_test_input.bin $(bin)/M_test_input.bin $(bin)/N_test_input.bin $(bin)/O_test_input.bin $(bin)/P_test_input.bin $(bin)/Q_test_input.bin $(bin)/R_test_input.bin $(bin)/S_test_input.bin $(bin)/T_test_input.bin $(bin)/U_test_input.bin
-
-all_fann_train: fanns/A_train.fann fanns/B_train.fann fanns/C_train.fann fanns/D_train.fann fanns/E_train.fann fanns/F_train.fann fanns/G_train.fann fanns/H_train.fann fanns/I_train.fann fanns/J_train.fann fanns/K_train.fann fanns/L_train.fann fanns/M_train.fann fanns/N_train.fann fanns/O_train.fann fanns/P_train.fann fanns/Q_train.fann fanns/R_train.fann fanns/S_train.fann fanns/T_train.fann fanns/U_train.fann
-
-all_fann_dev: fanns/A_dev.fann fanns/B_dev.fann fanns/C_dev.fann fanns/D_dev.fann fanns/E_dev.fann fanns/F_dev.fann fanns/G_dev.fann fanns/H_dev.fann fanns/I_dev.fann fanns/J_dev.fann fanns/K_dev.fann fanns/L_dev.fann fanns/M_dev.fann fanns/N_dev.fann fanns/O_dev.fann fanns/P_dev.fann fanns/Q_dev.fann fanns/R_dev.fann fanns/S_dev.fann fanns/T_dev.fann fanns/U_dev.fann
+CFLAGS = -g -Wall
 
 train_data = ../../../data/d6.predicted_train.conll16
 
@@ -32,10 +20,24 @@ io_1000 = io_dimensions_1000.txt
 
 np = numpy_arrays
 
-#Makefile commands for generating fann2binary exe
-fann2binary: fann2binary.o
+all_numpy_train: $(np)/X_train_A.npy $(np)/X_train_B.npy $(np)/X_train_C.npy $(np)/X_train_D.npy $(np)/X_train_E.npy $(np)/X_train_F.npy $(np)/X_train_G.npy $(np)/X_train_H.npy $(np)/X_train_I.npy $(np)/X_train_J.npy $(np)/X_train_K.npy $(np)/X_train_L.npy $(np)/X_train_M.npy $(np)/X_train_N.npy $(np)/X_train_O.npy $(np)/X_train_P.npy $(np)/X_train_Q.npy $(np)/X_train_R.npy $(np)/X_train_S.npy $(np)/X_train_T.npy $(np)/X_train_U.npy $(np)/X_train_form.npy $(np)/X_train_pos.npy
 
-fann2binary.o: fann2binary.c
+all_numpy_test: $(np)/X_test_A.npy $(np)/X_test_B.npy $(np)/X_test_C.npy $(np)/X_test_D.npy $(np)/X_test_E.npy $(np)/X_test_F.npy $(np)/X_test_G.npy $(np)/X_test_H.npy $(np)/X_test_I.npy $(np)/X_test_J.npy $(np)/X_test_K.npy $(np)/X_test_L.npy $(np)/X_test_M.npy $(np)/X_test_N.npy $(np)/X_test_O.npy $(np)/X_test_P.npy $(np)/X_test_Q.npy $(np)/X_test_R.npy $(np)/X_test_S.npy $(np)/X_test_T.npy $(np)/X_test_U.npy $(np)/X_test_form.npy $(np)/X_test_pos.npy
+
+all_binary_train: $(bin)/A_train_input.bin $(bin)/B_train_input.bin $(bin)/C_train_input.bin $(bin)/D_train_input.bin $(bin)/E_train_input.bin $(bin)/F_train_input.bin $(bin)/G_train_input.bin $(bin)/H_train_input.bin $(bin)/I_train_input.bin $(bin)/J_train_input.bin $(bin)/K_train_input.bin $(bin)/L_train_input.bin $(bin)/M_train_input.bin $(bin)/N_train_input.bin $(bin)/O_train_input.bin $(bin)/P_train_input.bin $(bin)/Q_train_input.bin $(bin)/R_train_input.bin $(bin)/S_train_input.bin $(bin)/T_train_input.bin $(bin)/U_train_input.bin $(bin)/form_train_input.bin $(bin)/pos_train_input.bin
+
+all_binary_test: $(bin)/A_test_input.bin $(bin)/B_test_input.bin $(bin)/C_test_input.bin $(bin)/D_test_input.bin $(bin)/E_test_input.bin $(bin)/F_test_input.bin $(bin)/G_test_input.bin $(bin)/H_test_input.bin $(bin)/I_test_input.bin $(bin)/J_test_input.bin $(bin)/K_test_input.bin $(bin)/L_test_input.bin $(bin)/M_test_input.bin $(bin)/N_test_input.bin $(bin)/O_test_input.bin $(bin)/P_test_input.bin $(bin)/Q_test_input.bin $(bin)/R_test_input.bin $(bin)/S_test_input.bin $(bin)/T_test_input.bin $(bin)/U_test_input.bin $(bin)/form_test_input.bin $(bin)/pos_train_input.bin
+
+all_fann_train: fanns/A_train.fann fanns/B_train.fann fanns/C_train.fann fanns/D_train.fann fanns/E_train.fann fanns/F_train.fann fanns/G_train.fann fanns/H_train.fann fanns/I_train.fann fanns/J_train.fann fanns/K_train.fann fanns/L_train.fann fanns/M_train.fann fanns/N_train.fann fanns/O_train.fann fanns/P_train.fann fanns/Q_train.fann fanns/R_train.fann fanns/S_train.fann fanns/T_train.fann fanns/U_train.fann fanns/form_train.fann fanns/pos_train.fann
+
+all_fann_dev: fanns/A_dev.fann fanns/B_dev.fann fanns/C_dev.fann fanns/D_dev.fann fanns/E_dev.fann fanns/F_dev.fann fanns/G_dev.fann fanns/H_dev.fann fanns/I_dev.fann fanns/J_dev.fann fanns/K_dev.fann fanns/L_dev.fann fanns/M_dev.fann fanns/N_dev.fann fanns/O_dev.fann fanns/P_dev.fann fanns/Q_dev.fann fanns/R_dev.fann fanns/S_dev.fann fanns/T_dev.fann fanns/U_dev.fann fanns/form_dev.fann fanns/pos_dev.fann
+
+#Makefile commands for generating fann2binary exe
+fann2binary: src/fann2binary.o
+	gcc src/fann2binary.o -o fann2binary
+
+src/fann2binary.o: src/fann2binary.c
+	gcc -g -Wall -c -o src/fann2binary.o src/fann2binary.c
 
 ##############################################################################
 #
@@ -105,6 +107,12 @@ $(np)/X_train_T.npy: $(bin)/T_train_input.bin load_fann_bin.py
 $(np)/X_train_U.npy: $(bin)/U_train_input.bin load_fann_bin.py
 	python load_fann_bin.py TRAIN $(bin)/U_train_input.bin $(bin)/U_train_output.bin $(bin_info)/U_train.txt $(io_1000)
 
+$(np)/X_train_form.npy: $(bin)/form_train_input.bin load_fann_bin.py
+	python load_fann_bin.py TRAIN $(bin)/form_train_input.bin $(bin)/form_train_output.bin $(bin_info)/form_train.txt $(io_1000)
+
+$(np)/X_train_pos.npy: $(bin)/pos_train_input.bin load_fann_bin.py
+	python load_fann_bin.py TRAIN $(bin)/pos_train_input.bin $(bin)/pos_train_output.bin $(bin_info)/pos_train.txt $(io_1000)
+
 ##############################################################################
 #
 #Makefile commands for generating numpy test files
@@ -172,6 +180,12 @@ $(np)/X_test_T.npy: $(bin)/T_test_input.bin load_fann_bin.py
 
 $(np)/X_test_U.npy: $(bin)/U_test_input.bin load_fann_bin.py
 	python load_fann_bin.py TEST $(bin)/U_test_input.bin $(bin)/U_test_output.bin $(bin_info)/U_test.txt $(io_1000)
+
+$(np)/X_test_form.npy: $(bin)/form_test_input.bin load_fann_bin.py
+	python load_fann_bin.py TEST $(bin)/form_test_input.bin $(bin)/form_test_output.bin $(bin_info)/form_test.txt $(io_1000)
+
+$(np)/X_test_pos.npy: $(bin)/pos_test_input.bin load_fann_bin.py
+	python load_fann_bin.py TEST $(bin)/pos_test_input.bin $(bin)/pos_test_output.bin $(bin_info)/pos_test.txt $(io_1000)
 
 ##############################################################################
 #
@@ -241,6 +255,12 @@ $(bin)/T_train_input.bin: fann2binary fanns/T_train.fann
 $(bin)/U_train_input.bin: fann2binary fanns/U_train.fann
 	./fann2binary fanns/U_train.fann fms/U.fm $(bin)/U_train_input.bin $(bin)/U_train_output.bin $(bin_info)/U_train.txt
 
+$(bin)/form_train_input.bin: fann2binary fanns/form_train.fann
+	./fann2binary fanns/form_train.fann fms/form.fm $(bin)/form_train_input.bin $(bin)/form_train_output.bin $(bin_info)/form_train.txt
+
+$(bin)/pos_train_input.bin: fann2binary fanns/pos_train.fann
+	./fann2binary fanns/pos_train.fann fms/pos.fm $(bin)/pos_train_input.bin $(bin)/pos_train_output.bin $(bin_info)/pos_train.txt
+
 ##############################################################################
 #
 #Makefile commands for generating fann binary test files
@@ -308,6 +328,12 @@ $(bin)/T_test_input.bin: fann2binary fanns/T_dev.fann
 
 $(bin)/U_test_input.bin: fann2binary fanns/U_dev.fann
 	./fann2binary fanns/U_dev.fann fms/U.fm $(bin)/U_test_input.bin $(bin)/U_test_output.bin $(bin_info)/U_test.txt
+
+$(bin)/form_test_input.bin: fann2binary fanns/form_dev.fann
+	./fann2binary fanns/form_dev.fann fms/form.fm $(bin)/form_test_input.bin $(bin)/form_test_output.bin $(bin_info)/form_test.txt
+
+$(bin)/pos_test_input.bin: fann2binary fanns/pos_dev.fann
+	./fann2binary fanns/pos_dev.fann fms/pos.fm $(bin)/pos_test_input.bin $(bin)/pos_test_output.bin $(bin_info)/pos_test.txt
 
 ##############################################################################
 #
@@ -377,6 +403,12 @@ fanns/T_train.fann: fms/T.fm dimensions.mcd
 fanns/U_train.fann: fms/U.fm dimensions.mcd
 	./make_fann.sh TRAIN $(train_data) ./fanns/U_train.fann ./alphas/U.alpha ./fms/U.fm dimensions.mcd 1000
 
+fanns/form_train.fann: fms/form.fm dimensions.mcd
+	./make_fann.sh TRAIN $(train_data) ./fanns/form_train.fann ./alphas/form.alpha ./fms/form.fm dimensions.mcd 1000
+
+fanns/pos_train.fann: fms/pos.fm dimensions.mcd
+	./make_fann.sh TRAIN $(train_data) ./fanns/pos_train.fann ./alphas/pos.alpha ./fms/pos.fm dimensions.mcd 1000
+
 ##############################################################################
 #
 #Makefile commands for generating fann dev files
@@ -444,6 +476,12 @@ fanns/T_dev.fann: fms/T.fm dimensions.mcd
 
 fanns/U_dev.fann: fms/U.fm dimensions.mcd
 	./make_fann.sh TEST $(dev_data) ./fanns/U_dev.fann ./alphas/U.alpha ./fms/U.fm dimensions.mcd all
+
+fanns/form_dev.fann: fms/form.fm dimensions.mcd
+	./make_fann.sh TEST $(dev_data) ./fanns/form_dev.fann ./alphas/form.alpha ./fms/form.fm dimensions.mcd all
+
+fanns/pos_dev.fann: fms/pos.fm dimensions.mcd
+	./make_fann.sh TEST $(dev_data) ./fanns/pos_dev.fann ./alphas/pos.alpha ./fms/pos.fm dimensions.mcd all
 
 .PHONY: clean
 clean:
