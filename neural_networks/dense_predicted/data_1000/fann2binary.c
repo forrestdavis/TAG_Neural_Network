@@ -20,7 +20,7 @@
  * and for a different order of stack and buffer.
  */
 
-void transformFANN_Optimized(const char *fann_name, 
+void transformFANN_Optimized(char *feat, const char *fann_name, 
         const char *saved_input_filename, 
         const char *saved_output_filename,
         const char *io_info_filename);
@@ -56,26 +56,31 @@ int main(int argc, char **argv){
 
     int i = 0;
     int isOptimized = 1;
+    char *feat = (char *) malloc(2*sizeof(char));
     //Read each line of the fm file
     while(fgets(buffer, sizeof(buffer), fm)!=NULL){
         //If first character is #, ignore
         if(buffer[0] != comment){
             //Get feature location information i.e s0
-            char subarray[2];
-            memcpy(subarray, buffer, 2);
+            //Get feature, Assumes feature is one character
+            feat[0] = buffer[2];
+            feat[1] = '\0';
             //If each of the optimized stack/buffer order 
             //is not in order in the fm file than the Optimized
             //function cannot be used
-            if(strcmp(subarray, s_b_order[i++])!=0)
+            char *tmp = s_b_order[i++];
+            if(tmp[0]!=buffer[0] && tmp[1]!=buffer[1]){
                 isOptimized = 0;
+            }
         }
     }
 
-    if(isOptimized)
-        transformFANN_Optimized(fann_name, 
+    if(isOptimized){
+        transformFANN_Optimized(feat, fann_name, 
                 saved_input_filename, saved_output_filename,
                 io_info_filename);
-
+    }
+    free(feat);
     fclose(fm);
     return 0;
 }
@@ -92,7 +97,7 @@ int main(int argc, char **argv){
 //the binary file as a numpy array.
 //Furthermore, I am using char for the data to decrease the numpy array
 //size later on.
-void transformFANN_Optimized(const char *fann_name, 
+void transformFANN_Optimized(char *feat, const char *fann_name, 
         const char *saved_input_filename, 
         const char *saved_output_filename,
         const char *io_info_filename){
@@ -127,12 +132,24 @@ void transformFANN_Optimized(const char *fann_name,
 
     printf("Transforming fann file to binary...\n");
     
-    //Read first line and save to io info file
+    //Get first line of fann file and append the feature
+    //to the beginning of the line. Write line to io file
+    //Follows fann file format that first line will be
+    //three numbers: number of examples, input size, output size
+    //the first char * in info is reserved for the feature to be
+    //found in fm file
     fgets(buffer, sizeof(buffer), fann);
-    fputs(buffer, io_info_file);
+
+    char tmp[100];
+    memset(tmp, '\0', sizeof(tmp));
+    strcat(tmp, feat);
+    strcat(tmp, "  ");
+    strcat(tmp, buffer);
+
+    fputs(tmp, io_info_file);
 
     //Read the rest of the lines
-    //The format of the fan file is one blank line between 
+    //The format of the fann file is one blank line between 
     //input and output and two between the output and the new 
     //input/output pair. Thus if only one blank line is found the 
     //following one hot encoding is written to the saved output

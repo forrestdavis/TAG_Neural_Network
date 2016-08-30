@@ -1,21 +1,37 @@
 import numpy
+import os
 import sys
 
 #Takes as input a feature, dataType, input filename,
-#output filename and info filename where
-#info file is in the format:
-#number_of_examples    input_dimensions output_dimensions
+#output filename, info filename and io filename 
+###########################################################
 #dataType is TRAIN or TEST
 #input and output files are binary fann files
+#info file describes the binary file and is in the format:
+#feature_type number_of_examples    input_dimensions output_dimensions
+#io filename is a file describing the dimensions of the data
+#and is used for error checking data and by the keras model
+#############################################
 #Saves numpy arrays to X_dataType_feat.npy
 #and Y_dataType.npy
-def loadBin(feat, dataType, info_filename, input_filename,
-        output_filename):
+def loadBin(dataType, input_filename,
+        output_filename, info_filename, io_filename):
 
     info = open(info_filename, "r")
     io = info.readline().strip("\n").split()
     info.close()
-    nb_examples = int(io[0])
+    feat = io[0]
+    nb_examples = int(io[1])
+    input_dim = io[2]
+    output = "output"
+    output_dim = io[3]
+    
+    if dataType == "TRAIN":
+        set_io_file(io_filename, feat, input_dim)
+        set_io_file(io_filename, output, output_dim)
+    if dataType == "TEST":
+        check_io_file(io_filename, feat, input_dim)
+        check_io_file(io_filename, output, output_dim)
 
 
     in_array = numpy.fromfile(input_filename, dtype=numpy.uint8)
@@ -29,15 +45,72 @@ def loadBin(feat, dataType, info_filename, input_filename,
     numpy.save("X_"+dataType.lower()+"_"+feat+".npy", mod_in)
     numpy.save("Y_"+dataType.lower()+".npy", mod_out)
 
+def set_io_file(io_filename, feat, dim):
+    dim = str(dim)
+    #If file exists check for feature and dimension
+    if os.path.isfile(io_filename):
+        hasFeature = 0
+        lines = []
+        io_file = open(io_filename, "r")
+        #Iterate through file, either finding the feature and 
+        #changing the dimension if there is a difference or adding 
+        #it if the feature is not in the file
+        for line in io_file:
+            line = line.strip('\n')
+            line = line.split()
+            if feat == line[0]:
+                hasFeature = 1
+                if dim != line[1]:
+                    line[1] = dim
+            output_line = ""
+            for element in line:
+                output_line += element + " "
+            output_line += "\n"
+            lines.append(output_line)
+        if not hasFeature:
+            output_line = feat + " " + dim +"\n"
+            lines.append(output_line)
+        io_file.close()
+        output = open(io_filename, "w")
+        for line in lines:
+            output.write(line)
+        output.close()
+    #If io_file does not exisit create file and write feature to file
+    else:
+        output_line = feat + " " + dim + "\n"
+        output = open(io_filename, "w")
+        output.write(output_line)
+        output.close()
+
+#Check that feature and dimension are the same as the one
+#in the io_file
+def check_io_file(io_file_name, feat, dim):
+    if os.path.isfile(io_file_name):
+        dim = str(dim)
+        io_file = open(io_file_name, "r")
+        sameDim = 0
+        for line in io_file:
+            line = line.split()
+            if feat == line[0]:
+                if dim == line[1]:
+                    sameDim = 1
+        io_file.close()
+        assert sameDim, "There is a dimension mismatch with %s" %feat
+    else:
+        sys.stderr.write("io dimension file not found. Needed for checking " +
+                "evaluation or prediction data dimensions\n")
+        sys.exit(1)
+
 if __name__=="__main__":
     if len(sys.argv)!=6:
-        sys.stderr.write("Usage: <feature_type> <TRAIN or TEST>"+
-                " <io_info_filename> <input_data_filename> " +
-               "<output_data_filename>\n")
+        sys.stderr.write("Usage: <TRAIN or TEST>"+
+                " <input_data_filename> <output_data_filename> " +
+                "<binary_info_filename> <io_info_filename>\n")
         sys.exit(1)
-    feat = sys.argv[1]
-    dataType = sys.argv[2]
-    info_filename = sys.argv[3]
-    input_filename = sys.argv[4]
-    output_filename = sys.argv[5]
-    loadBin(feat, dataType, info_filename, input_filename, output_filename)
+    dataType = sys.argv[1]
+    input_filename = sys.argv[2]
+    output_filename = sys.argv[3]
+    info_filename = sys.argv[4]
+    io_filename = sys.argv[5]
+    loadBin(dataType,input_filename,output_filename,info_filename,
+            io_filename)

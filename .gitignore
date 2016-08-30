@@ -22,6 +22,9 @@ output.txt
 fv.txt
 a.out
 io_dimensions*
+fann2binary
+binary_fann_info/*.txt
+
 
 # ENV #
 #############
