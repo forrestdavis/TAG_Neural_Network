@@ -44,8 +44,8 @@ def loadBin(dataType, input_filename,
     mod_out = numpy.reshape(out_array, (nb_examples, -1))
 
     #Save files
-    numpy.save("X_"+dataType.lower()+"_"+feat+".npy", mod_in)
-    numpy.save("Y_"+dataType.lower()+".npy", mod_out)
+    numpy.save("numpy_arrays/X_"+dataType.lower()+"_"+feat+".npy", mod_in)
+    numpy.save("numpy_arrays/Y_"+dataType.lower()+".npy", mod_out)
 
 def set_io_file(io_filename, feat, dim):
     dim = str(dim)

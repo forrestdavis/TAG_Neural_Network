@@ -23,8 +23,8 @@ fv.txt
 a.out
 io_dimensions*
 fann2binary
-binary_fann_info/*.txt
-
+*_train.txt
+*_test.txt
 
 # ENV #
 #############
