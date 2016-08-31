@@ -11,9 +11,6 @@
     : options for activation functions
     : variable layers 
     : path to data folder
-    : somehow handle model with different features inputs
-         - add generic fm and fann to numpy code from parser
-         - use that and null properties of lists to create model
     : default values are best from experiments 
     : gold versus predicted
     : variable sentence size

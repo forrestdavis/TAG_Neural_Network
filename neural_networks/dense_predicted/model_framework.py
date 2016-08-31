@@ -267,7 +267,7 @@ def createModel(dimensions_dictionary, feats):
         if feat == "output":
             pass
         else:
-            model = Sequential()
+            model = Sequential(name=feat)
             model.add(Dense(50, 
                 input_dim=dimensions_dictionary[feat], init='uniform'))
             model.add(Activation('relu'))
@@ -278,9 +278,10 @@ def createModel(dimensions_dictionary, feats):
             models.append(model)
 
     feat = 'output'
-    model_total.add(Merge(models, mode='concat'))
+    model_total.add(Merge(models, mode='concat', name="total"))
     model_total.add(Dense(dimensions_dictionary[feat]))
     model_total.add(Activation('softmax'))
+
     
     #Compile model
     model_total.compile(loss='categorical_crossentropy', 

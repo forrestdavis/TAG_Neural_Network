@@ -4,7 +4,7 @@ from keras.callbacks import EarlyStopping
 from keras.utils.visualize_util import plot
 import numpy
 import sys
-import dimensions as d
+import model_framework as mf 
 
 class KerasModel:
     def __init__(self, data_directory):
@@ -14,24 +14,26 @@ class KerasModel:
     def train(self):
         #Train model on data
         #Get dimensions of data
-        dimensions_dictionary = d.get_dimensions(self.dim_file)
+        dimensions_dictionary = mf.get_dimensions(self.dim_file)
 
         #Get train data
+        '''
         find_feats = ['A', 'B', 'C', 'D', 'E', 'H', 'I', 'J', 'K', 'L', 'M',
                 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'form', 'pos', 'output']
-        train_data, Y_train, feats = d.getTrainData("data_1000/numpy_arrays", find_feats)
-        #train_data, Y_train, feats = d.getTrainData("data_1000/numpy_arrays")
+        train_data, Y_train, feats = mf.getTrainData("data_1000/numpy_arrays", find_feats)
+        '''
+        train_data, Y_train, feats = mf.getTrainData("data_1000/numpy_arrays")
         
         self.feats = feats
 
-        self.model = d.createModel(dimensions_dictionary, feats)
+        self.model = mf.createModel(dimensions_dictionary, feats)
     
         early_stopping = EarlyStopping(monitor='val_loss', 
                 verbose = 1, patience=2)
 
         sys.stderr.write("fitting model...\n")
         self.model.fit(train_data, Y_train, callbacks=[early_stopping], 
-            nb_epoch=50, verbose=1, batch_size=1000, validation_split=0.1)
+            nb_epoch=2, verbose=1, batch_size=1000, validation_split=0.1)
         
     #Need to update predict
     def predict(self):
@@ -42,11 +44,11 @@ class KerasModel:
         io_file = "data_1000/io_dimensions_1000.txt"
 
         #Get prediction data
-        prediction_data, feats = d.getPredictionData(fann_file, fm_file, 
+        prediction_data, feats = mf.getPredictionData(fann_file, fm_file, 
                 io_file)
 
         #need to arrange prediction_data to fit train data form
-        prediction_data = d.arrangeData(prediction_data, self.feats, feats)
+        prediction_data = mf.arrangeData(prediction_data, self.feats, feats)
 
         prediction = self.model.predict_on_batch(prediction_data)
 
@@ -71,7 +73,7 @@ class KerasModel:
         with open(saved_directory+"/trained_model.json", "w") as json_file:
             json_file.write(model_json)
         self.model.save_weights(saved_directory+"/trained_model_weights.h5", overwrite=True)
-        d.saveFeats(self.feats, saved_directory+"/trained_model_feats.txt")
+        mf.saveFeats(self.feats, saved_directory+"/trained_model_feats.txt")
 
     def load(self):
         #Load model from saved arch, weights, and features used
@@ -79,7 +81,7 @@ class KerasModel:
         saved_directory = "saved_models"
         model_arch = saved_directory+"/trained_model.json"
         model_weights = saved_directory+"/trained_model_weights.h5"
-        self.feats = d.loadFeats(saved_directory+"/trained_model_feats.txt")
+        self.feats = mf.loadFeats(saved_directory+"/trained_model_feats.txt")
         self.model = model_from_json(open(model_arch).read())
         self.model.load_weights(model_weights)
         self.model.compile(loss='categorical_crossentropy', 
@@ -94,10 +96,10 @@ class KerasModel:
                 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'form', 'pos', 'output']
         test_data, Y_test, feats = d.getTestData("data_1000/numpy_arrays", find_feats)
         '''
-        test_data, Y_test, feats = d.getTestData("data_1000/numpy_arrays")
+        test_data, Y_test, feats = mf.getTestData("data_1000/numpy_arrays")
 
         #need to arrange test_data to fit train data form
-        test_data = d.arrangeData(test_data, self.feats, feats)
+        test_data = mf.arrangeData(test_data, self.feats, feats)
 
         scores = self.model.evaluate(test_data, Y_test)
         print("%s: %.2f%%" % (self.model.metrics_names[1], scores[1]*100))
@@ -110,9 +112,9 @@ class KerasModel:
 
 if __name__ == "__main__":
     model = KerasModel("data_1000")
-    #model.train()
+    model.train()
     #model.save()
-    model.load()
-    model.evaluate()
+    #model.load()
+    #model.evaluate()
     #print model.predict()
-    #model.graph()
+    model.graph()
