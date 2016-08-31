@@ -36,12 +36,21 @@ class KerasModel:
             nb_epoch=50, verbose=1, batch_size=1000, validation_split=0.1)
         
     #Need to update predict
-    def predict(self, fann_file, fm_file):
+    def predict(self):
         sys.stderr.write("getting prediction from data...\n")
 
-        prediction = self.model.predict_on_batch([A_test, B_test, C_test, D_test, E_test, 
-        F_test, G_test, H_test, I_test, J_test, K_test, L_test, M_test, N_test, O_test, P_test, 
-        Q_test, R_test, S_test, T_test, U_test])
+        fann_file = "../../parser/fv.txt"
+        fm_file = "../../parser/parser.fm"
+        io_file = "data_1000/io_dimensions_1000.txt"
+
+        #Get prediction data
+        prediction_data, feats = d.getPredictionData(fann_file, fm_file, 
+                io_file)
+
+        #need to arrange prediction_data to fit train data form
+        prediction_data = d.arrangeData(prediction_data, self.feats, feats)
+
+        prediction = self.model.predict_on_batch(prediction_data)
 
         #Transform prediction from one-hot to int
         max_pos = -1
@@ -98,8 +107,9 @@ class KerasModel:
 
 if __name__ == "__main__":
     model = KerasModel("data_1000")
-    model.train()
-    model.save()
-    #model.load()
-    model.evaluate()
-    model.graph()
+    #model.train()
+    #model.save()
+    model.load()
+    #model.evaluate()
+    print model.predict()
+    #model.graph()
