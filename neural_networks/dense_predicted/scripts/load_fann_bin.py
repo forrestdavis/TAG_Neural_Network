@@ -25,6 +25,7 @@ def loadBin(dataType, input_filename,
     input_dim = io[2]
     output = "output"
     output_dim = io[3]
+    print input_dim
     
     if dataType == "TRAIN":
         set_io_file(io_filename, feat, input_dim)
@@ -34,12 +35,17 @@ def loadBin(dataType, input_filename,
         check_io_file(io_filename, output, output_dim)
 
 
-    in_array = numpy.fromfile(input_filename, dtype=numpy.uint8)
+    if(feat) == "f":
+        in_array = numpy.fromfile(input_filename, dtype='f8')
+    else:
+        in_array = numpy.fromfile(input_filename, dtype=numpy.uint8)
     out_array = numpy.fromfile(output_filename, dtype=numpy.uint8)
 
     #Reshape into an array for every example
     mod_in = numpy.reshape(in_array, (nb_examples, -1))
     mod_out = numpy.reshape(out_array, (nb_examples, -1))
+
+    print mod_in[0]
 
     #Save files
     numpy.save("X_"+dataType.lower()+"_"+feat+".npy", mod_in)

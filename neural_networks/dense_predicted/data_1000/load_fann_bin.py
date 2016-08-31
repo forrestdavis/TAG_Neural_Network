@@ -24,6 +24,8 @@ def loadBin(dataType, input_filename,
     feat = io[0]
     if feat == "p":
         feat = "pos"
+    if feat == "f":
+        feat = "form"
     nb_examples = int(io[1])
     input_dim = io[2]
     output = "output"
@@ -37,8 +39,10 @@ def loadBin(dataType, input_filename,
         check_io_file(io_filename, feat, input_dim)
         check_io_file(io_filename, output, output_dim)
 
-
-    in_array = numpy.fromfile(input_filename, dtype=numpy.uint8)
+    if feat == "form":
+        in_array = numpy.fromfile(input_filename, dtype='f8')
+    else:
+        in_array = numpy.fromfile(input_filename, dtype=numpy.uint8)
     out_array = numpy.fromfile(output_filename, dtype=numpy.uint8)
 
     #Reshape into an array for every example
@@ -107,7 +111,7 @@ def check_io_file(io_file_name, feat, dim):
 
 if __name__=="__main__":
     if len(sys.argv)!=6:
-        sys.stderr.write("Usage: <TRAIN or TEST>"+
+        sys.stderr.write("Usage: python load_fann_bin.py <TRAIN or TEST>"+
                 " <input_data_filename> <output_data_filename> " +
                 "<binary_info_filename> <io_info_filename>\n")
         sys.exit(1)

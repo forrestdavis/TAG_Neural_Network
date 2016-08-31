@@ -1,0 +1,132 @@
+dsubcat:
+    There are now two different types. dsubcat1 is just deep
+    subcategorization frame, listed by argument number. dsubcat2 is the same
+    as the old.
+
+particle:
+    Now confused about the particles in the old, there are four different 
+    distinctins, - + na o 
+    I am not sure what they mean and cannot figure out the pattern
+
+adjnodes:
+    Now broken up into left and right adjnodes. Also the different
+    traversals are considered, so if the left traversal of the node occurs
+    to the left of the anchor and the right traversal to the right of the
+    anchor ladjnodes will contain the node and so will radjnodes. Also the
+    anchor is part of the adjnodes.
+
+voice pas_by missing:
+    NONE
+voice pas_by additional:
+    These were marked as pas in the old but actually have pas_by structure
+    t4673, t2547, t4090, t3721
+voice pas missing:
+    These were marked as pas in the old but they do not match the patterns
+    for passive and in the d6.train they do not appear to be passive.
+    t3757, t4489, t4673, t537, t4360, t2466, t505, t2547, t3721, t1082,
+    t4637, t4455, t4655, t2796, t1955, t2657, t4090
+voice pas additional:
+    These were not marked as pas in the old but appear to be passive to me
+    and its tree reflects pas structure
+    t2740, t2517, t1840, t1152, t2897, t174, t640, t279
+voice act missing:
+    These are now passive in the new properties
+    t640, t2740, t1152, t2517, t1840, t2897, t279, t174
+voice act additional:
+    Used to be passive in old
+    t4655, t4455, t4489, t1955, t2796, t1082
+
+pred missing:
+    NONE
+pred additional:
+    not in old but has pred structure
+    t4551, t1969, t4505, t3955, t2971, t4302
+
+rel 0 missing:
+    t2775 - now marked as rel + 
+    t2866 - now marked as rel 1  
+rel 0 additional:
+    Not marked as relative clause in old but actually is
+    t3816, t3657, t363, t3726 
+    t3312 - marked as rel + in old but has rel 0 pattern
+rel 1 missing:
+    NONE
+rel 1 additional:
+    marked as rel + in old but has rel 1 pattern
+    t3530, t2173, t3673, t2199
+    t2866 - used to be marked as rel 0 but has rel 1 pattern
+rel 2 missing:
+    NONE
+rel 2 additional:
+    NONE
+rel + missing:
+    t3530, t2173, t3673, t2199 - rel 1 now
+    t3312, t363 - rel 0 now
+    t2796 - is not relative clause
+rel + additional:
+    t2775 - marked as rel 0 in old, but does not match that pattern
+
+esubj missing:
+    esubj was changed to reflect no expressed subject at all, meaning no
+    relative clause or wh subject. These are not in this 
+    category but used to be considered esubjs.
+    t622, t722, t4314, t2320, t1434, t3421, t243, t2365, t3329, t1054, 
+    t4572, t467, t1607, t1274, t1126, t3766, t1961, t794, t4664, t3697,
+    t2934, t3747, t4481, t4360, t2727, t1651, t4637, t1131, t2657
+esubj additional:
+    These trees have all NPs, that are children of S, with trace.
+    t3977, t3767, t2210, t4671, t1387, t4609, t2373, t4099, t1343, t1803,
+    t257, t717, t314, t1335, t1500, t3302, t3564, t3948, t4517, t282,
+    t4512, t4287, t1326, t641, t3472, t2380, t2682, t2968, t1389, t688, 
+    t304, t2141, t1527, t4155, t4141, t3512, t2165, t1334, t3699, t369,
+    t3972, t3589, t3519, t4507, t4490, t3637, t308, t2943, t1457, t434,
+    t2012, t4365, t1179, t3620, t3858, t2788, t4117, t4482, t1460, t4408,
+    t3210, t2677, t3098, t698
+    
+Wh_0 missing:
+    t3420, t4609 - missing but not actually with wh_movement
+    t2115 - missing but very complex structure so doesn't match pattern
+Wh_0 additional:
+    t3514 - has wh_movement I believe 
+Wh_1 missing:
+    t1522, t4650 - not wh
+Wh_1 additional:
+    All of the below exhibit wh_movement I believe
+    t4436, t325, t4051, t3627, t2812, t2267, t2840, t1149, t299, t1728, 
+    t300, t4584, t1037, t789, t3433, t2633, t3277, t2900, t3269, t3083,
+    t3400, t3326, t3511, t3463, t2568, t3518, t3057, t1459, t1518, t1046,
+    t1948
+WH_2 missing:
+    NONE
+WH_2 additional:
+    NONE
+
+root:
+    Same as old
+
+lfront: 
+    Same as old
+
+rfront:
+    Same as old
+
+coanc:
+    Same as old
+
+modif: 
+    Same as old
+
+dir: 
+    Same as old
+
+predaux:
+    Same as old
+
+comp:
+    Same as old
+
+datshift:
+    Same as old
+
+substnodes:
+    Same as old
