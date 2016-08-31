@@ -17,12 +17,10 @@ class KerasModel:
         dimensions_dictionary = d.get_dimensions(self.dim_file)
 
         #Get train data
-        '''
         find_feats = ['A', 'B', 'C', 'D', 'E', 'H', 'I', 'J', 'K', 'L', 'M',
-                'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'output']
+                'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'form', 'pos', 'output']
         train_data, Y_train, feats = d.getTrainData("data_1000/numpy_arrays", find_feats)
-        '''
-        train_data, Y_train, feats = d.getTrainData("data_1000/numpy_arrays")
+        #train_data, Y_train, feats = d.getTrainData("data_1000/numpy_arrays")
         
         self.feats = feats
 
@@ -91,6 +89,11 @@ class KerasModel:
         #Evaluate test data on model
         sys.stderr.write("evaluating model on test data...\n")
         #Get test data
+        '''
+        find_feats = ['A', 'B', 'C', 'D', 'E', 'H', 'I', 'J', 'K', 'L', 'M',
+                'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'form', 'pos', 'output']
+        test_data, Y_test, feats = d.getTestData("data_1000/numpy_arrays", find_feats)
+        '''
         test_data, Y_test, feats = d.getTestData("data_1000/numpy_arrays")
 
         #need to arrange test_data to fit train data form
@@ -110,6 +113,6 @@ if __name__ == "__main__":
     #model.train()
     #model.save()
     model.load()
-    #model.evaluate()
-    print model.predict()
+    model.evaluate()
+    #print model.predict()
     #model.graph()
