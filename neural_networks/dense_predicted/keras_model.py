@@ -120,9 +120,10 @@ if __name__ == "__main__":
     req.add_argument("-h", "--help", action="help",
             help="display this message")
     req.add_argument("-D", "--data_path", metavar='', 
-            help="path to data directory")
+            help="path to data directory", required=True)
     req.add_argument("-M", "--mode", metavar='', 
-            help="TRAIN|TEST|PREDICT|GRAPH")
+            help="TRAIN|TEST|PREDICT|GRAPH", required=True, 
+            choices=["TRAIN", "TEST", "PREDICT", "GRAPH"])
     req.add_argument("-T", "--trained_model", metavar='',
     help=("Specifiy the file name for saving/loading the train model, "
           +"no extension. The files are "
