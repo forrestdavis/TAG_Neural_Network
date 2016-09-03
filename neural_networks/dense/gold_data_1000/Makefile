@@ -1,5 +1,7 @@
 all: train test
 
+numpy: all_numpy_train all_numpy_test
+
 train: all_fann_train all_numpy_train
 
 test: all_fann_dev all_numpy_test

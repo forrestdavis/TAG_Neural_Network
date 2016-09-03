@@ -12,8 +12,8 @@
 #-----------------------------------------------------------------------------------------------------------------------------
 0 INDEX INT _
 #1 FORM EMB ./form_300.we 
-#1 FORM EMB ./word_embeddings/ptb.form.we 
-1 FORM EMB ./word_embeddings/glove.6B.50d.txt
+1 FORM EMB ./word_embeddings/ptb.form.we 
+#1 FORM EMB ./word_embeddings/glove.6B.50d.txt
 2 CPOS VOCAB _
 3 POS VOCAB _
 4 GOV INT _
