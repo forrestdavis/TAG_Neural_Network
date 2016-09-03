@@ -28,7 +28,7 @@ def get_dimensions(dimensions_filename):
     dimensions_file.close()
     return d
 
-def getTrainData(data_directory, find_feats=None):
+def getTrainData(data_directory, verbose, find_feats=None):
     #Get the file names for all train files in the data directory
     #Assumes that the files are in the format X_train_? where
     #? is a feature. Also assumes that the output data is Y_train
@@ -53,11 +53,13 @@ def getTrainData(data_directory, find_feats=None):
     data = []
     Y_train = []
     for x in xrange(len(data_files)):
-        sys.stderr.write("Getting "+feats[x]+" train data ...\n")
+        if verbose:
+            sys.stderr.write("Getting "+feats[x]+" train data ...\n")
         array = numpy.load(data_directory+"/"+data_files[x])
         data.append(array)
     if len(output_filename)>0:
-        sys.stderr.write("Getting output train data ...\n")
+        if verbose:
+            sys.stderr.write("Getting output train data ...\n")
         Y_train = numpy.load(data_directory+"/"+ output_filename)
 
     #There must be output information
@@ -65,7 +67,7 @@ def getTrainData(data_directory, find_feats=None):
     
     return data, Y_train, feats
 
-def getTestData(data_directory):
+def getTestData(data_directory, verbose):
     #Get the file names for all test files in the data directory
     #Assumes that the files are in the format X_test_? where
     #? is a feature. Also assumes that the output data is Y_test
@@ -84,11 +86,13 @@ def getTestData(data_directory):
     data = []
     Y_test = []
     for x in xrange(len(data_files)):
-        sys.stderr.write("Getting "+feats[x]+" test data ...\n")
+        if verbose:
+            sys.stderr.write("Getting "+feats[x]+" test data ...\n")
         array = numpy.load(data_directory+"/"+data_files[x])
         data.append(array)
     if len(output_filename)>0:
-        sys.stderr.write("Getting output test data ...\n")
+        if verbose:
+            sys.stderr.write("Getting output test data ...\n")
         Y_test = numpy.load(data_directory+"/"+ output_filename)
 
     #There must be output information
@@ -96,7 +100,7 @@ def getTestData(data_directory):
     
     return data, Y_test, feats
 
-def getPredictionData(fann_file, fm_file, io_file_name):
+def getPredictionData(fann_file, fm_file, io_file_name, verbose):
     fann = open(fann_file, "r")
     fm = open(fm_file, "r")
     dictionary = {}
@@ -124,7 +128,8 @@ def getPredictionData(fann_file, fm_file, io_file_name):
     #{X: {exact feature(i.e s0A): one hot encodings}} where X is a feature
     feat_num = 0
     num_feats = len(feats)
-    sys.stderr.write("Reading fann file...\n")
+    if verbose:
+        sys.stderr.write("Reading fann file...\n")
     for line in fann:
         line = line.strip('\n')
         if line:
@@ -257,8 +262,13 @@ def loadFeats(filename):
     feat_file.close()
     return train_feats
 
-def createModel(dimensions_dictionary, feats):
-    sys.stderr.write("creating model...\n")
+def createModel(dimensions_dictionary, feats, verbose, 
+        nb_layers, activation_functs, nodes, 
+        merge_nb_layers, 
+        merge_activation_functs, merge_nodes):
+
+    if verbose:
+        sys.stderr.write("creating model...\n")
     model_total = Sequential()
 
     models = []
@@ -267,22 +277,82 @@ def createModel(dimensions_dictionary, feats):
         if feat == "output":
             pass
         else:
+            HasMultiAct = False
+            if len(activation_functs)>1:
+                error = "number of layers and number of activation functions "
+                error += "must be the same if you are specifying multiple "
+                error += "functions"
+                assert len(activation_functs)==nb_layers, error
+                HasMultiAct = True
+
+            HasMultiNode = 0
+            if len(nodes)>1:
+                error = "number of layers and number of nodes "
+                error += "must be the same if you are specifying multiple "
+                error += "node sizes"
+                assert len(nodes)==nb_layers, error
+                HasMultiNode = True
+
+            a = 0
+            n = 0
+
             model = Sequential(name=feat)
-            model.add(Dense(50, 
-                input_dim=dimensions_dictionary[feat], init='uniform'))
-            model.add(Activation('relu'))
-            model.add(Dropout(0.50))
-            model.add(Dense(50))
-            model.add(Activation('relu'))
-            model.add(Dropout(0.50))
+            for i in xrange(nb_layers):
+                if i == 0:
+                    model.add(Dense(nodes[n], 
+                        input_dim=dimensions_dictionary[feat], 
+                        init='uniform'))
+                    model.add(Activation(activation_functs[a]))
+                    model.add(Dropout(0.50))
+                else:
+                    model.add(Dense(nodes[n]))
+                    model.add(Activation(activation_functs[a]))
+                    model.add(Dropout(0.50))
+
+                if HasMultiNode:
+                    n += 1
+                if HasMultiAct:
+                    a += 1
+
             models.append(model)
 
+
     feat = 'output'
+
     model_total.add(Merge(models, mode='concat', name="total"))
+
+    HasMultiAct = False
+    if len(merge_activation_functs)>1:
+        error = "number of layers and number of activation functions "
+        error += "must be the same if you are specifying multiple "
+        error += "functions for after the merge"
+        assert len(merge_activation_functs)==merge_nb_layers, error
+        HasMultiAct = True
+
+    HasMultiNode = 0
+    if len(merge_nodes)>1:
+        error = "number of layers and number of nodes "
+        error += "must be the same if you are specifying multiple "
+        error += "node sizes for after the merge"
+        assert len(merge_nodes)==merge_nb_layers, error
+        HasMultiNode = True
+
+    a = 0
+    n = 0
+
+    for i in xrange(merge_nb_layers):
+        model_total.add(Dense(nodes[n]))
+        model_total.add(Activation(activation_functs[a]))
+        model_total.add(Dropout(0.50))
+
+        if HasMultiNode:
+            n += 1
+        if HasMultiAct:
+            a += 1
+    
     model_total.add(Dense(dimensions_dictionary[feat]))
     model_total.add(Activation('softmax'))
 
-    
     #Compile model
     model_total.compile(loss='categorical_crossentropy', 
             optimizer='adam', metrics=['accuracy'])

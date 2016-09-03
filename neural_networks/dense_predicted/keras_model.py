@@ -9,15 +9,15 @@ import os
 import model_framework as mf 
 
 class KerasModel:
-    def __init__(self, data_directory):
+    def __init__(self, data_directory, verbose):
         #Get io file
         dim_file = ""
+        if data_directory[len(data_directory)-1] != "/":
+            data_directory = data_directory+"/"
+            
         for filename in os.listdir(data_directory):
             if "io_" in filename:
-                if data_directory[len(data_directory)-1] == "/":
-                    dim_file = data_directory+filename
-                else:
-                    dim_file = data_directory+"/"+filename
+                dim_file = data_directory+filename
         if not dim_file:
             sys.stderr.write("There must be a file with the dimensions "
                     +"of the data, file name must contain 'io'\n")
@@ -26,41 +26,65 @@ class KerasModel:
         self.model = Sequential()
         self.dim_file = dim_file
         self.data_dir = data_directory
+        self.v = verbose
         
-    def train(self, find_feats):
+    def train(self, find_feats, nb_layers=None, activation_functs=None,
+            nodes=None, merge_nb_layers=None,
+            merge_activation_functs=None, merge_nodes=None):
         #Train model on data
         #Get dimensions of data
         dimensions_dictionary = mf.get_dimensions(self.dim_file)
+        array_location = self.data_dir+"numpy_arrays"
+
+        #set defaults
+        if nb_layers==None:
+            nb_layers=2
+        if activation_functs==None:
+            activation_functs=['relu']
+        if nodes==None:
+            nodes=[50]
+
+        if merge_nb_layers==None:
+            merge_nb_layers=0
+        if merge_activation_functs==None:
+            merge_activation_functs=['relu']
+        if merge_nodes==None:
+            merge_nodes=[50]
 
         #Get train data
         if find_feats:
             train_data, Y_train, feats = mf.getTrainData(
-                    "data_1000/numpy_arrays", find_feats)
+                    array_location, self.v, find_feats)
         else:
             train_data, Y_train, feats = mf.getTrainData(
-                    "data_1000/numpy_arrays")
+                    array_location, self.v)
         
         self.feats = feats
 
-        self.model = mf.createModel(dimensions_dictionary, feats)
+        self.model = mf.createModel(dimensions_dictionary, feats, self.v,
+                nb_layers, activation_functs, nodes, merge_nb_layers,
+                merge_activation_functs, merge_nodes)
     
         early_stopping = EarlyStopping(monitor='val_loss', 
                 verbose = 1, patience=2)
 
-        sys.stderr.write("fitting model...\n")
+        if self.v:
+            sys.stderr.write("fitting model...\n")
         self.model.fit(train_data, Y_train, callbacks=[early_stopping], 
-            nb_epoch=2, verbose=1, batch_size=1000, validation_split=0.1)
+            nb_epoch=2, verbose=self.v, batch_size=1000, validation_split=0.1)
         
     #Need to update predict
     def predict(self, fann_file, fm_file):
-        sys.stderr.write("getting prediction from data...\n")
+        if self.v:
+            sys.stderr.write("getting prediction from data...\n")
 
         #Get prediction data
-        prediction_data, feats = mf.getPredictionData(fann_file, fm_file, 
-                self.dim)
+        prediction_data, feats = mf.getPredictionData(fann_file, 
+                fm_file, self.dim, self.v)
 
         #need to arrange prediction_data to fit train data form
-        prediction_data = mf.arrangeData(prediction_data, self.feats, feats)
+        prediction_data = mf.arrangeData(prediction_data, 
+                self.feats, feats)
 
         prediction = self.model.predict_on_batch(prediction_data)
 
@@ -79,7 +103,8 @@ class KerasModel:
             return "ERROR"
 
     def save(self, filename):
-        sys.stderr.write("saving model...\n")
+        if self.v:
+            sys.stderr.write("saving model...\n")
         saved_directory = "saved_models/"
         if not filename:
             filename = "trained_model"
@@ -93,7 +118,8 @@ class KerasModel:
 
     def load(self, filename):
         #Load model from saved arch, weights, and features used
-        sys.stderr.write("loading model...\n")
+        if self.v:
+            sys.stderr.write("loading model...\n")
         saved_directory = "saved_models/"
         if not filename:
             filename="trained_model"
@@ -108,18 +134,21 @@ class KerasModel:
 
     def evaluate(self):
         #Evaluate test data on model
-        sys.stderr.write("evaluating model on test data...\n")
+        if self.v:
+            sys.stderr.write("evaluating model on test data...\n")
         #Get test data
-        test_data, Y_test, feats = mf.getTestData("data_1000/numpy_arrays")
+        array_location = self.data_dir+"numpy_arrays"
+        test_data, Y_test, feats = mf.getTestData(array_location, self.v)
 
         #need to arrange test_data to fit train data form
         test_data = mf.arrangeData(test_data, self.feats, feats)
 
-        scores = self.model.evaluate(test_data, Y_test)
+        scores = self.model.evaluate(test_data, Y_test, verbose=self.v)
         print("%s: %.2f%%" % (self.model.metrics_names[1], scores[1]*100))
 
     def graph(self, filename):
         if not filename:
             filename = "graph_model.png"
-        sys.stderr.write("graphing model...\n")
+        if self.v:
+            sys.stderr.write("graphing model...\n")
         plot(self.model, filename, show_shapes=True)

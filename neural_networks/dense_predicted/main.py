@@ -7,10 +7,10 @@ if __name__ == "__main__":
             description=("main function for working with a "
                +"keras model. You can list more than one mode in any order "
                +"i.e. TEST TRAIN GRAPH. The order of operatations under "
-               +"the hood is TRAIN TEST PREDICT GRAPH. TEST/PREDICT without "
-               +"-L to load a pre-trained model, or adding TRAIN to -M "
-               +"will still cause TRAIN to be called, so TRAIN specific "
-               +"flags can be added to a TEST/PREDICT call")
+               +"the hood is TRAIN TEST PREDICT GRAPH. TEST/PREDICT/GRAPH "
+               +"without -L to load a pre-trained model, or adding TRAIN to "
+               +"-M will still cause TRAIN to be called, so TRAIN specific "
+               +"flags can be added to a TEST/PREDICT/GRAPH call")
                 ,add_help=False)
 
     ############################################################
@@ -46,6 +46,25 @@ if __name__ == "__main__":
     train.add_argument("-F", "--feats", metavar='', nargs='+',
             help=("List features for training (default: all features "
                 +"available in data directory)"))
+    train.add_argument("-l", "--nb_layers", metavar='', type=int, 
+            help="Set number of layers in keras model (default: TBD)")
+    train.add_argument("-A", "--activation", metavar='', nargs='+',
+            help="Set activation function for layers. If you desire "
+            +"different activation functions per layer list activation "
+            +"functions in order")
+    train.add_argument("-N", "--nodes", metavar='', nargs='+', type=int,
+            help="Set number of nodes for layers. If you desire "
+            +"different node sizes per layer list node sizes in order.")
+    train.add_argument("-ml", "--nb_merge_layers", metavar='', type=int, 
+    help="Set number of layers in keras model after merge (default: TBD)")
+    train.add_argument("-mA", "--merge_activation", metavar='', nargs='+',
+        help="Set activation function for layers after merge. If you desire "
+            +"different activation functions per layer list activation "
+            +"functions in order")
+    train.add_argument("-mN", "--merge_nodes", metavar='', nargs='+', type=int,
+            help="Set number of nodes for layers after merge. If you desire "
+            +"different node sizes per layer list node sizes in order.")
+
 
     ############################################################
     #Flags for test
@@ -76,33 +95,67 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    model = km.KerasModel(args.data_path)
+    ############################################################
+    # CREATE CLASS INSTANCE
+    ############################################################
+    model = km.KerasModel(args.data_path, args.no_verbose)
     trained=False
-    #TRAIN
-    if "TRAIN" in args.mode:
-        model.train(args.feats)
-        trained=True
-    
-    #SAVE/LOAD
-    if args.trained_model:
-        if not args.save and not args.load:
-            sys.stderr.write("To use -T/--train_model you must either specifiy "
-                    +"-L/--load or -S/--save\n")
-            sys.exit(1)
-    if args.save:
-        model.save(args.trained_model)
-    if args.load:
-        model.load(args.trained_model)
 
-    #TEST
+    ############################################################
+    # TRAIN
+    ############################################################
+    if "TRAIN" in args.mode:
+        if args.trained_model:
+            if not args.save and not args.load:
+                sys.stderr.write(
+                "To use -T/--train_model you must either specifiy "
+                        +"-L/--load or -S/--save\n")
+                sys.exit(1)
+        if args.save:
+            model.save(args.trained_model)
+        if args.load:
+            model.load(args.trained_model)
+
+        model.train(args.feats, args.nb_layers, args.activation,
+                args.nodes, args.nb_merge_layers, 
+                args.merge_activation, args.merge_nodes)
+        trained=True
+
+    ############################################################
+    # TEST
+    ############################################################
     if "TEST" in args.mode:
+        if args.trained_model:
+            if not args.save and not args.load:
+                sys.stderr.write(
+                "To use -T/--train_model you must either specifiy "
+                        +"-L/--load or -S/--save\n")
+                sys.exit(1)
+        if args.save:
+            model.save(args.trained_model)
+        if args.load:
+            model.load(args.trained_model)
+
         if not args.load and not trained:
             model.train(args.feats)
             trained=True
         model.evaluate()
     
-    #Predict
+    ############################################################
+    # PREDICT
+    ############################################################
     if "PREDICT" in args.mode:
+        if args.trained_model:
+            if not args.save and not args.load:
+                sys.stderr.write(
+                "To use -T/--train_model you must either specifiy "
+                        +"-L/--load or -S/--save\n")
+                sys.exit(1)
+        if args.save:
+            model.save(args.trained_model)
+        if args.load:
+            model.load(args.trained_model)
+
         if not args.load and not trained:
             model.train(args.feats)
             trained=True
@@ -116,8 +169,21 @@ if __name__ == "__main__":
             sys.exit(1)
         print model.predict(args.feat_model, args.fann)
     
-    #Graph
+    ############################################################
+    # GRAPH
+    ############################################################
     if "GRAPH" in args.mode:
+        if args.trained_model:
+            if not args.save and not args.load:
+                sys.stderr.write(
+                "To use -T/--train_model you must either specifiy "
+                        +"-L/--load or -S/--save\n")
+                sys.exit(1)
+        if args.save:
+            model.save(args.trained_model)
+        if args.load:
+            model.load(args.trained_model)
+
         if not args.load and not trained:
             model.train(args.feats)
             trained=True
