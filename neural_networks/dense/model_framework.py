@@ -50,6 +50,10 @@ def getTrainData(data_directory, verbose, find_feats=None):
                     filename = filename.split(".")[0].split("_")
                     feats.append(filename[2])
     #Get train data
+    error = "There was no data found. Either you specified features that do "
+    error += "not exist or you did not enter make in the desired data "
+    error += "directory."
+    assert len(data_files)>0, error
     data = []
     Y_train = []
     for x in xrange(len(data_files)):
