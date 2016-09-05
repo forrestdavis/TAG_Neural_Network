@@ -30,7 +30,8 @@ class KerasModel:
         
     def train(self, find_feats, nb_layers=None, activation_functs=None,
             nodes=None, merge_nb_layers=None,
-            merge_activation_functs=None, merge_nodes=None):
+            merge_activation_functs=None, merge_nodes=None,
+            nb_epochs=50, early_stop=False):
         #Train model on data
         #Get dimensions of data
         dimensions_dictionary = mf.get_dimensions(self.dim_file)
@@ -70,8 +71,13 @@ class KerasModel:
 
         if self.v:
             sys.stderr.write("fitting model...\n")
-        self.model.fit(train_data, Y_train, callbacks=[early_stopping], 
-            nb_epoch=2, verbose=self.v, batch_size=1000, validation_split=0.1)
+        
+        if early_stop:
+            self.model.fit(train_data, Y_train, callbacks=[early_stopping], 
+                nb_epoch=nb_epochs, verbose=self.v, batch_size=1000, validation_split=0.1)
+        else:
+            self.model.fit(train_data, Y_train, 
+                nb_epoch=nb_epochs, verbose=self.v, batch_size=1000, validation_split=0.1)
         
     #Need to update predict
     def predict(self, fann_file, fm_file):

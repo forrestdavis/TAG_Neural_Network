@@ -64,6 +64,11 @@ if __name__ == "__main__":
     train.add_argument("-mN", "--merge_nodes", metavar='', nargs='+', type=int,
             help="Set number of nodes for layers after merge. If you desire "
             +"different node sizes per layer list node sizes in order.")
+    train.add_argument("-nE", "--nb_epoch", metavar='', type=int, 
+            help=("Set number of epochs for training the model"
+                +"(default: 50)"))
+    train.add_argument("-nS", "--no_stop", action="store_false", 
+            help="Stop early stopping on the model")
 
 
     ############################################################
@@ -118,7 +123,8 @@ if __name__ == "__main__":
 
         model.train(args.feats, args.nb_layers, args.activation,
                 args.nodes, args.nb_merge_layers, 
-                args.merge_activation, args.merge_nodes)
+                args.merge_activation, args.merge_nodes, 
+                args.nb_epoch, args.no_stop)
         trained=True
 
     ############################################################
@@ -137,7 +143,10 @@ if __name__ == "__main__":
             model.load(args.trained_model)
 
         if not args.load and not trained:
-            model.train(args.feats)
+            model.train(args.feats, args.nb_layers, args.activation,
+                    args.nodes, args.nb_merge_layers, 
+                    args.merge_activation, args.merge_nodes, 
+                    args.nb_epoch, args.no_stop)
             trained=True
         model.evaluate()
     
@@ -145,6 +154,15 @@ if __name__ == "__main__":
     # PREDICT
     ############################################################
     if "PREDICT" in args.mode:
+        if not args.feat_model:
+            sys.stderr.write(
+                    "To PREDICT -FM/--feat_model must be specified\n")
+            sys.exit(1)
+        if not args.fann:
+            sys.stderr.write(
+                    "To PREDICT -f/--fann must be specified\n")
+            sys.exit(1)
+
         if args.trained_model:
             if not args.save and not args.load:
                 sys.stderr.write(
@@ -157,16 +175,11 @@ if __name__ == "__main__":
             model.load(args.trained_model)
 
         if not args.load and not trained:
-            model.train(args.feats)
+            model.train(args.feats, args.nb_layers, args.activation,
+                    args.nodes, args.nb_merge_layers, 
+                    args.merge_activation, args.merge_nodes, 
+                    args.nb_epoch, args.no_stop)
             trained=True
-        if not args.feat_model:
-            sys.stderr.write(
-                    "To PREDICT -FM/--feat_model must be specified\n")
-            sys.exit(1)
-        if not args.fann:
-            sys.stderr.write(
-                    "To PREDICT -f/--fann must be specified\n")
-            sys.exit(1)
         print model.predict(args.feat_model, args.fann)
     
     ############################################################
@@ -185,6 +198,8 @@ if __name__ == "__main__":
             model.load(args.trained_model)
 
         if not args.load and not trained:
-            model.train(args.feats)
-            trained=True
+            model.train(args.feats, args.nb_layers, args.activation,
+                    args.nodes, args.nb_merge_layers, 
+                    args.merge_activation, args.merge_nodes, 
+                    args.nb_epoch, args.no_stop)
         model.graph(args.graph)
