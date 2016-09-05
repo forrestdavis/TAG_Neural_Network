@@ -31,7 +31,7 @@ class KerasModel:
     def train(self, find_feats, nb_layers=None, activation_functs=None,
             nodes=None, merge_nb_layers=None,
             merge_activation_functs=None, merge_nodes=None,
-            nb_epochs=50, early_stop=False):
+            nb_epochs=None, early_stop=False):
         #Train model on data
         #Get dimensions of data
         dimensions_dictionary = mf.get_dimensions(self.dim_file)
@@ -51,6 +51,9 @@ class KerasModel:
             merge_activation_functs=['relu']
         if merge_nodes==None:
             merge_nodes=[50]
+
+        if nb_epochs == None:
+            nb_epochs = 50
 
         #Get train data
         if find_feats:
