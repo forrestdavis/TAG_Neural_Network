@@ -71,7 +71,7 @@ class KerasModel:
         if self.v:
             sys.stderr.write("fitting model...\n")
         self.model.fit(train_data, Y_train, callbacks=[early_stopping], 
-            nb_epoch=2, verbose=self.v, batch_size=1000, validation_split=0.1)
+            nb_epoch=50, verbose=self.v, batch_size=1000, validation_split=0.1)
         
     #Need to update predict
     def predict(self, fann_file, fm_file):
@@ -110,7 +110,7 @@ class KerasModel:
             filename = "trained_model"
         saved_file = saved_directory+filename
         model_json = self.model.to_json()
-        with open(saved_file+".json", "w") as json_file:
+        with open(saved_file+".json", "w+") as json_file:
             json_file.write(model_json)
         self.model.save_weights(saved_file+"_weights.h5", 
                 overwrite=True)
@@ -140,6 +140,7 @@ class KerasModel:
         array_location = self.data_dir+"numpy_arrays"
         test_data, Y_test, feats = mf.getTestData(array_location, self.v)
 
+        print self.feats
         #need to arrange test_data to fit train data form
         test_data = mf.arrangeData(test_data, self.feats, feats)
 

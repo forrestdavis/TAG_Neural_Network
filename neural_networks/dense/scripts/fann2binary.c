@@ -25,19 +25,18 @@ void transformFANN_Optimized(char *feat, const char *fann_name,
         const char *saved_output_filename,
         const char *io_info_filename);
 
+struct feat{
+    char *feat_type;
+    int locations[8];
+};
+
 int main(int argc, char **argv){
-    if(argc!=6){
-        fprintf(stderr, "Usage: ./fann2binary <fann_file> "
-                "<feature_model> <saved_input_filename> " 
-                "<saved_output_filename> <io_info_filename>\n");
-        exit(1);
-    } 
                  
-    const char *fann_name = argv[1];
-    const char *fm_name = argv[2];
-    const char *saved_input_filename = argv[3];
-    const char *saved_output_filename = argv[4];
-    const char *io_info_filename = argv[5];
+    const char *fann_name = "small_example.fann";
+    const char *fm_name = "example.fm";
+    const char *saved_input_filename = "example_input.bin";
+    const char *saved_output_filename = "example_output.bin";
+    const char *io_info_filename = "example_io.txt";
 
     const char comment = '#';
     //If this is the exact order of stack and buffer elements
@@ -63,6 +62,7 @@ int main(int argc, char **argv){
         if(buffer[0] != comment){
             //Get feature location information i.e s0
             //Get feature, Assumes feature is one character
+            printf("%s\n", buffer);
             feat[0] = buffer[2];
             feat[1] = '\0';
             //If each of the optimized stack/buffer order 
@@ -96,7 +96,8 @@ int main(int argc, char **argv){
 //and saved to the io_info file for use by the python program that loads
 //the binary file as a numpy array.
 //Furthermore, I am using char for the data to decrease the numpy array
-//size later on.
+//size later on. Unless the data is form, then I have to use double to 
+//keep float values
 void transformFANN_Optimized(char *feat, const char *fann_name, 
         const char *saved_input_filename, 
         const char *saved_output_filename,
@@ -138,8 +139,9 @@ void transformFANN_Optimized(char *feat, const char *fann_name,
     //three numbers: number of examples, input size, output size
     //the first char * in info is reserved for the feature to be
     //found in fm file
+    //Only does this for any features that are not form. For form
+    //I need the input dimensions
     fgets(buffer, sizeof(buffer), fann);
-
     char tmp[100];
     memset(tmp, '\0', sizeof(tmp));
     strcat(tmp, feat);
@@ -148,6 +150,22 @@ void transformFANN_Optimized(char *feat, const char *fann_name,
 
     fputs(tmp, io_info_file);
 
+    int *input_dim; 
+    input_dim = (int *) malloc(sizeof(input_dim));
+    memset(input_dim, 0, sizeof(*input_dim));
+    //Get input dimension information for form
+    if(feat[0] == 'f'){
+        int k = 0;
+        char *token;
+        token = strtok(buffer, " ");
+        while(token != NULL){
+            if(k==1)
+                *input_dim = atoi(token);
+            token = strtok(NULL, " ");
+            k++;
+        }
+    }
+
     //Read the rest of the lines
     //The format of the fann file is one blank line between 
     //input and output and two between the output and the new 
@@ -155,6 +173,8 @@ void transformFANN_Optimized(char *feat, const char *fann_name,
     //following one hot encoding is written to the saved output
     //file. Then the next one hot encodings are input so they are
     //written to the saved input file
+    //If the data is from the form feature, however you have to read
+    //the data as float.
     while(fgets(buffer, sizeof(buffer), fann)!=NULL){
         if(buffer[0] == 10){
             numNew++;
@@ -181,21 +201,40 @@ void transformFANN_Optimized(char *feat, const char *fann_name,
                 isOutput = 0;
             }
             else{
-                j = 0;
-                //Get size of line. Due to format of fann files
-                //I know each int is seperated by a space so the 
-                //actually length of the one hot encoding is half
-                int len = strlen(buffer);
-                char value[len/2];
-                for(i=0; i<len; i++){
-                    char tmp;
-                    //First append all data from line to array
-                    //this is faster than writing each value to file
-                    if((tmp=(buffer[i++]-48))== 0 || tmp == 1)
-                        value[j++] = tmp;
-                    
+                if(feat[0]!='f'){
+                    j = 0;
+                    //Get size of line. Due to format of fann files
+                    //I know each int is seperated by a space so the 
+                    //actually length of the one hot encoding is half
+                    int len = strlen(buffer);
+                    char value[len/2];
+                    memset(value, 0, sizeof(value));
+                    for(i=0; i<len; i++){
+                        char tmp;
+                        //First append all data from line to array
+                        //this is faster than writing each value to file
+                        //i++ skips over non-data elements
+                        if((tmp=(buffer[i++]-48))== 0 || tmp == 1)
+                            value[j++] = tmp;
+                        
+                    }
+                    fwrite(value, sizeof(value), 1, saved_input);
                 }
-                fwrite(value, sizeof(value), 1, saved_input);
+                //Cast data into double and write to files
+                else if(feat[0]=='f'){
+                    j = 0;
+                    char *data;
+                    //Each line is an 8th of the total input dim
+                    double value[*input_dim/8];
+                    memset(value, 0, sizeof(value));
+                    data = strtok(buffer, " ");
+                    while(data != NULL){
+                        double tmp = atof(data);
+                        data = strtok(NULL, " ");
+                        value[j++] = tmp;
+                    }
+                    fwrite(value, sizeof(value), 1, saved_input);
+                }
             }
             numNew = 0;
         }

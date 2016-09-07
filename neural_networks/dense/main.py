@@ -102,20 +102,21 @@ if __name__ == "__main__":
     trained=False
 
     ############################################################
-    # TRAIN
+    # LOAD MODEL
     ############################################################
-    if "TRAIN" in args.mode:
-        if args.trained_model:
-            if not args.save and not args.load:
-                sys.stderr.write(
-                "To use -T/--train_model you must either specifiy "
-                        +"-L/--load or -S/--save\n")
-                sys.exit(1)
-        if args.save:
-            model.save(args.trained_model)
+    if args.trained_model:
+        if not args.save and not args.load:
+            sys.stderr.write(
+            "To use -T/--train_model you must either specifiy "
+                    +"-L/--load or -S/--save\n")
+            sys.exit(1)
         if args.load:
             model.load(args.trained_model)
 
+    ############################################################
+    # TRAIN
+    ############################################################
+    if "TRAIN" in args.mode:
         model.train(args.feats, args.nb_layers, args.activation,
                 args.nodes, args.nb_merge_layers, 
                 args.merge_activation, args.merge_nodes)
@@ -125,17 +126,6 @@ if __name__ == "__main__":
     # TEST
     ############################################################
     if "TEST" in args.mode:
-        if args.trained_model:
-            if not args.save and not args.load:
-                sys.stderr.write(
-                "To use -T/--train_model you must either specifiy "
-                        +"-L/--load or -S/--save\n")
-                sys.exit(1)
-        if args.save:
-            model.save(args.trained_model)
-        if args.load:
-            model.load(args.trained_model)
-
         if not args.load and not trained:
             model.train(args.feats)
             trained=True
@@ -145,20 +135,6 @@ if __name__ == "__main__":
     # PREDICT
     ############################################################
     if "PREDICT" in args.mode:
-        if args.trained_model:
-            if not args.save and not args.load:
-                sys.stderr.write(
-                "To use -T/--train_model you must either specifiy "
-                        +"-L/--load or -S/--save\n")
-                sys.exit(1)
-        if args.save:
-            model.save(args.trained_model)
-        if args.load:
-            model.load(args.trained_model)
-
-        if not args.load and not trained:
-            model.train(args.feats)
-            trained=True
         if not args.feat_model:
             sys.stderr.write(
                     "To PREDICT -FM/--feat_model must be specified\n")
@@ -167,24 +143,28 @@ if __name__ == "__main__":
             sys.stderr.write(
                     "To PREDICT -f/--fann must be specified\n")
             sys.exit(1)
+        if not args.load and not trained:
+            model.train(args.feats)
+            trained=True
         print model.predict(args.feat_model, args.fann)
     
     ############################################################
     # GRAPH
     ############################################################
     if "GRAPH" in args.mode:
-        if args.trained_model:
-            if not args.save and not args.load:
-                sys.stderr.write(
-                "To use -T/--train_model you must either specifiy "
-                        +"-L/--load or -S/--save\n")
-                sys.exit(1)
-        if args.save:
-            model.save(args.trained_model)
-        if args.load:
-            model.load(args.trained_model)
-
         if not args.load and not trained:
             model.train(args.feats)
             trained=True
         model.graph(args.graph)
+
+    ############################################################
+    # SAVE MODEL
+    ############################################################
+    if args.trained_model:
+        if not args.save and not args.load:
+            sys.stderr.write(
+            "To use -T/--train_model you must either specifiy "
+                    +"-L/--load or -S/--save\n")
+            sys.exit(1)
+        if args.save:
+            model.save(args.trained_model)

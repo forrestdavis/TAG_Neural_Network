@@ -6,3 +6,9 @@
 - mkdir and rmdir if not 1000, 2000, 5000, 10000, or all in data formation
      : can do in python using os.mkdir()
 - need to add general fm file to fann2binary.c
+
+
+- need to implement train_on_batch for data_sizes larger than 20,000
+  sentences
+  When done with that test equivalence between fit for all 20,000 and train
+  on batch used for 20,000

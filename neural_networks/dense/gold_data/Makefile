@@ -22,6 +22,10 @@ io = io_dimensions.txt
 
 np = numpy_arrays
 
+train_nb_sents = all
+
+test_nb_sents = all
+
 all_numpy_train: $(np)/X_train_A.npy $(np)/X_train_B.npy $(np)/X_train_C.npy $(np)/X_train_D.npy $(np)/X_train_E.npy $(np)/X_train_F.npy $(np)/X_train_G.npy $(np)/X_train_H.npy $(np)/X_train_I.npy $(np)/X_train_J.npy $(np)/X_train_K.npy $(np)/X_train_L.npy $(np)/X_train_M.npy $(np)/X_train_N.npy $(np)/X_train_O.npy $(np)/X_train_P.npy $(np)/X_train_Q.npy $(np)/X_train_R.npy $(np)/X_train_S.npy $(np)/X_train_T.npy $(np)/X_train_U.npy $(np)/X_train_form.npy $(np)/X_train_pos.npy
 
 all_numpy_test: $(np)/X_test_A.npy $(np)/X_test_B.npy $(np)/X_test_C.npy $(np)/X_test_D.npy $(np)/X_test_E.npy $(np)/X_test_F.npy $(np)/X_test_G.npy $(np)/X_test_H.npy $(np)/X_test_I.npy $(np)/X_test_J.npy $(np)/X_test_K.npy $(np)/X_test_L.npy $(np)/X_test_M.npy $(np)/X_test_N.npy $(np)/X_test_O.npy $(np)/X_test_P.npy $(np)/X_test_Q.npy $(np)/X_test_R.npy $(np)/X_test_S.npy $(np)/X_test_T.npy $(np)/X_test_U.npy $(np)/X_test_form.npy $(np)/X_test_pos.npy
@@ -343,73 +347,73 @@ $(bin)/pos_test_input.bin: fann2binary fanns/pos_dev.fann
 #
 ##############################################################################
 fanns/A_train.fann: fms/A.fm dimensions.mcd
-	./make_fann.sh TRAIN $(train_data) ./fanns/A_train.fann ./alphas/A.alpha ./fms/A.fm dimensions.mcd all
+	./make_fann.sh TRAIN $(train_data) ./fanns/A_train.fann ./alphas/A.alpha ./fms/A.fm dimensions.mcd $(train_nb_sents)
 
 fanns/B_train.fann: fms/B.fm dimensions.mcd
-	./make_fann.sh TRAIN $(train_data) ./fanns/B_train.fann ./alphas/B.alpha ./fms/B.fm dimensions.mcd all
+	./make_fann.sh TRAIN $(train_data) ./fanns/B_train.fann ./alphas/B.alpha ./fms/B.fm dimensions.mcd $(train_nb_sents)
 
 fanns/C_train.fann: fms/C.fm dimensions.mcd
-	./make_fann.sh TRAIN $(train_data) ./fanns/C_train.fann ./alphas/C.alpha ./fms/C.fm dimensions.mcd all
+	./make_fann.sh TRAIN $(train_data) ./fanns/C_train.fann ./alphas/C.alpha ./fms/C.fm dimensions.mcd $(train_nb_sents)
 
 fanns/D_train.fann: fms/D.fm dimensions.mcd
-	./make_fann.sh TRAIN $(train_data) ./fanns/D_train.fann ./alphas/D.alpha ./fms/D.fm dimensions.mcd all
+	./make_fann.sh TRAIN $(train_data) ./fanns/D_train.fann ./alphas/D.alpha ./fms/D.fm dimensions.mcd $(train_nb_sents)
 
 fanns/E_train.fann: fms/E.fm dimensions.mcd
-	./make_fann.sh TRAIN $(train_data) ./fanns/E_train.fann ./alphas/E.alpha ./fms/E.fm dimensions.mcd all
+	./make_fann.sh TRAIN $(train_data) ./fanns/E_train.fann ./alphas/E.alpha ./fms/E.fm dimensions.mcd $(train_nb_sents)
 
 fanns/F_train.fann: fms/F.fm dimensions.mcd
-	./make_fann.sh TRAIN $(train_data) ./fanns/F_train.fann ./alphas/F.alpha ./fms/F.fm dimensions.mcd all
+	./make_fann.sh TRAIN $(train_data) ./fanns/F_train.fann ./alphas/F.alpha ./fms/F.fm dimensions.mcd $(train_nb_sents)
 
 fanns/G_train.fann: fms/G.fm dimensions.mcd
-	./make_fann.sh TRAIN $(train_data) ./fanns/G_train.fann ./alphas/G.alpha ./fms/G.fm dimensions.mcd all
+	./make_fann.sh TRAIN $(train_data) ./fanns/G_train.fann ./alphas/G.alpha ./fms/G.fm dimensions.mcd $(train_nb_sents)
 
 fanns/H_train.fann: fms/H.fm dimensions.mcd
-	./make_fann.sh TRAIN $(train_data) ./fanns/H_train.fann ./alphas/H.alpha ./fms/H.fm dimensions.mcd all
+	./make_fann.sh TRAIN $(train_data) ./fanns/H_train.fann ./alphas/H.alpha ./fms/H.fm dimensions.mcd $(train_nb_sents)
 
 fanns/I_train.fann: fms/I.fm dimensions.mcd
-	./make_fann.sh TRAIN $(train_data) ./fanns/I_train.fann ./alphas/I.alpha ./fms/I.fm dimensions.mcd all
+	./make_fann.sh TRAIN $(train_data) ./fanns/I_train.fann ./alphas/I.alpha ./fms/I.fm dimensions.mcd $(train_nb_sents)
 
 fanns/J_train.fann: fms/J.fm dimensions.mcd
-	./make_fann.sh TRAIN $(train_data) ./fanns/J_train.fann ./alphas/J.alpha ./fms/J.fm dimensions.mcd all
+	./make_fann.sh TRAIN $(train_data) ./fanns/J_train.fann ./alphas/J.alpha ./fms/J.fm dimensions.mcd $(train_nb_sents)
 
 fanns/K_train.fann: fms/K.fm dimensions.mcd
-	./make_fann.sh TRAIN $(train_data) ./fanns/K_train.fann ./alphas/K.alpha ./fms/K.fm dimensions.mcd all
+	./make_fann.sh TRAIN $(train_data) ./fanns/K_train.fann ./alphas/K.alpha ./fms/K.fm dimensions.mcd $(train_nb_sents)
 
 fanns/L_train.fann: fms/L.fm dimensions.mcd
-	./make_fann.sh TRAIN $(train_data) ./fanns/L_train.fann ./alphas/L.alpha ./fms/L.fm dimensions.mcd all
+	./make_fann.sh TRAIN $(train_data) ./fanns/L_train.fann ./alphas/L.alpha ./fms/L.fm dimensions.mcd $(train_nb_sents)
 
 fanns/M_train.fann: fms/M.fm dimensions.mcd
-	./make_fann.sh TRAIN $(train_data) ./fanns/M_train.fann ./alphas/M.alpha ./fms/M.fm dimensions.mcd all
+	./make_fann.sh TRAIN $(train_data) ./fanns/M_train.fann ./alphas/M.alpha ./fms/M.fm dimensions.mcd $(train_nb_sents)
 
 fanns/N_train.fann: fms/N.fm dimensions.mcd
-	./make_fann.sh TRAIN $(train_data) ./fanns/N_train.fann ./alphas/N.alpha ./fms/N.fm dimensions.mcd all
+	./make_fann.sh TRAIN $(train_data) ./fanns/N_train.fann ./alphas/N.alpha ./fms/N.fm dimensions.mcd $(train_nb_sents)
 
 fanns/O_train.fann: fms/O.fm dimensions.mcd
-	./make_fann.sh TRAIN $(train_data) ./fanns/O_train.fann ./alphas/O.alpha ./fms/O.fm dimensions.mcd all
+	./make_fann.sh TRAIN $(train_data) ./fanns/O_train.fann ./alphas/O.alpha ./fms/O.fm dimensions.mcd $(train_nb_sents)
 
 fanns/P_train.fann: fms/P.fm dimensions.mcd
-	./make_fann.sh TRAIN $(train_data) ./fanns/P_train.fann ./alphas/P.alpha ./fms/P.fm dimensions.mcd all
+	./make_fann.sh TRAIN $(train_data) ./fanns/P_train.fann ./alphas/P.alpha ./fms/P.fm dimensions.mcd $(train_nb_sents)
 
 fanns/Q_train.fann: fms/Q.fm dimensions.mcd
-	./make_fann.sh TRAIN $(train_data) ./fanns/Q_train.fann ./alphas/Q.alpha ./fms/Q.fm dimensions.mcd all
+	./make_fann.sh TRAIN $(train_data) ./fanns/Q_train.fann ./alphas/Q.alpha ./fms/Q.fm dimensions.mcd $(train_nb_sents)
 
 fanns/R_train.fann: fms/R.fm dimensions.mcd
-	./make_fann.sh TRAIN $(train_data) ./fanns/R_train.fann ./alphas/R.alpha ./fms/R.fm dimensions.mcd all
+	./make_fann.sh TRAIN $(train_data) ./fanns/R_train.fann ./alphas/R.alpha ./fms/R.fm dimensions.mcd $(train_nb_sents)
 
 fanns/S_train.fann: fms/S.fm dimensions.mcd
-	./make_fann.sh TRAIN $(train_data) ./fanns/S_train.fann ./alphas/S.alpha ./fms/S.fm dimensions.mcd all
+	./make_fann.sh TRAIN $(train_data) ./fanns/S_train.fann ./alphas/S.alpha ./fms/S.fm dimensions.mcd $(train_nb_sents)
 
 fanns/T_train.fann: fms/T.fm dimensions.mcd
-	./make_fann.sh TRAIN $(train_data) ./fanns/T_train.fann ./alphas/T.alpha ./fms/T.fm dimensions.mcd all
+	./make_fann.sh TRAIN $(train_data) ./fanns/T_train.fann ./alphas/T.alpha ./fms/T.fm dimensions.mcd $(train_nb_sents)
 
 fanns/U_train.fann: fms/U.fm dimensions.mcd
-	./make_fann.sh TRAIN $(train_data) ./fanns/U_train.fann ./alphas/U.alpha ./fms/U.fm dimensions.mcd all
+	./make_fann.sh TRAIN $(train_data) ./fanns/U_train.fann ./alphas/U.alpha ./fms/U.fm dimensions.mcd $(train_nb_sents)
 
 fanns/form_train.fann: fms/form.fm dimensions.mcd
-	./make_fann.sh TRAIN $(train_data) ./fanns/form_train.fann ./alphas/form.alpha ./fms/form.fm dimensions.mcd all
+	./make_fann.sh TRAIN $(train_data) ./fanns/form_train.fann ./alphas/form.alpha ./fms/form.fm dimensions.mcd $(train_nb_sents)
 
 fanns/pos_train.fann: fms/pos.fm dimensions.mcd
-	./make_fann.sh TRAIN $(train_data) ./fanns/pos_train.fann ./alphas/pos.alpha ./fms/pos.fm dimensions.mcd all
+	./make_fann.sh TRAIN $(train_data) ./fanns/pos_train.fann ./alphas/pos.alpha ./fms/pos.fm dimensions.mcd $(train_nb_sents)
 
 ##############################################################################
 #
@@ -417,73 +421,73 @@ fanns/pos_train.fann: fms/pos.fm dimensions.mcd
 #
 ##############################################################################
 fanns/A_dev.fann: fms/A.fm dimensions.mcd
-	./make_fann.sh TEST $(dev_data) ./fanns/A_dev.fann ./alphas/A.alpha ./fms/A.fm dimensions.mcd all
+	./make_fann.sh TEST $(dev_data) ./fanns/A_dev.fann ./alphas/A.alpha ./fms/A.fm dimensions.mcd $(test_nb_sents)
 
 fanns/B_dev.fann: fms/B.fm dimensions.mcd
-	./make_fann.sh TEST $(dev_data) ./fanns/B_dev.fann ./alphas/B.alpha ./fms/B.fm dimensions.mcd all
+	./make_fann.sh TEST $(dev_data) ./fanns/B_dev.fann ./alphas/B.alpha ./fms/B.fm dimensions.mcd $(test_nb_sents)
 
 fanns/C_dev.fann: fms/C.fm dimensions.mcd
-	./make_fann.sh TEST $(dev_data) ./fanns/C_dev.fann ./alphas/C.alpha ./fms/C.fm dimensions.mcd all
+	./make_fann.sh TEST $(dev_data) ./fanns/C_dev.fann ./alphas/C.alpha ./fms/C.fm dimensions.mcd $(test_nb_sents)
 
 fanns/D_dev.fann: fms/D.fm dimensions.mcd
-	./make_fann.sh TEST $(dev_data) ./fanns/D_dev.fann ./alphas/D.alpha ./fms/D.fm dimensions.mcd all
+	./make_fann.sh TEST $(dev_data) ./fanns/D_dev.fann ./alphas/D.alpha ./fms/D.fm dimensions.mcd $(test_nb_sents)
 
 fanns/E_dev.fann: fms/E.fm dimensions.mcd
-	./make_fann.sh TEST $(dev_data) ./fanns/E_dev.fann ./alphas/E.alpha ./fms/E.fm dimensions.mcd all
+	./make_fann.sh TEST $(dev_data) ./fanns/E_dev.fann ./alphas/E.alpha ./fms/E.fm dimensions.mcd $(test_nb_sents)
 
 fanns/F_dev.fann: fms/F.fm dimensions.mcd
-	./make_fann.sh TEST $(dev_data) ./fanns/F_dev.fann ./alphas/F.alpha ./fms/F.fm dimensions.mcd all
+	./make_fann.sh TEST $(dev_data) ./fanns/F_dev.fann ./alphas/F.alpha ./fms/F.fm dimensions.mcd $(test_nb_sents)
 
 fanns/G_dev.fann: fms/G.fm dimensions.mcd
-	./make_fann.sh TEST $(dev_data) ./fanns/G_dev.fann ./alphas/G.alpha ./fms/G.fm dimensions.mcd all
+	./make_fann.sh TEST $(dev_data) ./fanns/G_dev.fann ./alphas/G.alpha ./fms/G.fm dimensions.mcd $(test_nb_sents)
 
 fanns/H_dev.fann: fms/H.fm dimensions.mcd
-	./make_fann.sh TEST $(dev_data) ./fanns/H_dev.fann ./alphas/H.alpha ./fms/H.fm dimensions.mcd all
+	./make_fann.sh TEST $(dev_data) ./fanns/H_dev.fann ./alphas/H.alpha ./fms/H.fm dimensions.mcd $(test_nb_sents)
 
 fanns/I_dev.fann: fms/I.fm dimensions.mcd
-	./make_fann.sh TEST $(dev_data) ./fanns/I_dev.fann ./alphas/I.alpha ./fms/I.fm dimensions.mcd all
+	./make_fann.sh TEST $(dev_data) ./fanns/I_dev.fann ./alphas/I.alpha ./fms/I.fm dimensions.mcd $(test_nb_sents)
 
 fanns/J_dev.fann: fms/J.fm dimensions.mcd
-	./make_fann.sh TEST $(dev_data) ./fanns/J_dev.fann ./alphas/J.alpha ./fms/J.fm dimensions.mcd all
+	./make_fann.sh TEST $(dev_data) ./fanns/J_dev.fann ./alphas/J.alpha ./fms/J.fm dimensions.mcd $(test_nb_sents)
 
 fanns/K_dev.fann: fms/K.fm dimensions.mcd
-	./make_fann.sh TEST $(dev_data) ./fanns/K_dev.fann ./alphas/K.alpha ./fms/K.fm dimensions.mcd all
+	./make_fann.sh TEST $(dev_data) ./fanns/K_dev.fann ./alphas/K.alpha ./fms/K.fm dimensions.mcd $(test_nb_sents)
 
 fanns/L_dev.fann: fms/L.fm dimensions.mcd
-	./make_fann.sh TEST $(dev_data) ./fanns/L_dev.fann ./alphas/L.alpha ./fms/L.fm dimensions.mcd all
+	./make_fann.sh TEST $(dev_data) ./fanns/L_dev.fann ./alphas/L.alpha ./fms/L.fm dimensions.mcd $(test_nb_sents)
 
 fanns/M_dev.fann: fms/M.fm dimensions.mcd
-	./make_fann.sh TEST $(dev_data) ./fanns/M_dev.fann ./alphas/M.alpha ./fms/M.fm dimensions.mcd all
+	./make_fann.sh TEST $(dev_data) ./fanns/M_dev.fann ./alphas/M.alpha ./fms/M.fm dimensions.mcd $(test_nb_sents)
 
 fanns/N_dev.fann: fms/N.fm dimensions.mcd
-	./make_fann.sh TEST $(dev_data) ./fanns/N_dev.fann ./alphas/N.alpha ./fms/N.fm dimensions.mcd all
+	./make_fann.sh TEST $(dev_data) ./fanns/N_dev.fann ./alphas/N.alpha ./fms/N.fm dimensions.mcd $(test_nb_sents)
 
 fanns/O_dev.fann: fms/O.fm dimensions.mcd
-	./make_fann.sh TEST $(dev_data) ./fanns/O_dev.fann ./alphas/O.alpha ./fms/O.fm dimensions.mcd all
+	./make_fann.sh TEST $(dev_data) ./fanns/O_dev.fann ./alphas/O.alpha ./fms/O.fm dimensions.mcd $(test_nb_sents)
 
 fanns/P_dev.fann: fms/P.fm dimensions.mcd
-	./make_fann.sh TEST $(dev_data) ./fanns/P_dev.fann ./alphas/P.alpha ./fms/P.fm dimensions.mcd all
+	./make_fann.sh TEST $(dev_data) ./fanns/P_dev.fann ./alphas/P.alpha ./fms/P.fm dimensions.mcd $(test_nb_sents)
 
 fanns/Q_dev.fann: fms/Q.fm dimensions.mcd
-	./make_fann.sh TEST $(dev_data) ./fanns/Q_dev.fann ./alphas/Q.alpha ./fms/Q.fm dimensions.mcd all
+	./make_fann.sh TEST $(dev_data) ./fanns/Q_dev.fann ./alphas/Q.alpha ./fms/Q.fm dimensions.mcd $(test_nb_sents)
 
 fanns/R_dev.fann: fms/R.fm dimensions.mcd
-	./make_fann.sh TEST $(dev_data) ./fanns/R_dev.fann ./alphas/R.alpha ./fms/R.fm dimensions.mcd all
+	./make_fann.sh TEST $(dev_data) ./fanns/R_dev.fann ./alphas/R.alpha ./fms/R.fm dimensions.mcd $(test_nb_sents)
 
 fanns/S_dev.fann: fms/S.fm dimensions.mcd
-	./make_fann.sh TEST $(dev_data) ./fanns/S_dev.fann ./alphas/S.alpha ./fms/S.fm dimensions.mcd all
+	./make_fann.sh TEST $(dev_data) ./fanns/S_dev.fann ./alphas/S.alpha ./fms/S.fm dimensions.mcd $(test_nb_sents)
 
 fanns/T_dev.fann: fms/T.fm dimensions.mcd
-	./make_fann.sh TEST $(dev_data) ./fanns/T_dev.fann ./alphas/T.alpha ./fms/T.fm dimensions.mcd all
+	./make_fann.sh TEST $(dev_data) ./fanns/T_dev.fann ./alphas/T.alpha ./fms/T.fm dimensions.mcd $(test_nb_sents)
 
 fanns/U_dev.fann: fms/U.fm dimensions.mcd
-	./make_fann.sh TEST $(dev_data) ./fanns/U_dev.fann ./alphas/U.alpha ./fms/U.fm dimensions.mcd all
+	./make_fann.sh TEST $(dev_data) ./fanns/U_dev.fann ./alphas/U.alpha ./fms/U.fm dimensions.mcd $(test_nb_sents)
 
 fanns/form_dev.fann: fms/form.fm dimensions.mcd
-	./make_fann.sh TEST $(dev_data) ./fanns/form_dev.fann ./alphas/form.alpha ./fms/form.fm dimensions.mcd all
+	./make_fann.sh TEST $(dev_data) ./fanns/form_dev.fann ./alphas/form.alpha ./fms/form.fm dimensions.mcd $(test_nb_sents)
 
 fanns/pos_dev.fann: fms/pos.fm dimensions.mcd
-	./make_fann.sh TEST $(dev_data) ./fanns/pos_dev.fann ./alphas/pos.alpha ./fms/pos.fm dimensions.mcd all
+	./make_fann.sh TEST $(dev_data) ./fanns/pos_dev.fann ./alphas/pos.alpha ./fms/pos.fm dimensions.mcd $(test_nb_sents)
 
 .PHONY: clean
 clean:
