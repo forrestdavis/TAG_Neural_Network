@@ -12,7 +12,7 @@ CFLAGS = -g -Wall
 
 train_data = ../../../data/d6.train.conll16
 
-dev_data = ../../../data/d6.dev.conll16
+dev_data = ../../../data/d6.predicted_dev.conll16
 
 bin = binary_fanns
 

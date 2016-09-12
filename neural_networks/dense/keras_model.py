@@ -71,7 +71,7 @@ class KerasModel:
         if self.v:
             sys.stderr.write("fitting model...\n")
         self.model.fit(train_data, Y_train, callbacks=[early_stopping], 
-            nb_epoch=50, verbose=self.v, batch_size=1000, validation_split=0.1)
+            nb_epoch=50, verbose=self.v, batch_size=100, validation_split=0.1)
         
     #Need to update predict
     def predict(self, fann_file, fm_file):
