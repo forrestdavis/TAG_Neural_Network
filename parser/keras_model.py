@@ -1,156 +1,101 @@
 from keras.models import Sequential, model_from_json
 from keras.layers import Dense, Activation, Dropout, Merge
 from keras.callbacks import EarlyStopping
+from keras.utils.visualize_util import plot
 import numpy
 import sys
-##########################################################################
-# Class for getting a prediction for depedency parser movement given input
-# data and a trained model
-#
-# Forrest Davis
-# August 11, 2016
-##########################################################################
+import argparse
+import os
+import model_framework as mf 
 
-#Function for transfom fann file into output
-#fm and fann file must contain (in any order):
-#s0X s1X s2X s3X b0X b1X b2X b3X where X is a feature from the fm file
-def fann2numpy(fm_file, fann_file):
-    fann = open(fann_file, "r")
-    fm = open(fm_file, "r")
-    dictionary = {}
-
-    for feature in fm:
-        feature = feature.strip('\n')
-        #If # at beginning of line skip
-        if feature[0] == "#":
-            pass
-        else:
-            fv = fann.readline().strip('\n')
-            dim = feature[2:]
-            #if feature type (A, f, ...) not in dictionary add it
-            #dictionary is in form {X: {s0X: one hot encoding}} for any
-            #X in feature file
-            if dim not in dictionary:
-                #word_embeddings are float objects
-                if dim == "f":
-                    dictionary[dim] = {}
-                    dictionary[dim][feature] = map(float, fv.split())
-                else:
-                    dictionary[dim] = {}
-                    dictionary[dim][feature] = map(int, fv.split())
-            else:
-                if dim == "f":
-                    fv = map(float, fv.split())
-                    dictionary[dim][feature] = fv
-                else:
-                    fv = map(int, fv.split())
-                    dictionary[dim][feature] = fv
-
-    #Creating combined list from dictionary
-    #Array is in form s0, s1, s2, s3, b0, b1, b2, b3
-    for key in dictionary:
-        s0=s1=s2=s3=b0=b1=b2=b3 = []
-        for subkey in dictionary[key]:
-            if "s0" in subkey:
-                s0=dictionary[key][subkey]
-            if "s1" in subkey:
-                s1=dictionary[key][subkey]
-            if "s2" in subkey:
-                s2=dictionary[key][subkey]
-            if "s3" in subkey:
-                s3=dictionary[key][subkey]
-            if "b0" in subkey:
-                b0=dictionary[key][subkey]
-            if "b1" in subkey:
-                b1=dictionary[key][subkey]
-            if "b2" in subkey:
-                b2=dictionary[key][subkey]
-            if "b3" in subkey:
-                b3=dictionary[key][subkey]
-                
-        #Ensure that there is necessary input for testing on current model
-        assert len(s0) != 0, "s0%s is necessary for model" %key
-        assert len(s1) != 0, "s1%s is necessary for model" %key
-        assert len(s2) != 0, "s2%s is necessary for model" %key
-        assert len(s3) != 0, "s3%s is necessary for model" %key
-        assert len(b0) != 0, "b0%s is necessary for model" %key
-        assert len(b1) != 0, "b1%s is necessary for model" %key
-        assert len(b2) != 0, "b2%s is necessary for model" %key
-        assert len(b3) != 0, "b3%s is necessary for model" %key
-        
-        s0 += s1+s2+s3+b0+b1+b2+b3
-        #Create numpy arrays of list
-        if key == "A":
-            A_test = numpy.array([s0], dtype=numpy.uint8)
-        if key == "B":
-            B_test = numpy.array([s0], dtype=numpy.uint8)
-        if key == "C":
-            C_test = numpy.array([s0], dtype=numpy.uint8)
-        if key == "D":
-            D_test = numpy.array([s0], dtype=numpy.uint8)
-        if key == "E":
-            E_test = numpy.array([s0], dtype=numpy.uint8)
-        if key == "H":
-            H_test = numpy.array([s0], dtype=numpy.uint8)
-        if key == "I":
-            I_test = numpy.array([s0], dtype=numpy.uint8)
-        if key == "J":
-            J_test = numpy.array([s0], dtype=numpy.uint8)
-        if key == "K":
-            K_test = numpy.array([s0], dtype=numpy.uint8)
-        if key == "L":
-            L_test = numpy.array([s0], dtype=numpy.uint8)
-        if key == "M":
-            M_test = numpy.array([s0], dtype=numpy.uint8)
-        if key == "N":
-            N_test = numpy.array([s0], dtype=numpy.uint8)
-        if key == "O":
-            O_test = numpy.array([s0], dtype=numpy.uint8)
-        if key == "P":
-            P_test = numpy.array([s0], dtype=numpy.uint8)
-        if key == "Q":
-            Q_test = numpy.array([s0], dtype=numpy.uint8)
-        if key == "R":
-            R_test = numpy.array([s0], dtype=numpy.uint8)
-        if key == "S":
-            S_test = numpy.array([s0], dtype=numpy.uint8)
-        if key == "T":
-            T_test = numpy.array([s0], dtype=numpy.uint8)
-        if key == "U":
-            U_test = numpy.array([s0], dtype=numpy.uint8)
-        if key == "f":
-            form_test = numpy.array([s0], dtype=numpy.uint8)
-        if key == "p":
-            pos_test = numpy.array([s0], dtype=numpy.uint8)
-    fann.close()
-    fm.close()
-    return (A_test, B_test, C_test, D_test, E_test, H_test, I_test, J_test, 
-            K_test, L_test, M_test, N_test, O_test, P_test, Q_test, R_test, S_test,
-            T_test, U_test, form_test, pos_test)
-
-#Function to create keras model given a saved trained model
-def createModel(model_arch, model_weights):
-    model = model_from_json(open(model_arch).read())
-    model.load_weights(model_weights)
-    model.compile(loss='categorical_crossentropy', 
-            optimizer='adam', metrics=['accuracy'])
-    return model
-
-#Class that uses a trained keras neural network to make predictions
-#on test data
 class KerasModel:
-    def __init__(self, model_arch, model_weights):
-        self.model = createModel(model_arch, model_weights)
+    def __init__(self, data_directory, verbose=True):
+        #Get io file
+        dim_file = ""
+        if data_directory[len(data_directory)-1] != "/":
+            data_directory = data_directory+"/"
+            
+        for filename in os.listdir(data_directory):
+            if "io_" in filename:
+                dim_file = data_directory+filename
+        if not dim_file:
+            sys.stderr.write("There must be a file with the dimensions "
+                    +"of the data, file name must contain 'io'\n")
+            sys.exit(1)
 
-    def predict(self, fm_file, fann_file):
-        (A_test, B_test, C_test, D_test, E_test, H_test, I_test, J_test, 
-                K_test, L_test, M_test, N_test, O_test, P_test, Q_test, 
-                R_test, S_test, T_test, U_test, 
-                form_test, pos_test) = fann2numpy(fm_file, fann_file) 
+        self.model = Sequential()
+        self.dim_file = dim_file
+        self.data_dir = data_directory
+        self.v = verbose
+        
+    def train(self, find_feats, nb_layers=None, activation_functs=None,
+            nodes=None, merge_nb_layers=None,
+            merge_activation_functs=None, merge_nodes=None,
+            nb_epochs=None, early_stop=False):
+        #Train model on data
+        #Get dimensions of data
+        dimensions_dictionary = mf.get_dimensions(self.dim_file)
+        array_location = self.data_dir+"numpy_arrays"
 
-        prediction = self.model.predict_on_batch([A_test, B_test, C_test, D_test, E_test, 
-        H_test, I_test, J_test, K_test, L_test, M_test, N_test, O_test, P_test, 
-        Q_test, R_test, S_test, T_test, U_test, pos_test, form_test])
+        #set defaults
+        if nb_layers==None:
+            nb_layers=2
+        if activation_functs==None:
+            activation_functs=['relu']
+        if nodes==None:
+            nodes=[50]
+
+        if merge_nb_layers==None:
+            merge_nb_layers=0
+        if merge_activation_functs==None:
+            merge_activation_functs=['relu']
+        if merge_nodes==None:
+            merge_nodes=[50]
+
+        if nb_epochs == None:
+            nb_epochs = 50
+
+        #Get train data
+        if find_feats:
+            train_data, Y_train, feats = mf.getTrainData(
+                    array_location, self.v, find_feats)
+        else:
+            train_data, Y_train, feats = mf.getTrainData(
+                    array_location, self.v)
+        
+        self.feats = feats
+
+        self.model = mf.createModel(dimensions_dictionary, feats, self.v,
+                nb_layers, activation_functs, nodes, merge_nb_layers,
+                merge_activation_functs, merge_nodes)
+    
+        early_stopping = EarlyStopping(monitor='val_loss', 
+                verbose = 1, patience=2)
+
+        if self.v:
+            sys.stderr.write("fitting model...\n")
+        
+        if early_stop:
+            self.model.fit(train_data, Y_train, callbacks=[early_stopping], 
+                nb_epoch=nb_epochs, verbose=self.v, batch_size=1000, validation_split=0.1)
+        else:
+            self.model.fit(train_data, Y_train, 
+                nb_epoch=nb_epochs, verbose=self.v, batch_size=1000, validation_split=0.1)
+        
+    #Need to update predict
+    def predict(self, fann_file, fm_file):
+        if self.v:
+            sys.stderr.write("getting prediction from data...\n")
+
+        #Get prediction data
+        prediction_data, feats = mf.getPredictionData(fann_file, 
+                fm_file, self.dim_file, self.v)
+
+        #need to arrange prediction_data to fit train data form
+        prediction_data = mf.arrangeData(prediction_data, 
+                self.feats, feats)
+
+        prediction = self.model.predict_on_batch(prediction_data)
 
         #Transform prediction from one-hot to int
         max_pos = -1
@@ -165,3 +110,54 @@ class KerasModel:
             return mvt
         else:
             return "ERROR"
+
+    def save(self, filename):
+        if self.v:
+            sys.stderr.write("saving model...\n")
+        saved_directory = "saved_models/"
+        if not filename:
+            filename = "trained_model"
+        saved_file = saved_directory+filename
+        model_json = self.model.to_json()
+        with open(saved_file+".json", "w") as json_file:
+            json_file.write(model_json)
+        self.model.save_weights(saved_file+"_weights.h5", 
+                overwrite=True)
+        mf.saveFeats(self.feats, saved_file+"_feats.txt")
+
+    def load(self, filename):
+        #Load model from saved arch, weights, and features used
+        if self.v:
+            sys.stderr.write("loading model...\n")
+        saved_directory = "./"
+        if not filename:
+            filename="trained_model"
+        saved_file = saved_directory+filename
+        model_arch = saved_file+".json"
+        model_weights = saved_file+"_weights.h5"
+        self.feats = mf.loadFeats(saved_file+"_feats.txt")
+        self.model = model_from_json(open(model_arch).read())
+        self.model.load_weights(model_weights)
+        self.model.compile(loss='categorical_crossentropy', 
+                optimizer='adam', metrics=['accuracy'])
+
+    def evaluate(self):
+        #Evaluate test data on model
+        if self.v:
+            sys.stderr.write("evaluating model on test data...\n")
+        #Get test data
+        array_location = self.data_dir+"numpy_arrays"
+        test_data, Y_test, feats = mf.getTestData(array_location, self.v)
+
+        #need to arrange test_data to fit train data form
+        test_data = mf.arrangeData(test_data, self.feats, feats)
+
+        scores = self.model.evaluate(test_data, Y_test, verbose=self.v)
+        print("%s: %.2f%%" % (self.model.metrics_names[1], scores[1]*100))
+
+    def graph(self, filename):
+        if not filename:
+            filename = "graph_model.png"
+        if self.v:
+            sys.stderr.write("graphing model...\n")
+        plot(self.model, filename, show_shapes=True)

@@ -118,15 +118,16 @@ def getPredictionData(fann_file, fm_file, io_file_name, verbose):
         feat = feat.strip('\n')
         dim = feat[2:]
         #If # at beginning of line skip
-        if feat[0] == "#":
-            pass
-        else:
-            feats.append(feat)
-            if dim not in dictionary:
-                dictionary[dim] = {}
-                dictionary[dim][feat] = []
+        if feat:
+            if feat[0] == "#":
+                pass
             else:
-                dictionary[dim][feat] = []
+                feats.append(feat)
+                if dim not in dictionary:
+                    dictionary[dim] = {}
+                    dictionary[dim][feat] = []
+                else:
+                    dictionary[dim][feat] = []
 
     #Iterate through fann file and return a dictionary of the form
     #{X: {exact feature(i.e s0A): one hot encodings}} where X is a feature
@@ -301,8 +302,6 @@ def createModel(dimensions_dictionary, feats, verbose,
             n = 0
 
             model = Sequential(name=feat)
-            print dimensions_dictionary[feat]
-            print feat
             for i in xrange(nb_layers):
                 if i == 0:
                     model.add(Dense(nodes[n], 

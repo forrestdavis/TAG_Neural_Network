@@ -111,20 +111,18 @@ if __name__ == "__main__":
     ############################################################
     if "TRAIN" in args.mode:
         if args.trained_model:
-            if not args.save and not args.load:
+            if not args.save:
                 sys.stderr.write(
                 "To use -T/--train_model you must either specifiy "
                         +"-L/--load or -S/--save\n")
                 sys.exit(1)
-        if args.save:
-            model.save(args.trained_model)
-        if args.load:
-            model.load(args.trained_model)
 
         model.train(args.feats, args.nb_layers, args.activation,
                 args.nodes, args.nb_merge_layers, 
                 args.merge_activation, args.merge_nodes, 
                 args.nb_epoch, args.no_stop)
+        if args.save:
+            model.save(args.trained_model)
         trained=True
 
     ############################################################
