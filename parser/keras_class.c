@@ -76,6 +76,7 @@ int main(int argc, char *argv[]){
     Py_DECREF(pString);
     Py_DECREF(pFM_file);
     Py_DECREF(pFANN_file);
+    Py_DECREF(pLOAD_file);
     Py_DECREF(pPredFunction);
     Py_DECREF(pDict);
     Py_DECREF(pClass);
