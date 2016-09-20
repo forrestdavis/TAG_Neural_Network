@@ -201,24 +201,36 @@ def getRFronts(tree_list):
 #considered as well.
 #The function returns a list of unique node types for each tree i.e. S, NP
 #where S and NP can only appear once
+#
+#Currently the function returns a array where 1 marks that a node
+#of that type is a left adjunction node and a 0 marks that there is no
+#node of that type as a left adjunction node.
 def getLAdjNodes(tree_list):
     ladjnodes = []
     directions = getDirections(tree_list)
     #Iterate through every tree
+    pos_nodes = ['AP', 'S', 'NP', 'VP', 'V', 'AdvP','N',
+            'IN', 'A', 'PP']
     for x in xrange(len(tree_list)):
-        temporary_list = [] 
+        freq_nodes = [0]*len(pos_nodes)
         for y in xrange(1, len(tree_list[x])):
             if y == 1:
-                temporary_list.append(tree_list[x][y][0])
+                for z in xrange(len(pos_nodes)):
+                    if(tree_list[x][y][0]==pos_nodes[z]
+                            and freq_nodes[z] == 0):
+                        freq_nodes[z]=1
             elif (y > 1 and tree_list[x][y][4] != "s" 
             and tree_list[x][y][4] != "f" 
             and tree_list[x][y][4] != "c"
             and tree_list[x][y][0] != "-NONE-"):
-                if tree_list[x][y][0] not in temporary_list:
-                    temporary_list.append(tree_list[x][y][0])
+                for z in xrange(len(pos_nodes)):
+                    if(tree_list[x][y][0]==pos_nodes[z]
+                            and freq_nodes[z] == 0):
+                        freq_nodes[z]=1
             if tree_list[x][y][4] == 'h':
                 break
-        ladjnodes.append(temporary_list)
+        ladjnodes.append(freq_nodes)
+
     return ladjnodes
 
 
@@ -226,25 +238,41 @@ def getLAdjNodes(tree_list):
 #head including the right traversal of the head node.
 #The function returns a list of unique node types for each tree i.e. S, NP
 #where S and NP can only appear once
+#
+#Currently the function returns a array where 1 marks that a node
+#of that type is a left adjunction node and a 0 marks that there is no
+#node of that type as a left adjunction node.
 def getRAdjNodes(tree_list):
     radjnodes = []
     directions = getDirections(tree_list)
+    pos_nodes = ['V', 'Ad', 'IN', 'A', 'N', 'TO']
+    
+    total_freq_nodes = [0]*len(pos_nodes)
     for x in xrange(len(tree_list)):
-        temporary_list = [] 
+        freq_nodes = [0]*len(pos_nodes)
+        
         #Find head node position
         for y in xrange(1, len(tree_list[x])):
             if tree_list[x][y][4] == 'h' and tree_list[x][y][3] == 'r':
                 break
-        #move through nodes from the head till the end grabbing all nodes 
+
         for z in xrange(y, len(tree_list[x])):
             if z == (len(tree_list[x])-1):
-                temporary_list.append(tree_list[x][z][0])
+                for k in xrange(len(pos_nodes)):
+                    if(tree_list[x][y][0]==pos_nodes[k]
+                            and freq_nodes[k] == 0):
+                        freq_nodes[k]=1
+                        total_freq_nodes[k]+=1
             elif (z < (len(tree_list[x])-1) and tree_list[x][z][4] != "s" 
             and tree_list[x][z][4] != "f" and tree_list[x][z][4] != "c"
             and tree_list[x][z][0] != "-NONE-"):
-                if tree_list[x][z][0] not in temporary_list:
-                    temporary_list.append(tree_list[x][z][0])
-        radjnodes.append(temporary_list)
+                for k in xrange(len(pos_nodes)):
+                    if(tree_list[x][y][0]==pos_nodes[k]
+                            and freq_nodes[k] == 0):
+                        freq_nodes[k]=1
+                        total_freq_nodes[k]+=1
+        radjnodes.append(freq_nodes)
+
     return radjnodes
 
 #Function that returns TRUE if a tree is a predicative auxiliary tree else
@@ -1237,10 +1265,16 @@ if __name__ == '__main__':
                 elif(dimension_labels[x] == "ladjnodes" 
                         or dimension_labels[x]=="radjnodes"):
                     tmp = ""
+                    for element in dimension_values[x][y]:
+                        tmp += str(element)
+                    output.write(dimension_labels[x] + ":"
+                            + tmp + " ")
+                    '''
                     for node in dimension_values[x][y]:
                         tmp += node + "_"
                     output.write(dimension_labels[x] + ":" 
                             + tmp[:len(tmp)-1] + " ")
+                    '''
                 elif(dimension_labels[x] == "dsubcat" 
                         or dimension_labels[x]=="dsubcat2"):
                     tmp = ""
