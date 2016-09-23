@@ -22,7 +22,7 @@ io = io_dimensions.txt
 
 np = numpy_arrays
 
-train_nb_sents = all
+train_nb_sents = 1000
 
 test_nb_sents = all
 

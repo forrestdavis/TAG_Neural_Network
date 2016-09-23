@@ -210,7 +210,7 @@ def getLAdjNodes(tree_list):
     directions = getDirections(tree_list)
     #Iterate through every tree
     pos_nodes = ['AP', 'S', 'NP', 'VP', 'V', 'AdvP','N',
-            'IN', 'A', 'PP']
+            'IN', 'A', 'PP', 'Ad', 'TO']
     for x in xrange(len(tree_list)):
         freq_nodes = [0]*len(pos_nodes)
         for y in xrange(1, len(tree_list[x])):
@@ -219,6 +219,7 @@ def getLAdjNodes(tree_list):
                     if(tree_list[x][y][0]==pos_nodes[z]
                             and freq_nodes[z] == 0):
                         freq_nodes[z]=1
+
             elif (y > 1 and tree_list[x][y][4] != "s" 
             and tree_list[x][y][4] != "f" 
             and tree_list[x][y][4] != "c"
