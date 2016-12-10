@@ -80,6 +80,10 @@ int main(int argc, char **argv){
                 saved_input_filename, saved_output_filename,
                 io_info_filename);
     }
+    else{
+        fprintf(stderr, "No binary was able to be created\n");
+        exit(1);
+    }
     free(feat);
     fclose(fm);
     return 0;

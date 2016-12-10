@@ -1,0 +1,9 @@
+run with old decomposition
+
+one hot encoding with 300 most frequent words
+
+have it print out a parse prediction throughout a sentence
+
+tune NN on parsing accuracy 
+
+run with sentence with low parse score

@@ -9,7 +9,7 @@ import os
 import model_framework as mf 
 
 class KerasModel:
-    def __init__(self, data_directory, verbose=True):
+    def __init__(self, data_directory, verbose=False):
         #Get io file
         dim_file = ""
         if data_directory[len(data_directory)-1] != "/":

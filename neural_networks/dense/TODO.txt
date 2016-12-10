@@ -15,3 +15,11 @@
 
 - fix up keras_class.c interaction
 - default parameter for load
+
+#############################################
+- add new features 
+- get predicted data results
+- get UAS/LAS
+- produce error report
+
+

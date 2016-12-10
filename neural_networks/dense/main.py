@@ -7,7 +7,8 @@ if __name__ == "__main__":
             description=("main function for working with a "
                +"keras model. You can list more than one mode in any order "
                +"i.e. TEST TRAIN GRAPH. The order of operatations under "
-               +"the hood is TRAIN TEST PREDICT GRAPH. TEST/PREDICT/GRAPH "
+               +"the hood is TRAIN OPTIMIZE TEST PREDICT GRAPH. "
+               +"TEST/PREDICT/GRAPH "
                +"without -L to load a pre-trained model, or adding TRAIN to "
                +"-M will still cause TRAIN to be called, so TRAIN specific "
                +"flags can be added to a TEST/PREDICT/GRAPH call")
@@ -25,8 +26,8 @@ if __name__ == "__main__":
     req.add_argument("-D", "--data_path", metavar='', 
             help="path to data directory", required=True)
     req.add_argument("-M", "--mode", metavar='', nargs='+',
-            help="TRAIN|TEST|PREDICT|GRAPH", required=True, 
-            choices=["TRAIN", "TEST", "PREDICT", "GRAPH"])
+            help="TRAIN|TEST|PREDICT|GRAPH|OPTIMIZE", required=True, 
+            choices=["TRAIN", "TEST", "PREDICT", "GRAPH", "OPTIMIZE"])
     req.add_argument("-T", "--trained_model", metavar='',
     help=("Specifiy the file name for saving/loading the train model, "
           +"no extension. The files are "
@@ -55,7 +56,7 @@ if __name__ == "__main__":
     train.add_argument("-N", "--nodes", metavar='', nargs='+', type=int,
             help="Set number of nodes for layers. If you desire "
             +"different node sizes per layer list node sizes in order.")
-    train.add_argument("-ml", "--nb_merge_layers", metavar='', type=int, 
+    train.add_argument("-mL", "--nb_merge_layers", metavar='', type=int, 
     help="Set number of layers in keras model after merge (default: TBD)")
     train.add_argument("-mA", "--merge_activation", metavar='', nargs='+',
         help="Set activation function for layers after merge. If you desire "
@@ -98,6 +99,18 @@ if __name__ == "__main__":
             +" the flags for TRAIN mode can also be specified")
     graph.add_argument("-g", "--graph", metavar='', help="graph file name")
 
+    ############################################################
+    #Flags for optimize
+    ############################################################
+    optimize = parser.add_argument_group("IN OPTIMIZE MODE",
+            "This mode is for the automation of the training "
+            +"process to produce an optimized model. Currently "
+            +"only the number of nodes before the merge process"
+            +" is optimized so the flags -l/--nb_layers and "
+            +"-mL/--nb_merge_layers can be used to set those "
+            +"parameters. As well as -F/--feats, "
+            +"-T/--trained_model and -S/--save.")
+
     args = parser.parse_args()
 
     ############################################################
@@ -126,6 +139,23 @@ if __name__ == "__main__":
         trained=True
 
     ############################################################
+    # OPTIMIZE
+    ############################################################
+    if "OPTIMIZE" in args.mode:
+        if args.trained_model:
+            if not args.save:
+                sys.stderr.write(
+                "To use -T/--train_model you must specifiy "
+                        +"-S/--save\n")
+                sys.exit(1)
+
+        model.optimize(args.feats, args.nb_layers, 
+                args.nb_merge_layers)
+        if args.save:
+            model.save(args.trained_model)
+        trained=True
+
+    ############################################################
     # TEST
     ############################################################
     if "TEST" in args.mode:
@@ -135,8 +165,6 @@ if __name__ == "__main__":
                 "To use -T/--train_model you must either specifiy "
                         +"-L/--load or -S/--save\n")
                 sys.exit(1)
-        if args.save:
-            model.save(args.trained_model)
         if args.load:
             model.load(args.trained_model)
 
@@ -146,6 +174,8 @@ if __name__ == "__main__":
                     args.merge_activation, args.merge_nodes, 
                     args.nb_epoch, args.no_stop)
             trained=True
+            if args.save:
+                model.save(args.trained_model)
         model.evaluate()
     
     ############################################################
@@ -155,7 +185,7 @@ if __name__ == "__main__":
         if not args.feat_model:
             sys.stderr.write(
                     "To PREDICT -FM/--feat_model must be specified\n")
-            sys.exit(1)
+            sys.exit(1) 
         if not args.fann:
             sys.stderr.write(
                     "To PREDICT -f/--fann must be specified\n")

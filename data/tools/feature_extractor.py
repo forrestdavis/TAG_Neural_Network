@@ -192,7 +192,7 @@ def getRFronts(tree_list):
 
 #Function to get left adjunction nodes. It goes through each tree, in each
 #tree it goes through each node and checks for a few things. The root node
-#is an adjunction node if the true is not a modifier auxiliary tree. I 
+#is an adjunction node if the tree is not a modifier auxiliary tree. I 
 #check this by seeing if there is a direction associated with the tree. If
 #it is NA than the tree is not a modifier auxiliary tree and the root is
 #an adjunction node. Then all other nodes are adjunction nodes as long as 
@@ -480,7 +480,6 @@ def getDSubCats2(tree_list):
 #number(index 2) and its substitution or foot information(index 3). 
 def getDirectChildNodes(tree_list):
     directChildNodes = []
-    tree = tree_list[2683]
     for x in xrange(len(tree_list)):
         tree = tree_list[x]
         temporary_list = []
@@ -929,6 +928,7 @@ def getWhs(tree_list):
         last_popped_2 = ""
         last_popped_pos_2 = 0
         isVerbal = 0
+        changed_rel_status = 0
         if preds[x] == "TRUE":
             isVerbal = 1
         for y in xrange(1, len(tree)):
@@ -940,6 +940,7 @@ def getWhs(tree_list):
                 #Handles the case that it is nested under a NP adjunction
                 #node but isn't a relative clause
                 if tree[y+2][0] == "NP":
+                    changed_rel_status = 1
                     isRel = 0
             if WH_0_pattern:
                 node_0 = tree[y][0]

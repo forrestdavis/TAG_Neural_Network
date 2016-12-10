@@ -8,7 +8,7 @@ from keras.layers import Dense, Activation, Dropout, Merge
 #
 #
 #Forrest Davis
-#August 11, 2016
+#September 2016
 #############################################################################
 
 #Gets dimensions information from io file output of INSERT GET DATA
@@ -301,8 +301,6 @@ def createModel(dimensions_dictionary, feats, verbose,
             n = 0
 
             model = Sequential(name=feat)
-            print dimensions_dictionary[feat]
-            print feat
             for i in xrange(nb_layers):
                 if i == 0:
                     model.add(Dense(nodes[n], 

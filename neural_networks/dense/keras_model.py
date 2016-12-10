@@ -7,6 +7,13 @@ import sys
 import argparse
 import os
 import model_framework as mf 
+#############################################################################
+#Functions that wrap around the keras library functions in order to increase 
+#user easy as well as for project specific features
+#
+#Forrest Davis
+#September 2016
+#############################################################################
 
 class KerasModel:
     def __init__(self, data_directory, verbose):
@@ -24,8 +31,9 @@ class KerasModel:
             sys.exit(1)
 
         self.model = Sequential()
-        self.dim_file = dim_file
+        self.dimensions_dictionary = mf.get_dimensions(dim_file)
         self.data_dir = data_directory
+        self.array_location = data_directory+"numpy_arrays"
         self.v = verbose
         
     def train(self, find_feats, nb_layers=None, activation_functs=None,
@@ -33,17 +41,14 @@ class KerasModel:
             merge_activation_functs=None, merge_nodes=None,
             nb_epochs=None, early_stop=False):
         #Train model on data
-        #Get dimensions of data
-        dimensions_dictionary = mf.get_dimensions(self.dim_file)
-        array_location = self.data_dir+"numpy_arrays"
 
         #set defaults
         if nb_layers==None:
-            nb_layers=2
+            nb_layers=3
         if activation_functs==None:
             activation_functs=['relu']
         if nodes==None:
-            nodes=[50]
+            nodes=[200]
 
         if merge_nb_layers==None:
             merge_nb_layers=0
@@ -58,14 +63,14 @@ class KerasModel:
         #Get train data
         if find_feats:
             train_data, Y_train, feats = mf.getTrainData(
-                    array_location, self.v, find_feats)
+                    self.array_location, self.v, find_feats)
         else:
             train_data, Y_train, feats = mf.getTrainData(
-                    array_location, self.v)
+                    self.array_location, self.v)
         
         self.feats = feats
 
-        self.model = mf.createModel(dimensions_dictionary, feats, self.v,
+        self.model = mf.createModel(self.dimensions_dictionary, feats, self.v,
                 nb_layers, activation_functs, nodes, merge_nb_layers,
                 merge_activation_functs, merge_nodes)
     
@@ -146,8 +151,7 @@ class KerasModel:
         if self.v:
             sys.stderr.write("evaluating model on test data...\n")
         #Get test data
-        array_location = self.data_dir+"numpy_arrays"
-        test_data, Y_test, feats = mf.getTestData(array_location, self.v)
+        test_data, Y_test, feats = mf.getTestData(self.array_location, self.v)
 
         #need to arrange test_data to fit train data form
         test_data = mf.arrangeData(test_data, self.feats, feats)
@@ -161,3 +165,67 @@ class KerasModel:
         if self.v:
             sys.stderr.write("graphing model...\n")
         plot(self.model, filename, show_shapes=True)
+
+    def optimize(self, find_feats, nb_merge_layers, nb_layers):
+        nb_nodes = 100
+        prev_score = 0
+        op_nodes = nb_nodes
+        increment = 100 
+
+        while(1):
+
+            #Get train data
+            if find_feats:
+                train_data, Y_train, feats = mf.getTrainData(
+                        self.array_location, self.v, find_feats)
+            else:
+                train_data, Y_train, feats = mf.getTrainData(
+                        self.array_location, self.v)
+            
+            self.feats = feats
+
+            self.model = mf.createModel(self.dimensions_dictionary, 
+                    self.feats, self.v, nb_layers, ['relu'], [nb_nodes], 
+                    nb_merge_layers, ['relu'], [50])
+
+            early_stopping = EarlyStopping(monitor='val_loss', 
+                    verbose = self.v, patience=2)
+
+            if self.v:
+                sys.stderr.write("fitting model...\n")
+        
+            self.model.fit(train_data, Y_train, callbacks=[early_stopping], 
+                nb_epoch=50, verbose=self.v, batch_size=1000, validation_split=0.1)
+
+            #Evaluate test data on model
+            if self.v:
+                sys.stderr.write("evaluating model on test data...\n")
+            #Get test data
+            test_data, Y_test, feats = mf.getTestData(self.array_location, self.v)
+
+            #need to arrange test_data to fit train data form
+            test_data = mf.arrangeData(test_data, self.feats, feats)
+
+            scores = self.model.evaluate(test_data, Y_test, verbose=self.v)
+            cur_score = scores[1]
+
+            if cur_score > prev_score:
+                op_nodes = nb_nodes
+                nb_nodes += increment
+                prev_score = cur_score
+            else:
+                if increment == 25:
+                    parameters = "number of merge layers:\t" 
+                    parameters += str(nb_merge_layers)
+                    parameters += "\nnumber of layers:\t"
+                    parameters += str(nb_layers)
+                    parameters += "\nnumber of nodes:\t"
+                    parameters += str(op_nodes)
+                    parameters += "\nevaluation accuracy:\t"
+                    parameters += str(prev_score)
+                    print parameters
+                    break
+                else:
+                    nb_nodes -= increment
+                    increment = increment/2
+                    nb_nodes += increment
