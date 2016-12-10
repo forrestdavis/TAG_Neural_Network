@@ -20,7 +20,7 @@ make
 ```
 Then create fann files and numpy arrays:
 ```
-cd ../neural_networks/dense/(gold_data, gold_data_1000, predicted_data, predicted_data_1000)
+cd ../neural_networks/dense/(gold_data, predicted_data)
 make
 ```
 
@@ -36,10 +36,13 @@ python main.py --help
 ```
 
 # Example
-This will train and test a keras model on the smallest data set:
+This will train and test a keras model on gold data with default values:
 ```
-python main.py -D gold_data_1000 -M TRAIN TEST
+python main.py -D gold_data -M TRAIN TEST
 ```
 
 # Additional Information
-Work in progress...
+The parser directory does contain a makefile that will run a parse. However the code for the parse is not public domain at this moment so I am not able to include it. 
+
+# Thanks
+I would like to thank Dr. Owen Rambow and Dr. Alexis Nasr for allowing me to work with them on this project. 
